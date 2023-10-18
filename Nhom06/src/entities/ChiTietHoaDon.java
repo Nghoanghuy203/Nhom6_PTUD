@@ -4,8 +4,7 @@ public class ChiTietHoaDon {
 	private String maHD;
 	private SanPham sanPham;
 	private int soLuong;
-	private double tongTien;
-	
+	private double giaBan;
 	public ChiTietHoaDon() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -13,12 +12,12 @@ public class ChiTietHoaDon {
 	
 	
 	
-	public ChiTietHoaDon(String maHD, SanPham sanPham, int soLuong, double tongTien) {
+	public ChiTietHoaDon(String maHD, SanPham sanPham, int soLuong, double giaBan) {
 		super();
 		this.maHD = maHD;
 		this.sanPham = sanPham;
 		this.soLuong = soLuong;
-		this.tongTien = sanPham.getGiaBan()*soLuong;
+		this.giaBan = giaBan;
 	}
 
 
@@ -47,12 +46,20 @@ public class ChiTietHoaDon {
 		this.soLuong = soLuong;
 	}
 
-	public double getTongTien() {
-		return tongTien;
+	public double getThanhTien() {
+		return giaBan*soLuong;
 	}
 
-	public void setTongTien(double tongTien) {
-		this.tongTien = this.sanPham.getGiaBan()*this.soLuong;
+
+
+	public double getGiaBan() {
+		return giaBan;
+	}
+
+
+
+	public void setGiaBan(double giaBan) {
+		this.giaBan = giaBan;
 	}
 	
 	

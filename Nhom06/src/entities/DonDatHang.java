@@ -1,30 +1,29 @@
 package entities;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class DonDatHang {
 	private String maDDH;
 	private KhachHang khachHang;
 	private LocalDateTime ngayLap;
 	private NhanVien nhanVien;
-	private List<ChiTietDonDatHang> dsChiTietDonDatHang;
-	private double tongTienDonDat;
-	private LocalDateTime ngayNhanHang;
+	private double tongTienDDH;
+	private double tienKhachTra;
+	private boolean tinhTrangThanhToan;
+
 	public DonDatHang() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public DonDatHang(String maDDH, KhachHang khachHang, LocalDateTime ngayLap, NhanVien nhanVien,
-			List<ChiTietDonDatHang> dsChiTietDonDatHang, double tongTienDonDat, LocalDateTime ngayNhanHang) {
+	public DonDatHang(String maDDH, KhachHang khachHang, LocalDateTime ngayLap, NhanVien nhanVien,double tongTienDDH, double tienKhachTra, boolean tinhTrangThanhToan) {
 		super();
 		this.maDDH = maDDH;
 		this.khachHang = khachHang;
 		this.ngayLap = ngayLap;
 		this.nhanVien = nhanVien;
-		this.dsChiTietDonDatHang = dsChiTietDonDatHang;
-		this.tongTienDonDat = tinhTongTienDonDat();
-		this.ngayNhanHang = ngayNhanHang;
+		this.tongTienDDH = tongTienDDH;
+		this.tienKhachTra = tienKhachTra;
+		this.tinhTrangThanhToan = tinhTrangThanhToan;
 	}
 	
 	
@@ -53,29 +52,31 @@ public class DonDatHang {
 	public void setNhanVien(NhanVien nhanVien) {
 		this.nhanVien = nhanVien;
 	}
-	public List<ChiTietDonDatHang> getDsChiTietDonDatHang() {
-		return dsChiTietDonDatHang;
+	public boolean isTinhTrangThanhToan() {
+		return tinhTrangThanhToan;
 	}
-	public void setDsChiTietDonDatHang(List<ChiTietDonDatHang> dsChiTietDonDatHang) {
-		this.dsChiTietDonDatHang = dsChiTietDonDatHang;
+	public void setTinhTrangThanhToan(boolean tinhTrangThanhToan) {
+		this.tinhTrangThanhToan = tinhTrangThanhToan;
 	}
-	public double getTongTienDonDat() {
-		return tongTienDonDat;
+	
+	
+	public double getTongTienDDH() {
+		return tongTienDDH;
 	}
-	public void setTongTienDonDat(double tongTienDonDat) {
-		this.tongTienDonDat = tongTienDonDat;
+	public void setTongTienDDH(double tongTienDDH) {
+		this.tongTienDDH = tongTienDDH;
 	}
-	public LocalDateTime getNgayNhanHang() {
-		return ngayNhanHang;
+	public double getTienKhachTra() {
+		return tienKhachTra;
 	}
-	public void setNgayNhanHang(LocalDateTime ngayNhanHang) {
-		this.ngayNhanHang = ngayNhanHang;
+	public void setTienKhachTra(double tienKhachTra) {
+		this.tienKhachTra = tienKhachTra;
 	}
-	private double tinhTongTienDonDat() {
-		double sum=0;
-		for (ChiTietDonDatHang chiTietDonDatHang : dsChiTietDonDatHang) {
-			sum+=chiTietDonDatHang.getTongTien();
-		}
-		return sum;
+	@Override
+	public String toString() {
+		return "DonDatHang [maDDH=" + maDDH + ", khachHang=" + khachHang + ", ngayLap=" + ngayLap + ", nhanVien="
+				+ nhanVien + ", tinhTrangThanhToan=" + tinhTrangThanhToan + "]";
 	}
+	
+	
 }

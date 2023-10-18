@@ -1,18 +1,26 @@
 package entities;
 
 public class KichCo {
-	private String kichCo;
-
-	public KichCo(String kichCo) {
-		this.kichCo = kichCo;
+	private String maKichCo;
+	private String tenKichCo;
+	public KichCo(String maKichCo, String tenKichCo) {
+		super();
+		this.maKichCo = maKichCo;
+		this.tenKichCo = tenKichCo;
+	}
+	public String getMaKichCo() {
+		return maKichCo;
+	}
+	public void setMaKichCo(String maKichCo) {
+		this.maKichCo = maKichCo;
+	}
+	public String getTenKichCo() {
+		return tenKichCo;
+	}
+	public void setTenKichCo(String tenKichCo) {
+		this.tenKichCo = tenKichCo;
 	}
 
-	public String getKichCo() {
-		return kichCo;
-	}
-
-	public void setKichCo(String kichCo) {
-		this.kichCo = kichCo;
-	}
+	
 	
 }

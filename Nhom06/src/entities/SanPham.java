@@ -6,8 +6,9 @@ import java.time.LocalDateTime;
 public class SanPham {
 	private String maSP;
 	private String tenSP;
+	private double giaNhap;
 	private double giaBan;
-	private LoaiSanPham loaiSP;
+	private LoaiSanPham loaiSP; 
 	private byte[] hinhAnh;
 	private KichCo kichCo;
 	private ChatLieu chatLieu;
@@ -16,14 +17,14 @@ public class SanPham {
 	private LocalDateTime ngayNhap;
 	private String trangThai;
 	private NhaCungCap nhaCungCap;
-	private double khuyenMai;
 	
-	public SanPham(String maSP, String tenSP, double giaBan, LoaiSanPham loaiSP, byte[] hinhAnh, KichCo kichCo,
+	public SanPham(String maSP, String tenSP, double giaNhap, double giaBan, LoaiSanPham loaiSP, byte[] hinhAnh, KichCo kichCo,
 			ChatLieu chatLieu, MauSac mauSac, int soLuongTon, LocalDateTime ngayNhap, String trangThai,
-			NhaCungCap nhaCungCap, double khuyenMai) {
+			NhaCungCap nhaCungCap) {
 		super();
 		this.maSP = maSP;
 		this.tenSP = tenSP;
+		this.giaNhap = giaNhap;
 		this.giaBan = giaBan;
 		this.loaiSP = loaiSP;
 		this.hinhAnh = hinhAnh;
@@ -34,7 +35,6 @@ public class SanPham {
 		this.ngayNhap = ngayNhap;
 		this.trangThai = trangThai;
 		this.nhaCungCap = nhaCungCap;
-		this.khuyenMai = khuyenMai;
 	}
 	public SanPham() {
 		super();
@@ -111,12 +111,13 @@ public class SanPham {
 	public void setNhaCungCap(NhaCungCap nhaCungCap) {
 		this.nhaCungCap = nhaCungCap;
 	}
-	public double getKhuyenMai() {
-		return khuyenMai;
+	public double getGiaNhap() {
+		return giaNhap;
 	}
-	public void setKhuyenMai(double khuyenMai) {
-		this.khuyenMai = khuyenMai;
+	public void setGiaNhap(double giaNhap) {
+		this.giaNhap = giaNhap;
 	}
+
 	
 	
 	

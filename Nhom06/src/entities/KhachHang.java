@@ -5,7 +5,6 @@ public class KhachHang {
 	private String tenKH;
 	private String sdtKH;
 	private boolean gioiTinh;
-	private String email;
 	private String diaChi;
 	public void setMaKH(String maKH) {
 		this.maKH = maKH;
@@ -19,9 +18,7 @@ public class KhachHang {
 	public void setGioiTinh(boolean gioiTinh) {
 		this.gioiTinh = gioiTinh;
 	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+
 	public String getMaKH() {
 		return maKH;
 	}
@@ -34,9 +31,7 @@ public class KhachHang {
 	public boolean isGioiTinh() {
 		return gioiTinh;
 	}
-	public String getEmail() {
-		return email;
-	}
+
 	
 	public String getDiaChi() {
 		return diaChi;
@@ -44,13 +39,12 @@ public class KhachHang {
 	public void setDiaChi(String diaChi) {
 		this.diaChi = diaChi;
 	}
-	public KhachHang(String maKH, String tenKH, String sdtKH, boolean gioiTinh, String email, String diaChi) {
+	public KhachHang(String maKH, String tenKH, String sdtKH, boolean gioiTinh, String diaChi) {
 		super();
 		this.maKH = maKH;
 		this.tenKH = tenKH;
 		this.sdtKH = sdtKH;
 		this.gioiTinh = gioiTinh;
-		this.email = email;
 		this.diaChi = diaChi;
 	}
 	

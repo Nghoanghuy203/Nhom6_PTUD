@@ -1,16 +1,21 @@
 package entities;
 
+import java.time.LocalDateTime;
+
 public class NhanVien {
 	private String maNV;
 	private String tenNV;
 	private String sdt;
 	private boolean gioiTinh;
-	private int tuoi;
+	private LocalDateTime ngaySinh;
 	private String chucVu;
 	private String caLamViec;
 	private String diaChi;
 	private String email;
 	private TaiKhoan taiKhoan;
+	private double phuCap;
+	private double heSoLuong;
+	private double luongCoBan;
 	public void setMaNV(String maNV) {
 		this.maNV = maNV;
 	}
@@ -22,9 +27,6 @@ public class NhanVien {
 	}
 	public void setGioiTinh(boolean gioiTinh) {
 		this.gioiTinh = gioiTinh;
-	}
-	public void setTuoi(int tuoi) {
-		this.tuoi = tuoi;
 	}
 	public void setChucVu(String chucVu) {
 		this.chucVu = chucVu;
@@ -38,19 +40,21 @@ public class NhanVien {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public NhanVien(String maNV, String tenNV, String sdt, boolean gioiTinh, int tuoi, String chucVu, String caLamViec,
-			String diaChi, String email, TaiKhoan taiKhoan) {
+	public NhanVien(String maNV, String tenNV, String sdt, boolean gioiTinh, LocalDateTime ngaySinh, String chucVu, String caLamViec,
+			String diaChi, String email, TaiKhoan taiKhoan, double phuCap, double heSoLuong, double luongCoBan) {
 		super();
 		this.maNV = maNV;
 		this.tenNV = tenNV;
 		this.sdt = sdt;
 		this.gioiTinh = gioiTinh;
-		this.tuoi = tuoi;
+		this.ngaySinh = ngaySinh;
 		this.chucVu = chucVu;
 		this.caLamViec = caLamViec;
 		this.diaChi = diaChi;
 		this.email = email;
-		this.setTaiKhoan(taiKhoan);
+		this.taiKhoan = taiKhoan;
+		this.heSoLuong=heSoLuong;
+		this.luongCoBan=luongCoBan;
 	}
 	public NhanVien() {
 		super();
@@ -67,9 +71,6 @@ public class NhanVien {
 	}
 	public boolean isGioiTinh() {
 		return gioiTinh;
-	}
-	public int getTuoi() {
-		return tuoi;
 	}
 	public String getChucVu() {
 		return chucVu;
@@ -89,6 +90,33 @@ public class NhanVien {
 	public void setTaiKhoan(TaiKhoan taiKhoan) {
 		this.taiKhoan = taiKhoan;
 	}
+	public LocalDateTime getNgaySinh() {
+		return ngaySinh;
+	}
+	public void setNgaySinh(LocalDateTime ngaySinh) {
+		this.ngaySinh = ngaySinh;
+	}
+	public double getPhuCap() {
+		return phuCap;
+	}
+	public void setPhuCap(double phuCap) {
+		this.phuCap = phuCap;
+	}
 	
+	public double getHeSoLuong() {
+		return heSoLuong;
+	}
+	public void setHeSoLuong(double heSoLuong) {
+		this.heSoLuong = heSoLuong;
+	}
+	public double getLuongCoBan() {
+		return luongCoBan;
+	}
+	public void setLuongCoBan(double luongCoBan) {
+		this.luongCoBan = luongCoBan;
+	}
+	public double tinhLuong() {
+		return luongCoBan*heSoLuong+phuCap;
+	}
 	
 }
