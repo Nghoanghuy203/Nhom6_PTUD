@@ -9,13 +9,13 @@ public class DonDatHang {
 	private NhanVien nhanVien;
 	private double tongTienDDH;
 	private double tienKhachTra;
-	private boolean tinhTrangThanhToan;
+	private String tinhTrangThanhToan;
 
 	public DonDatHang() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public DonDatHang(String maDDH, KhachHang khachHang, LocalDateTime ngayLap, NhanVien nhanVien,double tongTienDDH, double tienKhachTra, boolean tinhTrangThanhToan) {
+	public DonDatHang(String maDDH, KhachHang khachHang, LocalDateTime ngayLap, NhanVien nhanVien,double tongTienDDH, double tienKhachTra, String tinhTrangThanhToan) {
 		super();
 		this.maDDH = maDDH;
 		this.khachHang = khachHang;
@@ -52,10 +52,10 @@ public class DonDatHang {
 	public void setNhanVien(NhanVien nhanVien) {
 		this.nhanVien = nhanVien;
 	}
-	public boolean isTinhTrangThanhToan() {
+	public String getTinhTrangThanhToan() {
 		return tinhTrangThanhToan;
 	}
-	public void setTinhTrangThanhToan(boolean tinhTrangThanhToan) {
+	public void setTinhTrangThanhToan(String tinhTrangThanhToan) {
 		this.tinhTrangThanhToan = tinhTrangThanhToan;
 	}
 	

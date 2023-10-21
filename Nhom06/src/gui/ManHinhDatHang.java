@@ -11,6 +11,9 @@ import javax.swing.UIManager;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -20,7 +23,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import connectDB.ConnectDB;
 import custom.RoundedCornerBorder;
+import dao.DonDatHang_DAO;
+import entities.DonDatHang;
 
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
@@ -33,9 +39,19 @@ public class ManHinhDatHang extends JPanel {
 	private JTextField txtSearch;
 	private JButton btnSearch;
 	
-	private JScrollPane jsp_Ds;
-	private JTable table_Ds;
+	private JScrollPane scr_Ds;
+	private JTable tbl_Ds;
 	private DefaultTableModel model_ds;
+	
+	private JLabel lbl_kqMa;
+	private JLabel lbl_kqTenNV;
+	private JLabel lbl_kqThanhTien;
+	private JLabel lbl_kqNgayDat;
+	private JLabel lbl_kqTenKH;
+	private JLabel lbl_kqTrangThai;
+	
+	private DecimalFormat df;
+	private DonDatHang_DAO donDatHang_dao;
 
 	/**
 	 * Create the panel.
@@ -44,6 +60,19 @@ public class ManHinhDatHang extends JPanel {
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		setSize(1120, 710);
+		
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	
+		df = new DecimalFormat("#,### VND");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss dd/MM/yyyy");
+		
+		donDatHang_dao = new DonDatHang_DAO();
+		
 		
 		JPanel pn_timKiem = new JPanel();
 		pn_timKiem.setBackground(new Color(255, 255, 255));
@@ -101,9 +130,16 @@ public class ManHinhDatHang extends JPanel {
 		btnSearch.setBounds(220, 3, 70, 24);
 		timKiem.add(btnSearch);
 		
+		
+		
 		JLabel lblKqTimKiem = new JLabel("Kết quả:");
-		lblKqTimKiem.setBounds(10, 60, 100, 14);
+		lblKqTimKiem.setBounds(10, 60, 50, 14);
 		pn_timKiem.add(lblKqTimKiem);
+		
+		JLabel lbl_thongBaoKq = new JLabel();
+		lbl_thongBaoKq.setBounds(60, 60, 100, 14);
+		lbl_thongBaoKq.setForeground(Color.red);
+		pn_timKiem.add(lbl_thongBaoKq);
 		
 		JPanel pn_kqTimKiem = new JPanel();
 		pn_kqTimKiem.setLayout(null);
@@ -111,13 +147,13 @@ public class ManHinhDatHang extends JPanel {
 		pn_kqTimKiem.setBounds(10, 79, 1080, 100);
 		pn_timKiem.add(pn_kqTimKiem);
 		
-		JLabel lblMn = new JLabel("Mã đơn:");
-		lblMn.setHorizontalAlignment(SwingConstants.LEFT);
-		lblMn.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblMn.setBounds(10, 15, 50, 20);
-		pn_kqTimKiem.add(lblMn);
+		JLabel lblMa = new JLabel("Mã đơn:");
+		lblMa.setHorizontalAlignment(SwingConstants.LEFT);
+		lblMa.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblMa.setBounds(10, 15, 50, 20);
+		pn_kqTimKiem.add(lblMa);
 		
-		JLabel lbl_kqMa = new JLabel("DH001");
+		lbl_kqMa = new JLabel("");
 		lbl_kqMa.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
 		lbl_kqMa.setBounds(60, 15, 80, 20);
 		pn_kqTimKiem.add(lbl_kqMa);
@@ -128,62 +164,62 @@ public class ManHinhDatHang extends JPanel {
 		lblTenNV.setBounds(150, 15, 60, 20);
 		pn_kqTimKiem.add(lblTenNV);
 		
-		JLabel lbl_kqTen = new JLabel("Nguyễn Hoàng Huy");
-		lbl_kqTen.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
-		lbl_kqTen.setBounds(210, 15, 140, 20);
-		pn_kqTimKiem.add(lbl_kqTen);
+		lbl_kqTenNV = new JLabel("");
+		lbl_kqTenNV.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
+		lbl_kqTenNV.setBounds(210, 15, 140, 20);
+		pn_kqTimKiem.add(lbl_kqTenNV);
 		
-		JButton btnThem = new JButton("Tiếp tục thanh toán");
-		btnThem.setFont(new Font("Arial", Font.BOLD, 14));
-		btnThem.setBackground(new Color(0, 128, 0));
-		btnThem.setBounds(900, 60, 170, 30);
-		pn_kqTimKiem.add(btnThem);
+		JButton btnTiepTucThanhToan = new JButton("Tiếp tục thanh toán");
+		btnTiepTucThanhToan.setFont(new Font("Arial", Font.BOLD, 14));
+		btnTiepTucThanhToan.setBackground(new Color(0, 128, 0));
+		btnTiepTucThanhToan.setBounds(900, 60, 170, 30);
+		pn_kqTimKiem.add(btnTiepTucThanhToan);
 		
-		JLabel lblGiaban = new JLabel("Thành tiền:");
-		lblGiaban.setHorizontalAlignment(SwingConstants.LEFT);
-		lblGiaban.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblGiaban.setBounds(710, 15, 60, 20);
-		pn_kqTimKiem.add(lblGiaban);
+		JLabel lblThanhTien = new JLabel("Thành tiền:");
+		lblThanhTien.setHorizontalAlignment(SwingConstants.LEFT);
+		lblThanhTien.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblThanhTien.setBounds(710, 15, 60, 20);
+		pn_kqTimKiem.add(lblThanhTien);
 		
-		JLabel lbl_kqGiaban = new JLabel("500.000 VND");
-		lbl_kqGiaban.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
-		lbl_kqGiaban.setBounds(770, 16, 90, 20);
-		pn_kqTimKiem.add(lbl_kqGiaban);
+		lbl_kqThanhTien = new JLabel("");
+		lbl_kqThanhTien.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
+		lbl_kqThanhTien.setBounds(770, 16, 90, 20);
+		pn_kqTimKiem.add(lbl_kqThanhTien);
 		
-		JLabel lblKichco = new JLabel("Ngày đặt:");
-		lblKichco.setHorizontalAlignment(SwingConstants.LEFT);
-		lblKichco.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblKichco.setBounds(580, 15, 50, 20);
-		pn_kqTimKiem.add(lblKichco);
+		JLabel lblNgayDat = new JLabel("Ngày đặt:");
+		lblNgayDat.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNgayDat.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblNgayDat.setBounds(580, 15, 50, 20);
+		pn_kqTimKiem.add(lblNgayDat);
 		
-		JLabel lbl_kqKichco = new JLabel("15-10-2023");
-		lbl_kqKichco.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
-		lbl_kqKichco.setBounds(630, 15, 70, 20);
-		pn_kqTimKiem.add(lbl_kqKichco);
+		lbl_kqNgayDat = new JLabel("");
+		lbl_kqNgayDat.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
+		lbl_kqNgayDat.setBounds(630, 15, 70, 20);
+		pn_kqTimKiem.add(lbl_kqNgayDat);
 		
-		JLabel lblTnKhchHng = new JLabel("Khách hàng:");
-		lblTnKhchHng.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTnKhchHng.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblTnKhchHng.setBounds(360, 15, 80, 20);
-		pn_kqTimKiem.add(lblTnKhchHng);
+		JLabel lblTenKH = new JLabel("Khách hàng:");
+		lblTenKH.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTenKH.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblTenKH.setBounds(360, 15, 80, 20);
+		pn_kqTimKiem.add(lblTenKH);
 		
-		JLabel lbl_kqMausac = new JLabel("Phạm Thanh Hùng");
-		lbl_kqMausac.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
-		lbl_kqMausac.setBounds(430, 15, 140, 20);
-		pn_kqTimKiem.add(lbl_kqMausac);
+		lbl_kqTenKH = new JLabel("");
+		lbl_kqTenKH.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
+		lbl_kqTenKH.setBounds(430, 15, 140, 20);
+		pn_kqTimKiem.add(lbl_kqTenKH);
 		
-		JButton btnGiaoHng = new JButton("Giao hàng");
-		btnGiaoHng.setBounds(900, 60, 170, 30);
-		pn_kqTimKiem.add(btnGiaoHng);
-		btnGiaoHng.setFont(new Font("Arial", Font.BOLD, 14));
-		btnGiaoHng.setBackground(new Color(244, 164, 96));
+		JButton btnGiaoHang = new JButton("Giao hàng");
+		btnGiaoHang.setBounds(900, 60, 170, 30);
+		pn_kqTimKiem.add(btnGiaoHang);
+		btnGiaoHang.setFont(new Font("Arial", Font.BOLD, 14));
+		btnGiaoHang.setBackground(new Color(244, 164, 96));
 		
-		JLabel lblChaThanhTon = new JLabel("Chưa thanh toán");
-		lblChaThanhTon.setForeground(new Color(255, 0, 0));
-		lblChaThanhTon.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblChaThanhTon.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 12));
-		lblChaThanhTon.setBounds(970, 10, 100, 30);
-		pn_kqTimKiem.add(lblChaThanhTon);
+		lbl_kqTrangThai = new JLabel("");
+		lbl_kqTrangThai.setForeground(new Color(255, 0, 0));
+		lbl_kqTrangThai.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbl_kqTrangThai.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 12));
+		lbl_kqTrangThai.setBounds(970, 10, 100, 30);
+		pn_kqTimKiem.add(lbl_kqTrangThai);
 		
 		JPanel pn_dsddh = new JPanel();
 		pn_dsddh.setBackground(new Color(255, 255, 255));
@@ -195,11 +231,12 @@ public class ManHinhDatHang extends JPanel {
 		
 		model_ds = new DefaultTableModel(
 			new Object[][] {
+				/*
 				{"DH001","Nguyễn Hoàng Huy","Phạm Thanh Hùng","15-10-2023","Chưa thanh toán","2.000.000 VND"},
-				{"DH001","Nguyễn Hoàng Huy","Phạm Thanh Hùng","15-10-2023","Chưa thanh toán","2.000.000 VND"}
+				{"DH001","Nguyễn Hoàng Huy","Phạm Thanh Hùng","15-10-2023","Chưa thanh toán","2.000.000 VND"}*/
 			},
 			new String [] {
-				"Mã đơn","Nhân viên","Khách hàng","Ngày đặt", "Tình trạng thanh toán","Thành tiền"	
+				"Mã đơn","Nhân viên","Khách hàng","Ngày đặt", "Thành tiền", "Tình trạng thanh toán"	
 			}
 			
 		) {
@@ -214,21 +251,89 @@ public class ManHinhDatHang extends JPanel {
 			}
 		};
 		
-		table_Ds = new JTable(model_ds);
-		table_Ds.setSelectionBackground(new Color(65, 105, 225));
-		table_Ds.setRowHeight(40);
-		table_Ds.setGridColor(new Color(0, 0, 0));
+		tbl_Ds = new JTable(model_ds);
+		tbl_Ds.setSelectionBackground(new Color(65, 105, 225));
+		tbl_Ds.setRowHeight(40);
+		tbl_Ds.setGridColor(new Color(0, 0, 0));
 		
 		DefaultTableCellRenderer head_render = new DefaultTableCellRenderer(); 
 	    head_render.setBackground(new Color(135, 205, 230));
-	    table_Ds.getTableHeader().setDefaultRenderer(head_render);
+	    tbl_Ds.getTableHeader().setDefaultRenderer(head_render);
 	    
-		jsp_Ds = new JScrollPane();
-		jsp_Ds.setViewportView(table_Ds);
-		jsp_Ds.setBounds(10, 20, 1080, 470);
-		jsp_Ds.getViewport().setBackground(Color.white);
-		pn_dsddh.add(jsp_Ds);
+		scr_Ds = new JScrollPane();
+		scr_Ds.setViewportView(tbl_Ds);
+		scr_Ds.setBounds(10, 20, 1080, 470);
+		scr_Ds.getViewport().setBackground(Color.white);
+		pn_dsddh.add(scr_Ds);
 		
+		List<DonDatHang> ds = donDatHang_dao.getDsDonDatHang();
+		for (DonDatHang donDatHang : ds) {
+			Object data[] = {donDatHang.getMaDDH(),donDatHang.getNhanVien().getTenNV(),donDatHang.getKhachHang().getTenKH(),dtf.format(donDatHang.getNgayLap()).toString(),df.format(donDatHang.getTongTienDDH()),donDatHang.getTinhTrangThanhToan()};
+			model_ds.addRow(data);
+		}
 		
+		tbl_Ds.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int selected = tbl_Ds.getSelectedRow();
+				lbl_kqMa.setText((String) model_ds.getValueAt(selected, 0));
+				lbl_kqTenNV.setText((String) model_ds.getValueAt(selected, 1));
+				lbl_kqTenKH.setText((String) model_ds.getValueAt(selected, 2));
+				lbl_kqNgayDat.setText((String) model_ds.getValueAt(selected, 3).toString().replaceAll("\\d{2}:\\d{2}:\\d{2} ", ""));
+				lbl_kqTrangThai.setText((String) model_ds.getValueAt(selected, 5));
+				lbl_kqThanhTien.setText((String) model_ds.getValueAt(selected, 4));
+				lbl_thongBaoKq.setText("");
+				
+				if (((String) model_ds.getValueAt(selected, 5)).equalsIgnoreCase("Đã thanh toán")) {
+					btnGiaoHang.setVisible(true);
+					btnTiepTucThanhToan.setVisible(false);
+					lbl_kqTrangThai.setForeground(Color.green);
+				}
+				else {
+					btnGiaoHang.setVisible(false);
+					btnTiepTucThanhToan.setVisible(true);
+					lbl_kqTrangThai.setForeground(Color.red);
+				}
+			}
+		});
+		
+		btnSearch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				DonDatHang ddh = donDatHang_dao.getDDH(txtSearch.getText());
+				if (ddh!=null) {
+					lbl_kqMa.setText(ddh.getMaDDH());
+					lbl_kqTenNV.setText(ddh.getNhanVien().getTenNV());
+					lbl_kqTenKH.setText(ddh.getKhachHang().getTenKH());
+					String ngay = dtf.format(ddh.getNgayLap()); 
+					lbl_kqNgayDat.setText(ngay.toString().replaceAll("\\d{2}:\\d{2}:\\d{2} ", ""));
+					lbl_kqTrangThai.setText(ddh.getTinhTrangThanhToan());
+					lbl_kqThanhTien.setText(df.format(ddh.getTongTienDDH()));
+					lbl_thongBaoKq.setText("");
+					
+					if (ddh.getTinhTrangThanhToan().equalsIgnoreCase("Đã thanh toán")) {
+						btnGiaoHang.setVisible(true);
+						btnTiepTucThanhToan.setVisible(false);
+						lbl_kqTrangThai.setForeground(Color.green);
+					}
+					else {
+						btnGiaoHang.setVisible(false);
+						btnTiepTucThanhToan.setVisible(true);
+						lbl_kqTrangThai.setForeground(Color.red);
+					}
+				}
+				else {
+					lbl_thongBaoKq.setText("Không tìm thấy!");
+					lbl_kqMa.setText("");
+					lbl_kqTenNV.setText("");
+					lbl_kqTenKH.setText("");
+					lbl_kqNgayDat.setText("");
+					lbl_kqTrangThai.setText("");
+					lbl_kqThanhTien.setText("");
+				}
+			}
+		});
 	}
 }

@@ -47,6 +47,11 @@ public class KhachHang {
 		this.gioiTinh = gioiTinh;
 		this.diaChi = diaChi;
 	}
+	public KhachHang(String maKH, String tenKH) {
+		super();
+		this.maKH = maKH;
+		this.tenKH = tenKH;
+	}
 	
 	
 	

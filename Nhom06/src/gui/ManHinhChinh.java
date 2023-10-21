@@ -37,6 +37,7 @@ public class ManHinhChinh extends JFrame{
 	private JPanel pn_listMenu;
 	private JPanel pn_body;
 	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -228,11 +229,10 @@ public class ManHinhChinh extends JFrame{
 		//submenu sản phẩm
 		MenuItem mn_capnhatSP = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_capnhat.png")), "Cập nhật", swithPanel(pn_body), true, color1, color2);
 		MenuItem mn_timkiemSP = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_timkiem.png")), "Tìm kiếm", swithPanel(pn_body), true, color1, color2);
-		MenuItem mn_loaiSP = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_loai.png")), "Loại sản phẩm", swithPanel(pn_body), true, color1, color2);
-		MenuItem mn_mausac = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_mausac.png")), "Màu sắc", swithPanel(pn_body), true, color1, color2);
-		MenuItem mn_kichco = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_kichco.png")), "Kích cỡ", swithPanel(pn_body), true, color1, color2);
-		MenuItem mn_chatlieu = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_chatlieu.png")), "Chất liệu", swithPanel(pn_body), true, color1, color2);
-		MenuItem mn_nhacungcap = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_ncc.png")), "Nhà cung cấp", swithPanel(pn_body), true, color1, color2);
+		//MenuItem mn_loaiSP = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_loai.png")), "Loại sản phẩm", swithPanel(pn_body), true, color1, color2);
+		//MenuItem mn_mausac = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_mausac.png")), "Màu sắc", swithPanel(pn_body), true, color1, color2);
+		//MenuItem mn_kichco = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_kichco.png")), "Kích cỡ", swithPanel(pn_body), true, color1, color2);
+		//MenuItem mn_chatlieu = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_chatlieu.png")), "Chất liệu", swithPanel(pn_body), true, color1, color2);
 		
 		//submenu nhân viên
 		MenuItem mn_banhang = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_banhang.png")), "Bán hàng", swithPanel(mh_banhang), true, color1, color2);
@@ -251,6 +251,9 @@ public class ManHinhChinh extends JFrame{
 		MenuItem mn_capNhatCTKM = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_capnhat.png")), "Cập nhật CTKM", swithPanel(pn_body), true, color1, color2);
 		MenuItem mn_timkiemCTKM = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_timkiem.png")), "Tìm kiếm CTKM", swithPanel(pn_body), true, color1, color2);
 		
+		MenuItem mn_capNhatNCC = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_capnhat.png")), "Cập nhật", swithPanel(pn_body), true, color1, color2);
+		MenuItem mn_timkiemNCC = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_timkiem.png")), "Tìm kiếm", swithPanel(pn_body), true, color1, color2);
+		
 		//submenu đơn đặt hàng
 		MenuItem mn_timkiemDDH = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_timkiem.png")), "Tìm kiếm", swithPanel(mh_dathang), true, color1, color2);
 		
@@ -258,6 +261,7 @@ public class ManHinhChinh extends JFrame{
 		
 		MenuItem mn_khachhang = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_khachhang.png")), "Khách hàng", null, false, color1, color2, mn_capnhatKH, mn_timkiemKH);
 		MenuItem mn_sanpham;
+		MenuItem mn_nhacungcap = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_ncc.png")), "Nhà cung cấp", null, false, color1, color2, mn_capNhatNCC, mn_timkiemNCC);
 		MenuItem mn_nhanvien;
 		MenuItem mn_hoadon = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_hoadon.png")), "Hóa đơn", null, false, color1, color2, mn_hdbanhang);
 		//MenuItem mn_thongke = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_thongke.png")), "Thống kê", null, false, color1, color2, mn_thongkeSPbanchay, mn_thongkehangtonkho, mn_thongkedoanhthu);
@@ -266,8 +270,8 @@ public class ManHinhChinh extends JFrame{
 		
 		if (isQL) {
 			mn_nhanvien = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_nhanvien.png")), "Nhân viên", null, false, color1, color2, mn_banhang, mn_capnhatNV, mn_timkiemNV, mn_thongkeSPbanchay, mn_thongkehangtonkho, mn_thongkedoanhthu);
-			mn_sanpham= new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_sanpham.png")), "Sản phẩm", null, false, color1, color2, mn_capnhatSP, mn_timkiemSP, mn_mausac, mn_chatlieu, mn_loaiSP, mn_kichco, mn_nhacungcap);
-			addMenu(mn_nhanvien, mn_dondathang, mn_khachhang, mn_sanpham, mn_hoadon, mn_CTKM);
+			mn_sanpham= new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_sanpham.png")), "Sản phẩm", null, false, color1, color2, mn_capnhatSP, mn_timkiemSP);
+			addMenu(mn_nhanvien, mn_dondathang, mn_khachhang, mn_sanpham,mn_nhacungcap, mn_hoadon, mn_CTKM);
 		}
 		else {
 			mn_nhanvien = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_nhanvien.png")), "Nhân viên", null, false, color1, color2, mn_banhang, mn_thongkeSPbanchay, mn_thongkehangtonkho, mn_thongkedoanhthu);

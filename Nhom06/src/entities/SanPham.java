@@ -36,6 +36,13 @@ public class SanPham {
 		this.trangThai = trangThai;
 		this.nhaCungCap = nhaCungCap;
 	}
+	
+	public SanPham(String maSP, String tenSP) {
+		super();
+		this.maSP = maSP;
+		this.tenSP = tenSP;
+	}
+
 	public SanPham() {
 		super();
 	}

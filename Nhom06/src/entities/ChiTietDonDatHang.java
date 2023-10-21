@@ -4,12 +4,14 @@ public class ChiTietDonDatHang {
 	private String maDDH;
 	private SanPham sanPham;
 	private int soLuong;
+	private double giaBan;
 
-	public ChiTietDonDatHang(String maDDH, SanPham sanPham, int soLuong) {
+	public ChiTietDonDatHang(String maDDH, SanPham sanPham, int soLuong, double giaBan) {
 		super();
 		this.maDDH = maDDH;
 		this.sanPham = sanPham;
 		this.soLuong = soLuong;
+		this.giaBan =giaBan;
 	}
 	public String getMaDDH() {
 		return maDDH;
@@ -28,6 +30,12 @@ public class ChiTietDonDatHang {
 	}
 	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
+	}
+	public double getGiaBan() {
+		return giaBan;
+	}
+	public void setGiaBan(double giaBan) {
+		this.giaBan = giaBan;
 	}
 	
 	

@@ -56,6 +56,12 @@ public class NhanVien {
 		this.heSoLuong=heSoLuong;
 		this.luongCoBan=luongCoBan;
 	}
+	
+	public NhanVien(String maNV, String tenNV) {
+		super();
+		this.maNV = maNV;
+		this.tenNV = tenNV;
+	}
 	public NhanVien() {
 		super();
 		// TODO Auto-generated constructor stub
