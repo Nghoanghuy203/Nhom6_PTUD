@@ -12,6 +12,7 @@ public class NhanVien {
 	private String caLamViec;
 	private String diaChi;
 	private String email;
+	private String cccd;
 	private TaiKhoan taiKhoan;
 	private double phuCap;
 	private double heSoLuong;
@@ -41,7 +42,7 @@ public class NhanVien {
 		this.email = email;
 	}
 	public NhanVien(String maNV, String tenNV, String sdt, boolean gioiTinh, LocalDateTime ngaySinh, String chucVu, String caLamViec,
-			String diaChi, String email, TaiKhoan taiKhoan, double phuCap, double heSoLuong, double luongCoBan) {
+			String diaChi, String email, String cccd, TaiKhoan taiKhoan, double phuCap, double heSoLuong, double luongCoBan) {
 		super();
 		this.maNV = maNV;
 		this.tenNV = tenNV;
@@ -52,9 +53,11 @@ public class NhanVien {
 		this.caLamViec = caLamViec;
 		this.diaChi = diaChi;
 		this.email = email;
+		this.cccd = cccd;
 		this.taiKhoan = taiKhoan;
 		this.heSoLuong=heSoLuong;
 		this.luongCoBan=luongCoBan;
+		this.phuCap = phuCap;
 	}
 	
 	public NhanVien(String maNV, String tenNV) {
@@ -124,5 +127,12 @@ public class NhanVien {
 	public double tinhLuong() {
 		return luongCoBan*heSoLuong+phuCap;
 	}
+	public String getCccd() {
+		return cccd;
+	}
+	public void setCccd(String cccd) {
+		this.cccd = cccd;
+	}
+	
 	
 }

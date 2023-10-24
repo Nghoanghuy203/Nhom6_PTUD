@@ -148,5 +148,25 @@ public class SanPham_DAO implements I_SanPham {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	public static String taoMaSanPham(String maLoai, String kichCo) {
+		int stt=0;
+		String id = "SP-";
+		String loai = maLoai.substring(2, 4);
+		id=id+loai+"-"+kichCo+"%";
+		ConnectDB.getInstance();
+        Connection con = ConnectDB.getConnection();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from SanPham where maSP like ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setNString(1, id);
+            rs = pstmt.executeQuery();
+            while (rs.next()) stt= rs.getInt("stt");
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id.replace("%", "")+"-"+String.format("%05d", stt+1);
+	}
 }
