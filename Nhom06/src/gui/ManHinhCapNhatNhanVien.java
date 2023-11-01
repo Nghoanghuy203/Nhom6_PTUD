@@ -31,6 +31,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import org.jdatepicker.AbstractDateModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -99,7 +100,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
-		setSize(1120, 710);
+		setSize(1120, 730);
 
 		try {
 			ConnectDB.getInstance().connect();
@@ -171,7 +172,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		btnSearch = new JButton("Tìm");
 		// btnSearch.setBorder(new RoundedCornerBorder());
 		btnSearch.setBackground(new Color(65, 105, 225));
-		btnSearch.setIcon(new ImageIcon(ManHinhBanHang.class.getResource("/images/search.png")));
+		btnSearch.setIcon(new ImageIcon(ManHinhLapHoaDon.class.getResource("/images/search.png")));
 		btnSearch.setBounds(220, 3, 70, 24);
 		timKiem.add(btnSearch);
 
@@ -254,7 +255,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		datePanel = new JDatePanelImpl(model_date,p);
-		model_date.setDate(2000, 1, 1);
+		model_date.setValue(new Date(100, 00, 01));
 		datePicker = new JDatePickerImpl(datePanel, new custom.DateLabelFormatter());
 		datePicker.setBackground(new Color(255, 255, 255));
 		datePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
@@ -297,7 +298,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		lblemail.setHorizontalAlignment(SwingConstants.LEFT);
 		lblemail.setFont(new Font("Arial", Font.PLAIN, 11));
 		lblemail.setBounds(460, 115, 30, 20);
-		pn_kqTimKiem.add(lblemail);
+		//pn_kqTimKiem.add(lblemail);
 		
 		txt_email = new JTextField();
 		txt_email.setHorizontalAlignment(SwingConstants.LEFT);
@@ -305,7 +306,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		txt_email.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_email.setBackground(new Color(255, 250, 240));
 		txt_email.setBounds(490, 115, 360, 20);
-		pn_kqTimKiem.add(txt_email);
+		//pn_kqTimKiem.add(txt_email);
 		
 		JLabel lblDiaChi = new JLabel("Địa chỉ:");
 		lblDiaChi.setHorizontalAlignment(SwingConstants.LEFT);
@@ -336,7 +337,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		JLabel lblLuongCoBan = new JLabel("Lương cơ bản:");
 		lblLuongCoBan.setHorizontalAlignment(SwingConstants.LEFT);
 		lblLuongCoBan.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblLuongCoBan.setBounds(230, 160, 80, 20);
+		lblLuongCoBan.setBounds(460, 115, 80, 20);
 		pn_kqTimKiem.add(lblLuongCoBan);
 		
 		txt_LuongCoBan = new JTextField();
@@ -344,17 +345,17 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		txt_LuongCoBan.setColumns(10);
 		txt_LuongCoBan.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_LuongCoBan.setBackground(new Color(255, 250, 240));
-		txt_LuongCoBan.setBounds(310, 160, 100, 20);
+		txt_LuongCoBan.setBounds(540, 115, 100, 20);
 		pn_kqTimKiem.add(txt_LuongCoBan);
 		
 		JLabel lblNewLabel = new JLabel("VND");
-		lblNewLabel.setBounds(410, 160, 25, 20);
+		lblNewLabel.setBounds(640, 115, 25, 20);
 		pn_kqTimKiem.add(lblNewLabel);
 		
 		JLabel lblHeSoLuong = new JLabel("Hệ số lương:");
 		lblHeSoLuong.setHorizontalAlignment(SwingConstants.LEFT);
 		lblHeSoLuong.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblHeSoLuong.setBounds(10, 160, 80, 20);
+		lblHeSoLuong.setBounds(710, 115, 70, 20);
 		pn_kqTimKiem.add(lblHeSoLuong);
 		
 		txt_heSoLuong = new JTextField();
@@ -362,7 +363,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		txt_heSoLuong.setColumns(10);
 		txt_heSoLuong.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_heSoLuong.setBackground(new Color(255, 250, 240));
-		txt_heSoLuong.setBounds(90, 160, 100, 20);
+		txt_heSoLuong.setBounds(780, 115, 70, 20);
 		pn_kqTimKiem.add(txt_heSoLuong);
 		
 		JLabel lblPhuCap = new JLabel("Phụ cấp:");
@@ -386,7 +387,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		JLabel lblMatKhau = new JLabel("*Mật khẩu:");
 		lblMatKhau.setHorizontalAlignment(SwingConstants.LEFT);
 		lblMatKhau.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblMatKhau.setBounds(460, 160, 60, 20);
+		lblMatKhau.setBounds(10, 160, 60, 20);
 		pn_kqTimKiem.add(lblMatKhau);
 		
 		txt_matKhau = new JTextField();
@@ -394,7 +395,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		txt_matKhau.setColumns(10);
 		txt_matKhau.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_matKhau.setBackground(new Color(255, 250, 240));
-		txt_matKhau.setBounds(520, 160, 140, 20);
+		txt_matKhau.setBounds(90, 160, 140, 20);
 		pn_kqTimKiem.add(txt_matKhau);
 		
 		JPanel pnl_calam = new JPanel();
@@ -445,16 +446,16 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		JPanel pn_dsnv = new JPanel();
 		pn_dsnv.setBackground(new Color(255, 255, 255));
 		pn_dsnv.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "Danh s\u00E1ch nh\u00E2n vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(65, 105, 225)));
-		pn_dsnv.setBounds(10, 350, 1100, 350);
+		pn_dsnv.setBounds(10, 350, 1100, 370);
 		add(pn_dsnv);
 		pn_dsnv.setLayout(null);
 
 		model_ds = new DefaultTableModel(new Object[][] {
 				
-		}, new String[] { "Mã nhân viên", "Họ tên", "Ngày sinh", "Giới tính", "Số điện thoại", "Địa chỉ", "Chức vụ", "Ca làm" }
+		}, new String[] { "Mã nhân viên", "Họ tên", "Ngày sinh", "Giới tính", "Số điện thoại", "Địa chỉ", "Chức vụ", "Ca làm","Lương" }
 
 		) {
-			boolean[] canEdit = new boolean[] { false, false, false, false, false, false, false, false };
+			boolean[] canEdit = new boolean[] { false, false, false, false, false, false, false, false, false };
 
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -467,23 +468,49 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		tbl_Ds.setSelectionBackground(new Color(65, 105, 225));
 		tbl_Ds.setRowHeight(40);
 		tbl_Ds.setGridColor(new Color(0, 0, 0));
+		tbl_Ds.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tbl_Ds.getColumnModel().getColumn(0).setPreferredWidth(60);
+		tbl_Ds.getColumnModel().getColumn(1).setPreferredWidth(130);
+		tbl_Ds.getColumnModel().getColumn(2).setPreferredWidth(50);
+		tbl_Ds.getColumnModel().getColumn(3).setPreferredWidth(30);
+		tbl_Ds.getColumnModel().getColumn(4).setPreferredWidth(60);
+		tbl_Ds.getColumnModel().getColumn(5).setPreferredWidth(240);
+		tbl_Ds.getColumnModel().getColumn(6).setPreferredWidth(40);
+		tbl_Ds.getColumnModel().getColumn(7).setPreferredWidth(30);
+		tbl_Ds.getColumnModel().getColumn(8).setPreferredWidth(70);
 
 		DefaultTableCellRenderer head_render = new DefaultTableCellRenderer();
 		head_render.setBackground(new Color(135, 205, 230));
 		tbl_Ds.getTableHeader().setDefaultRenderer(head_render);
+		
 
 		scr_Ds = new JScrollPane();
 		scr_Ds.setViewportView(tbl_Ds);
-		scr_Ds.setBounds(10, 20, 1080, 320);
+		scr_Ds.setBounds(10, 20, 1080, 340);
 		scr_Ds.getViewport().setBackground(Color.white);
 		scr_Ds.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		pn_dsnv.add(scr_Ds);
+		
+		JLabel btnExit = new JLabel("");
+		btnExit.setIcon(new ImageIcon(ManHinhChinh.class.getResource("/images/close.png")));
+		btnExit.setBounds(1100, 0, 20, 20);
+		add(btnExit);
+		
+		btnExit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(JOptionPane.showConfirmDialog(null, "Nhấn OK để thoát khỏi chương trình.", "Thoat", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION) == 0) {
+					System.exit(0);
+				}
+			}
+		});
 		
 		JLabel lblTenManHinh = new JLabel("CẬP NHẬT THÔNG TIN NHÂN VIÊN");
 		lblTenManHinh.setFont(new Font("Arial", Font.BOLD, 20));
 		lblTenManHinh.setForeground(new Color(100, 149, 237));
 		lblTenManHinh.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTenManHinh.setBounds(0, 0, 1120, 50);
+		lblTenManHinh.setBounds(20, 0, 1080, 50);
 		add(lblTenManHinh);
 
 		updateTable();
@@ -567,8 +594,35 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
+				String hoten = txt_hoTenNV.getText();
+				String cccd = txt_CCCD.getText();
+				String diaChi = txt_diaChi.getText();
+				String email = txt_email.getText();
+				double heSoLuong = Double.parseDouble(txt_heSoLuong.getText());
+				double luongCoBan = Double.parseDouble(txt_LuongCoBan.getText().replaceAll(",", ""));
+				String matKhau = txt_matKhau.getText();
 				
+				Date selectedDate = (Date) datePicker.getModel().getValue();
+				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+				String mydate = dateFormat.format(selectedDate);
+				int nam = Integer.parseInt(mydate.substring(6, 10));
+				int thang = Integer.parseInt(mydate.substring(3, 5));
+				int ngay = Integer.parseInt(mydate.substring(0, 2));
+				LocalDateTime ngaySinh = LocalDateTime.of(nam, thang, ngay, 0, 0);
+				double phuCap = Double.parseDouble(txt_PhuCap.getText().replaceAll(",", ""));
+				String sdt = txt_soDienThoai.getText();
+				boolean gt = cmb_gioiTinh.getSelectedItem().toString().equalsIgnoreCase("Nam")?true:false;
+				String chucVu = cmb_chucVu.getSelectedIndex()==0?"Nhân viên":"Quản lí";
+				String caLam = cmb_caLam.getSelectedIndex()==0?"Ca 1":"Ca 2";
+				String ma = lbl_kqMa.getText();
+				TaiKhoan tk = new TaiKhoan(ma, matKhau);
+				NhanVien nv = new NhanVien(ma, hoten, sdt, gt, ngaySinh, chucVu, caLam, diaChi, email, cccd, tk, phuCap, heSoLuong, luongCoBan);
 				
+				if (nhanVien_dao.capNhatNhanVien(ma, nv) && taiKhoan_dao.capNhatTaiKhoan(ma, tk)) {
+					updateTable();
+					JOptionPane.showMessageDialog(null, "thanh cong");
+				}
+				else JOptionPane.showMessageDialog(null, "that bai!");
 			}
 		});
 	}
@@ -602,6 +656,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		txt_heSoLuong.setText(nv.getHeSoLuong()+"");
 		txt_LuongCoBan.setText(df.format(nv.getLuongCoBan()));
 		txt_matKhau.setText(nv.getTaiKhoan().getMatKhau());
+		model_date.setValue(new Date(nv.getNgaySinh().getYear()-1900, nv.getNgaySinh().getMonthValue()-1, nv.getNgaySinh().getDayOfMonth()));
 		datePicker.getJFormattedTextField().setText(dtf.format(nv.getNgaySinh()));
 		txt_PhuCap.setText(df.format(nv.getPhuCap()));
 		txt_soDienThoai.setText(nv.getSdt());
@@ -627,7 +682,7 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 		xoaTable();
 		dsNV = nhanVien_dao.getDsNhanVien();
 		for (NhanVien nv : dsNV) {
-			Object data[] = {nv.getMaNV(), nv.getTenNV(), dtf.format(nv.getNgaySinh()), nv.isGioiTinh()?"Nam":"Nữ", nv.getSdt(), nv.getDiaChi(), nv.getChucVu(), nv.getCaLamViec()};
+			Object data[] = {nv.getMaNV(), nv.getTenNV(), dtf.format(nv.getNgaySinh()), nv.isGioiTinh()?"Nam":"Nữ", nv.getSdt(), nv.getDiaChi(), nv.getChucVu(), nv.getCaLamViec(), df.format(nv.tinhLuong())+" VND"};
 			model_ds.addRow(data);
 		}
 	}

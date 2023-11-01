@@ -76,6 +76,33 @@ public class KhachHang_DAO implements I_KhachHang{
 		return false;
 	}
 	
+	public KhachHang getKHMaKH(String maKH) {
+		// TODO Auto-generated method stub
+		KhachHang kh = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "select * from KhachHang where maKH = ?";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, maKH);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				//String maKH = rs.getNString("maKH");
+				String tenKH = rs.getNString("tenKH");
+				boolean gioiTinh = rs.getBoolean("gioiTinh");
+				String diaChi = rs.getNString("diaChi");
+				String sdtKH = rs.getNString("sdtKH");
+				kh = new KhachHang(maKH, tenKH, sdtKH, gioiTinh, diaChi);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return kh;
+	}
+	
 	public static String taoMaKhachHang() {
 		int stt=0;
 		String id = "KH-";

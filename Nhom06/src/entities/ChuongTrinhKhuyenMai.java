@@ -49,8 +49,8 @@ public class ChuongTrinhKhuyenMai {
 	}
 	
 	private String setTrangThai() {
-		if (ngayBatDau.isBefore(LocalDateTime.now()) && ngayKetThuc.isAfter(LocalDateTime.now())) return "Đang diễn ra";
-		else if (ngayKetThuc.isBefore(LocalDateTime.now())) return "Hết hạn";
-		else return "Chưa kích hoạt";
+		if (ngayBatDau.isAfter(LocalDateTime.now()) && ngayKetThuc.isAfter(LocalDateTime.now())) return "Chưa kích hoạt";
+		else if (ngayBatDau.isBefore(LocalDateTime.now()) && ngayKetThuc.isBefore(LocalDateTime.now())) return "Hết hạn";
+		else return "Đang diễn ra";
 	}
 }

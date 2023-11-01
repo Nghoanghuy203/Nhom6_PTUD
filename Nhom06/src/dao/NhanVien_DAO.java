@@ -31,7 +31,7 @@ public class NhanVien_DAO implements I_NhanVien{
 			while (rs.next()) {
 				String maNV = rs.getNString("maNV");
 				String tenNV = rs.getNString("tenNV");
-				String CCCD = rs.getNString("CCCD");
+				//String CCCD = rs.getNString("CCCD");
 				String sdtNV = rs.getNString("sdtNV");
 				int gt = rs.getInt("gioiTinh");
 				boolean gioiTinh = gt==1?true:false;
@@ -128,7 +128,84 @@ public class NhanVien_DAO implements I_NhanVien{
 	@Override
 	public boolean capNhatNhanVien(String maNV, NhanVien nvNew) {
 		// TODO Auto-generated method stub
-		return false;
+		int n=0;
+		ConnectDB.getInstance();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "update NhanVien set tenNV = ?, gioiTinh=?, diaChi=?, CCCD =?, sdtNV=?, ngaySinh=?, caLamViec=?, chucVu=?, phuCap=?, luongCoBan=?, heSoLuong=? where maNV=?";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, nvNew.getTenNV());
+			statement.setInt(2, nvNew.isGioiTinh()?1:0);
+			statement.setNString(3, nvNew.getDiaChi());
+			statement.setNString(4, nvNew.getCccd());
+			statement.setNString(5, nvNew.getSdt());
+			statement.setNString(6, dtf.format(nvNew.getNgaySinh()));
+			statement.setNString(7, nvNew.getCaLamViec());
+			statement.setNString(8, nvNew.getChucVu());
+			statement.setDouble(9, nvNew.getPhuCap());
+			statement.setDouble(10, nvNew.getLuongCoBan());
+			statement.setDouble(11, nvNew.getHeSoLuong());
+			statement.setNString(12, maNV);
+			n= statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
+	}
+	
+	public List<NhanVien> timKiem(String tMa, String tHoten, String tSdt,String tCCCD, String tDiachi, String tChucVu, String tCalam, String tGioitinh) {
+		List<NhanVien> ds = new ArrayList<NhanVien>();
+		//NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "select *\r\n"
+				+ "from NhanVien nv join TaiKhoan tk\r\n"
+				+ "on nv.maNV = tk.maNV\r\n"
+				+ "where nv.maNV like ? and tenNV like ? and sdtNV like ? \r\n"
+				+ "and gioiTinh like ? and CCCD like ? and diaChi like ? \r\n"
+				+ "and chucVu like ? and caLamViec like ?";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, tMa);
+			statement.setNString(2, tHoten);
+			statement.setNString(3, tSdt);
+			statement.setNString(4, tGioitinh);
+			statement.setNString(5,	tCCCD);
+			statement.setNString(6, tDiachi);
+			statement.setNString(7, tChucVu);
+			statement.setNString(8, tCalam);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String maNV = rs.getNString("maNV");
+				String tenNV = rs.getNString("tenNV");
+				//String CCCD = rs.getNString("CCCD");
+				String sdtNV = rs.getNString("sdtNV");
+				int gt = rs.getInt("gioiTinh");
+				boolean gioiTinh = gt==1?true:false;
+				LocalDateTime ngaySinh = rs.getTimestamp("ngaySinh").toLocalDateTime();
+				String diaChi = rs.getNString("diaChi");
+				String email = rs.getNString("email");
+				String cccd = rs.getNString("CCCD");
+				String chucVu = rs.getNString("chucVu");
+				String caLamViec = rs.getNString("caLamViec");
+				double phuCap = rs.getDouble("phuCap");
+				double heSoLuong = rs.getDouble("heSoLuong");
+				double luongCoBan = rs.getDouble("luongCoBan");
+				String matKhau = rs.getNString("matKhau");
+				TaiKhoan tk = new TaiKhoan(maNV, matKhau);
+				NhanVien nv = new NhanVien(maNV, tenNV, sdtNV, gioiTinh, ngaySinh, chucVu, caLamViec, diaChi, email, cccd, tk, phuCap, heSoLuong, luongCoBan);
+				ds.add(nv);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ds;
 	}
 	
 	public static String taoMaNhanVienMoi(String chucVu) {

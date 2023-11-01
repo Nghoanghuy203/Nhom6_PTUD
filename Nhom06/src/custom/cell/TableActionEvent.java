@@ -6,9 +6,9 @@ package custom.cell;
  */
 public interface TableActionEvent {
 
-    public void onEdit(int row);
+    public void onAdd(int row);
 
     public void onDelete(int row);
 
-    public void onView(int row);
+    public void onMinus(int row);
 }
