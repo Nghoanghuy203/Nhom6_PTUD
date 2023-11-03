@@ -38,8 +38,8 @@ import javax.swing.border.MatteBorder;
 public class ManHinhThongKeDoanhThu extends JPanel {
 
 	private JScrollPane scr_Ds;
-	private JTable tbl_Ds;
-	private DefaultTableModel model_ds;
+	public static JTable tbl_Ds;
+	public static DefaultTableModel model_ds;
 
 	private DecimalFormat df;
 
@@ -50,7 +50,7 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 	private DateTimeFormatter dtf;
 	
 	private HoaDon_DAO hoaDon_DAO;
-	private List<HoaDon> dsHD;
+	public static List<HoaDon> dsHD;
 
 	/**
 	 * Create the panel.
@@ -73,7 +73,7 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 		}
 
 		df = new DecimalFormat("#,### VND");
-		dtf = DateTimeFormatter.ofPattern("hh:mm:ss dd/MM/yyyy");
+		dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
 
 		hoaDon_DAO = new HoaDon_DAO();
 		
@@ -213,7 +213,16 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(ManHinhThongKeDoanhThu.class.getResource("/images/doanhthu.png")));
 		lblNewLabel_1.setBounds(10, 30, 1080, 310);
-		panel.add(lblNewLabel_1);
+		//panel.add(lblNewLabel_1);
+		
+		JPanel pn_bieuDo = new JPanel();
+		pn_bieuDo.setBounds(10, 30, 1080, 310);
+		panel.add(pn_bieuDo);
+		pn_bieuDo.setLayout(null);
+		
+		BieuDoDoanhThu chart = new BieuDoDoanhThu();
+		chart.setSize(1080, 310);
+		pn_bieuDo.add(chart);
 
 		tbl_Ds.addMouseListener(new MouseAdapter() {
 			@Override

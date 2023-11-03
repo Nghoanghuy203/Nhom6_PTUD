@@ -146,8 +146,8 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 			txt_kqHotenKHMoi.selectAll();
 			return false;
 		}
-		if (!(soDienThoai.length() == 10 && soDienThoai.matches("([0])([0-9]{9})"))) {
-			JOptionPane.showMessageDialog(null, "Số Điện thoại bắt đầu bằng số 0 và độ dài số điện thoại bằng 10");
+		if (!(soDienThoai.length() == 9 && soDienThoai.matches("([0])([0-9]{8})"))) {
+			JOptionPane.showMessageDialog(null, "Số Điện thoại bắt đầu bằng số 0 và độ dài số điện thoại bằng 9");
 			txt_kqSdtKHMoi.requestFocus();
 			txt_kqSdtKHMoi.selectAll();
 			return false;
@@ -160,8 +160,5 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 		}
 		
 		return true;
-	}
-	public static void hideForm() {
-		
 	}
 }

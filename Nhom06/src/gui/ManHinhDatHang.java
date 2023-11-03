@@ -86,7 +86,7 @@ public class ManHinhDatHang extends JPanel {
 		}
 		
 		df = new DecimalFormat("#,### VND");
-		dtf = DateTimeFormatter.ofPattern("hh:mm:ss dd/MM/yyyy");
+		dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
 		
 		donDatHang_dao = new DonDatHang_DAO();
 		
