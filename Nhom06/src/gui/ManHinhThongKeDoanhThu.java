@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -16,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -28,13 +28,11 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
 import connectDB.ConnectDB;
-import custom.RoundedCornerBorder;
 import dao.HoaDon_DAO;
 import entities.HoaDon;
-import entities.NhanVien;
-
 import javax.swing.border.MatteBorder;
 
+@SuppressWarnings("serial")
 public class ManHinhThongKeDoanhThu extends JPanel {
 
 	private JScrollPane scr_Ds;
@@ -46,15 +44,18 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 	private JDateChooser dc_ngayBatDau;
 	private JDateChooser dc_ngayKetThuc;
 
-	private JComboBox cmb_tieuChi;
+	private JComboBox<String> cmb_tieuChi;
 	private DateTimeFormatter dtf;
 	
 	private HoaDon_DAO hoaDon_DAO;
 	public static List<HoaDon> dsHD;
-
+	
+	private BieuDoDoanhThu chart;
+	private JPanel pn_bieuDo;
 	/**
 	 * Create the panel.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ManHinhThongKeDoanhThu() {
 
 		/**
@@ -112,10 +113,23 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 		JButton btnTimNV = new JButton("Thống kê");
 		btnTimNV.setIcon(null);
 		btnTimNV.setBounds(970, 9, 100, 30);
-		pn_kqTimKiem.add(btnTimNV);
+		//pn_kqTimKiem.add(btnTimNV);
 		btnTimNV.setFont(new Font("Arial", Font.BOLD, 14));
 		btnTimNV.setBackground(new Color(147, 112, 219));
-
+		
+		JLabel lblThang = new JLabel("Tháng:");
+		lblThang.setBounds(230, 10, 80, 30);
+		pn_kqTimKiem.add(lblThang);
+		lblThang.setVisible(false);
+		
+		
+		String[] itemThang = {"Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"};
+		JComboBox<String> cmb_thang = new JComboBox(itemThang);
+		cmb_thang.setBackground(new Color(255, 255, 255));
+		cmb_thang.setBounds(310, 10, 150, 30);
+		pn_kqTimKiem.add(cmb_thang);
+		cmb_thang.setVisible(false);
+		
 		JLabel lblNgayBatDau = new JLabel("Ngày bắt đầu:");
 		lblNgayBatDau.setBounds(230, 10, 80, 30);
 		pn_kqTimKiem.add(lblNgayBatDau);
@@ -215,25 +229,17 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 		lblNewLabel_1.setBounds(10, 30, 1080, 310);
 		//panel.add(lblNewLabel_1);
 		
-		JPanel pn_bieuDo = new JPanel();
+		pn_bieuDo = new JPanel();
 		pn_bieuDo.setBounds(10, 30, 1080, 310);
 		panel.add(pn_bieuDo);
 		pn_bieuDo.setLayout(null);
 		
-		BieuDoDoanhThu chart = new BieuDoDoanhThu();
-		chart.setSize(1080, 310);
+		chart = new BieuDoDoanhThu();
+		chart.thongKeNgayHomNay();
 		pn_bieuDo.add(chart);
-
-		tbl_Ds.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				int selected = tbl_Ds.getSelectedRow();
-
-			}
-		});
 		
-		dsHD = hoaDon_DAO.getDsHoaDon();
+		
+		dsHD = hoaDon_DAO.getDSHDHomNay();
 		updateTable(dsHD);
 		
 		dc_ngayBatDau.setVisible(false);
@@ -262,22 +268,167 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 					dc_ngayKetThuc.setVisible(true);
 					lblNgayBatDau.setVisible(true);
 					lblNgayKetThuc.setVisible(true);
+					lblThang.setVisible(false);
+					cmb_thang.setVisible(false);
 				}
 				else {
+					if (cmb_tieuChi.getSelectedItem().equals("Ngày hôm nay")) {
+						lblThang.setVisible(false);
+						cmb_thang.setVisible(false);
+						chart = new BieuDoDoanhThu();
+						pn_bieuDo.removeAll();
+						pn_bieuDo.add(chart);
+						chart.thongKeNgayHomNay();
+						dsHD = hoaDon_DAO.getDSHDHomNay();
+						updateTable(dsHD);
+					}
+					if (cmb_tieuChi.getSelectedItem().equals("7 ngày gần nhất")) {
+						lblThang.setVisible(false);
+						cmb_thang.setVisible(false);
+						chart = new BieuDoDoanhThu();
+						pn_bieuDo.removeAll();
+						pn_bieuDo.add(chart);
+						chart.thongKe7NgayGanNhat();
+						dsHD= hoaDon_DAO.getDSHD7NgayGanNhat();
+						updateTable(dsHD);
+					}
+					if (cmb_tieuChi.getSelectedItem().equals("Tháng")) {
+						lblThang.setVisible(true);
+						cmb_thang.setVisible(true);
+						int thang = LocalDate.now().getMonthValue();
+						cmb_thang.setSelectedIndex(thang-1);
+						chart = new BieuDoDoanhThu();
+						pn_bieuDo.removeAll();
+						pn_bieuDo.add(chart);
+						chart.thongKeTheoThang(thang);
+						dsHD = hoaDon_DAO.getDSHDTheoThang(thang);
+						updateTable(dsHD);
+					}
+					if (cmb_tieuChi.getSelectedItem().equals("Năm")) {
+						lblThang.setVisible(false);
+						cmb_thang.setVisible(false);
+						chart = new BieuDoDoanhThu();
+						pn_bieuDo.removeAll();
+						pn_bieuDo.add(chart);
+						chart.thongKeTheoNam(2023);
+						dsHD = hoaDon_DAO.getDSHDTheoNam(2023);
+						updateTable(dsHD);
+					}
 					dc_ngayBatDau.setVisible(false);
 					dc_ngayKetThuc.setVisible(false);
 					lblNgayBatDau.setVisible(false);
 					lblNgayKetThuc.setVisible(false);
+					
+				}
+			}
+		});
+		cmb_thang.getModel().addListDataListener(new ListDataListener() {
+			
+			@Override
+			public void intervalRemoved(ListDataEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void intervalAdded(ListDataEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void contentsChanged(ListDataEvent e) {
+				// TODO Auto-generated method stub
+				if (cmb_thang.getSelectedItem().equals("Tháng 1")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(1);
+					dsHD = hoaDon_DAO.getDSHDTheoThang(1);
+					updateTable(dsHD);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 2")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(2);
+					dsHD = hoaDon_DAO.getDSHDTheoThang(2);
+					updateTable(dsHD);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 3")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(3);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 4")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(4);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 5")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(5);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 6")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(6);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 7")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(7);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 8")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(8);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 9")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(9);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 10")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(10);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 11")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(11);
+					dsHD = hoaDon_DAO.getDSHDTheoThang(11);
+					updateTable(dsHD);
+				}
+				if (cmb_thang.getSelectedItem().equals("Tháng 12")) {
+					chart = new BieuDoDoanhThu();
+					pn_bieuDo.removeAll();
+					pn_bieuDo.add(chart);
+					chart.thongKeTheoThang(12);
 				}
 			}
 		});
 	}
+	
+		
 	private void xoaTrangTable(JTable t) {
 		DefaultTableModel dm = (DefaultTableModel) t.getModel();
 		dm.getDataVector().removeAllElements();
 	}
 	private void updateTable(List<HoaDon> ds) {
 		xoaTrangTable(tbl_Ds);
+		tbl_Ds.revalidate();
 		for (HoaDon hd : ds) {
 			Object data[] = {hd.getMaHD(), hd.getNhanVien().getTenNV(), hd.getKhachHang()==null?"Khách lẻ":hd.getKhachHang().getTenKH(), dtf.format(hd.getNgayLap()), hd.getCtKhuyenMai()==null?0:hd.getCtKhuyenMai().getPhanTramKhuyenMai(), df.format(hd.getTongTienHD())};
 			model_ds.addRow(data);

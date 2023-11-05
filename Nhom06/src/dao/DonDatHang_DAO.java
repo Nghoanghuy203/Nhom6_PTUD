@@ -94,7 +94,7 @@ public class DonDatHang_DAO implements I_DonDatHang{
 	
 	public boolean themDDH(DonDatHang ddh) {
 		int n=0;
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;

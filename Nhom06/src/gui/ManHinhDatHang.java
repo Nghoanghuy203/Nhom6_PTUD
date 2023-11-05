@@ -12,7 +12,11 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Font;
@@ -100,13 +104,13 @@ public class ManHinhDatHang extends JPanel {
 		
 		JPanel pnl_tkSdt = new JPanel();
 		pnl_tkSdt.setBackground(new Color(255, 255, 255));
-		pnl_tkSdt.setBounds(190, 20, 190, 30);
+		pnl_tkSdt.setBounds(390, 20, 190, 30);
 		pnl_tkSdt.setBorder(new RoundedCornerBorder());
 		pn_timKiem.add(pnl_tkSdt);
 		pnl_tkSdt.setLayout(null);
 		
 		txtSdt = new JTextField();
-		txtSdt.setText("Nhập số điện thoại khách hàng...");
+		txtSdt.setText("Nhập sđt khách hàng...");
 		txtSdt.setForeground(Color.GRAY);
 		txtSdt.setEditable(false);
 		txtSdt.setBackground(new Color(255, 255, 255));
@@ -161,7 +165,7 @@ public class ManHinhDatHang extends JPanel {
 		JPanel pn_kqTimKiem = new JPanel();
 		pn_kqTimKiem.setLayout(null);
 		pn_kqTimKiem.setBackground(new Color(255, 250, 240));
-		pn_kqTimKiem.setBounds(10, 79, 1080, 100);
+		pn_kqTimKiem.setBounds(10, 119, 1080, 100);
 		pn_timKiem.add(pn_kqTimKiem);
 		
 		JLabel lblMa = new JLabel("Mã đơn:");
@@ -255,7 +259,7 @@ public class ManHinhDatHang extends JPanel {
 		pnl_tkTenKH.setLayout(null);
 		pnl_tkTenKH.setBorder(new RoundedCornerBorder());
 		pnl_tkTenKH.setBackground(Color.WHITE);
-		pnl_tkTenKH.setBounds(390, 20, 190, 30);
+		pnl_tkTenKH.setBounds(390, 60, 190, 30);
 		pn_timKiem.add(pnl_tkTenKH);
 		
 		txtTenKH = new JTextField();
@@ -272,7 +276,7 @@ public class ManHinhDatHang extends JPanel {
 		pnl_tkTenNV.setLayout(null);
 		pnl_tkTenNV.setBorder(new RoundedCornerBorder());
 		pnl_tkTenNV.setBackground(Color.WHITE);
-		pnl_tkTenNV.setBounds(590, 20, 190, 30);
+		pnl_tkTenNV.setBounds(90, 62, 190, 30);
 		pn_timKiem.add(pnl_tkTenNV);
 		
 		txtTenNV = new JTextField();
@@ -289,7 +293,7 @@ public class ManHinhDatHang extends JPanel {
 		pnl_tkMa.setLayout(null);
 		pnl_tkMa.setBorder(new RoundedCornerBorder());
 		pnl_tkMa.setBackground(Color.WHITE);
-		pnl_tkMa.setBounds(10, 20, 170, 30);
+		pnl_tkMa.setBounds(90, 20, 190, 30);
 		pn_timKiem.add(pnl_tkMa);
 		
 		txtNhpMn = new JTextField();
@@ -299,17 +303,33 @@ public class ManHinhDatHang extends JPanel {
 		txtNhpMn.setColumns(10);
 		txtNhpMn.setBorder(null);
 		txtNhpMn.setBackground(Color.WHITE);
-		txtNhpMn.setBounds(10, 3, 150, 24);
+		txtNhpMn.setBounds(10, 3, 170, 24);
 		pnl_tkMa.add(txtNhpMn);
 		
 		JLabel lblNewLabel = new JLabel("Ngày đặt:");
-		lblNewLabel.setBounds(790, 20, 60, 30);
+		lblNewLabel.setBounds(600, 20, 60, 30);
 		pn_timKiem.add(lblNewLabel);
 		
 		dc_ngayLap = new JDateChooser();
-		dc_ngayLap.setBounds(850, 20, 150, 30);
-		dc_ngayLap.setDateFormatString("dd/MM/yyyy");
+		dc_ngayLap.setBounds(660, 20, 150, 30);
+		dc_ngayLap.setDateFormatString("yyyy-MM-dd");
 		pn_timKiem.add(dc_ngayLap);
+		
+		JLabel lblNewLabel_3 = new JLabel("Mã đơn:");
+		lblNewLabel_3.setBounds(10, 20, 80, 30);
+		pn_timKiem.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("Sđt khách hàng:");
+		lblNewLabel_3_1.setBounds(300, 20, 90, 30);
+		pn_timKiem.add(lblNewLabel_3_1);
+		
+		JLabel lblNewLabel_3_2 = new JLabel("Tên nhân viên:");
+		lblNewLabel_3_2.setBounds(10, 62, 80, 30);
+		pn_timKiem.add(lblNewLabel_3_2);
+		
+		JLabel lblNewLabel_3_2_1 = new JLabel("Tên nhân viên:");
+		lblNewLabel_3_2_1.setBounds(300, 60, 80, 30);
+		pn_timKiem.add(lblNewLabel_3_2_1);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));

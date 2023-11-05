@@ -8,9 +8,9 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import custom.lineChart.chart.CurveLineChart;
-import custom.lineChart.chart.ModelChart;
-import custom.lineChart.panel.PanelShadow;
+import custom.lineChart.CurveLineChart;
+import custom.lineChart.ModelChart;
+import custom.lineChart.PanelShadow;
 
 public class TestLineChart extends JFrame{
 

@@ -29,7 +29,7 @@ public class HoaDon_DAO implements I_HoaDon{
 		List<HoaDon> ds = new ArrayList<HoaDon>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from HoaDon";
+		String sql = "select * from HoaDon order by ngayLap desc";
 		try {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
@@ -63,7 +63,7 @@ public class HoaDon_DAO implements I_HoaDon{
 	
 	public boolean themHD(HoaDon hd) {
 		int n=0;
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
@@ -128,5 +128,160 @@ public class HoaDon_DAO implements I_HoaDon{
 			e.printStackTrace();
 		}
 		return id.replace("%", "")+"-"+String.format("%05d", stt+1);
+	}
+	
+	public List<HoaDon> getDSHDHomNay() {
+		NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
+		KhachHang_DAO khachHang_DAO = new KhachHang_DAO();
+		ChuongTrinhKhuyenMai_DAO chuongTrinhKhuyenMai_DAO = new ChuongTrinhKhuyenMai_DAO();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String ngay = dtf.format(LocalDate.now());
+		List<HoaDon> ds = new ArrayList<HoaDon>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select * from HoaDon\r\n"
+				+ "where CONVERT(nvarchar(20),ngayLap,120) like ?\r\n"
+				+ "order by ngayLap desc";
+		PreparedStatement statement = null;
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, ngay+"%");
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String maHD = rs.getNString("maHD");
+				String maKH = rs.getNString("maKH");
+				KhachHang kh = khachHang_DAO.getKHMaKH(maKH);
+				String maNV = rs.getNString("maNV");
+				NhanVien nv = nhanVien_DAO.getNhanVien(maNV);
+				LocalDateTime ngayLap = rs.getTimestamp("ngayLap").toLocalDateTime();
+				String maKM = rs.getNString("maKM");
+				ChuongTrinhKhuyenMai ctkm = chuongTrinhKhuyenMai_DAO.getCTKM(maKM);
+				double tongTienHD = rs.getDouble("tongTienHD");
+				double tienKhachTra = rs.getDouble("tienKhachTra");
+				HoaDon hd = new HoaDon(maHD, ngayLap, nv, kh, ctkm, tongTienHD, tienKhachTra);
+				ds.add(hd);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ds;
+	}
+	
+	public List<HoaDon> getDSHDTheoThang(int thang) {
+		NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
+		KhachHang_DAO khachHang_DAO = new KhachHang_DAO();
+		ChuongTrinhKhuyenMai_DAO chuongTrinhKhuyenMai_DAO = new ChuongTrinhKhuyenMai_DAO();
+		int n = LocalDate.now().getYear();
+		String t;
+		if (thang<10) t="0"+thang;
+		else t=thang+"";
+		String time = n+"-"+t+"%";
+		List<HoaDon> ds = new ArrayList<HoaDon>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select * from HoaDon\r\n"
+				+ "where CONVERT(nvarchar(20),ngayLap,120) like ?\r\n"
+				+ "order by ngayLap desc";
+		PreparedStatement statement = null;
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, time);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String maHD = rs.getNString("maHD");
+				String maKH = rs.getNString("maKH");
+				KhachHang kh = khachHang_DAO.getKHMaKH(maKH);
+				String maNV = rs.getNString("maNV");
+				NhanVien nv = nhanVien_DAO.getNhanVien(maNV);
+				LocalDateTime ngayLap = rs.getTimestamp("ngayLap").toLocalDateTime();
+				String maKM = rs.getNString("maKM");
+				ChuongTrinhKhuyenMai ctkm = chuongTrinhKhuyenMai_DAO.getCTKM(maKM);
+				double tongTienHD = rs.getDouble("tongTienHD");
+				double tienKhachTra = rs.getDouble("tienKhachTra");
+				HoaDon hd = new HoaDon(maHD, ngayLap, nv, kh, ctkm, tongTienHD, tienKhachTra);
+				ds.add(hd);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ds;
+	}
+	
+	public List<HoaDon> getDSHDTheoNam(int nam) {
+		NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
+		KhachHang_DAO khachHang_DAO = new KhachHang_DAO();
+		ChuongTrinhKhuyenMai_DAO chuongTrinhKhuyenMai_DAO = new ChuongTrinhKhuyenMai_DAO();
+		String time = nam+"";
+		List<HoaDon> ds = new ArrayList<HoaDon>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select * from HoaDon\r\n"
+				+ "where CONVERT(nvarchar(20),ngayLap,120) like ?\r\n"
+				+ "order by ngayLap desc";
+		PreparedStatement statement = null;
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, time+"%");
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String maHD = rs.getNString("maHD");
+				String maKH = rs.getNString("maKH");
+				KhachHang kh = khachHang_DAO.getKHMaKH(maKH);
+				String maNV = rs.getNString("maNV");
+				NhanVien nv = nhanVien_DAO.getNhanVien(maNV);
+				LocalDateTime ngayLap = rs.getTimestamp("ngayLap").toLocalDateTime();
+				String maKM = rs.getNString("maKM");
+				ChuongTrinhKhuyenMai ctkm = chuongTrinhKhuyenMai_DAO.getCTKM(maKM);
+				double tongTienHD = rs.getDouble("tongTienHD");
+				double tienKhachTra = rs.getDouble("tienKhachTra");
+				HoaDon hd = new HoaDon(maHD, ngayLap, nv, kh, ctkm, tongTienHD, tienKhachTra);
+				ds.add(hd);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ds;
+	}
+	public List<HoaDon> getDSHD7NgayGanNhat() {
+		NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
+		KhachHang_DAO khachHang_DAO = new KhachHang_DAO();
+		ChuongTrinhKhuyenMai_DAO chuongTrinhKhuyenMai_DAO = new ChuongTrinhKhuyenMai_DAO();
+		List<HoaDon> ds = new ArrayList<HoaDon>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "declare @start datetime, @end datetime\r\n"
+				+ "select @end =DATEDIFF(day,0,GETDATE()), @start = DATEDIFF(day,6,@end)\r\n"
+				+ "select * from HoaDon \r\n"
+				+ "where ngayLap >= @start and ngayLap <= @end\r\n"
+				+ "order by ngayLap desc";
+		try {
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String maHD = rs.getNString("maHD");
+				String maKH = rs.getNString("maKH");
+				KhachHang kh = khachHang_DAO.getKHMaKH(maKH);
+				String maNV = rs.getNString("maNV");
+				NhanVien nv = nhanVien_DAO.getNhanVien(maNV);
+				LocalDateTime ngayLap = rs.getTimestamp("ngayLap").toLocalDateTime();
+				String maKM = rs.getNString("maKM");
+				ChuongTrinhKhuyenMai ctkm = chuongTrinhKhuyenMai_DAO.getCTKM(maKM);
+				double tongTienHD = rs.getDouble("tongTienHD");
+				double tienKhachTra = rs.getDouble("tienKhachTra");
+				HoaDon hd = new HoaDon(maHD, ngayLap, nv, kh, ctkm, tongTienHD, tienKhachTra);
+				ds.add(hd);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ds;
 	}
 }

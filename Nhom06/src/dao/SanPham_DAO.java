@@ -170,6 +170,25 @@ public class SanPham_DAO implements I_SanPham {
         return id.replace("%", "")+"-"+String.format("%05d", stt+1);
 	}
 	
+	public boolean capNhatSoLuongTon(String maSP, int soLuong) {
+		int n=0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "update SanPham set soLuongTon = soLuongTon - ? where maSP = ?";
+		try {
+			statement= con.prepareStatement(sql);
+			statement.setInt(1, soLuong);
+			statement.setNString(2, maSP);
+			n=statement.executeUpdate();
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
+	}
+	
 	public List<SanPham> timKiemSP(String tMa, String tSP, String tLoai, String tMauSac, String tKichCo, String tChatLieu) {
 		List<SanPham> ds = new ArrayList<SanPham>();
 		ConnectDB.getInstance();

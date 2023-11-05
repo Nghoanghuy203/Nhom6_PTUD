@@ -213,7 +213,7 @@ public class ManHinhLapHoaDon extends JPanel {
 		
 		timKiem = new JPanel();
 		timKiem.setBackground(new Color(255, 255, 255));
-		timKiem.setBounds(250, 20, 210, 30);
+		timKiem.setBounds(260, 20, 200, 30);
 		timKiem.setBorder(new RoundedCornerBorder());
 		pn_timKiem.add(timKiem);
 		timKiem.setLayout(null);
@@ -223,7 +223,7 @@ public class ManHinhLapHoaDon extends JPanel {
 		txt_tkTenSp.setForeground(Color.GRAY);
 		txt_tkTenSp.setEditable(false);
 		txt_tkTenSp.setBackground(new Color(255, 255, 255));
-		txt_tkTenSp.setBounds(10, 3, 190, 24);
+		txt_tkTenSp.setBounds(10, 3, 180, 24);
 		txt_tkTenSp.setBorder(null);
 		txt_tkTenSp.addMouseListener(new MouseAdapter() {
 			@Override
@@ -331,11 +331,11 @@ public class ManHinhLapHoaDon extends JPanel {
 	    
 	            },
 	            new String [] {
-	                "Hình ảnh","Mã", "Tên", "Loại", "Đơn giá","Số lượng","Chất liệu","Màu sắc","Kích cỡ","Nhà cung cấp"
+	                "Hình ảnh","Mã", "Tên", "Loại", "Đơn giá","Số lượng","Chất liệu","Màu sắc","Kích cỡ"
 	            }
 	        ) {
 	            boolean[] canEdit = new boolean [] {
-	                false, false, false, false, false, false, false, false, false, false 
+	                false, false, false, false, false, false, false, false, false
 	            };
 
 	            public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -389,7 +389,7 @@ public class ManHinhLapHoaDon extends JPanel {
 		cmbKichCo.setBounds(780, 20, 70, 30);
 		pn_timKiem.add(cmbKichCo);
 		
-		String[] itemNCC = capNhatCmbNCC();
+		
 		
 		JLabel lblChatLieu = new JLabel("Chất liệu:");
 		lblChatLieu.setBounds(860, 20, 60, 30);
@@ -402,7 +402,7 @@ public class ManHinhLapHoaDon extends JPanel {
 		pn_timKiem.add(cmbChatLieu);
 		
 		lblTen = new JLabel("Tên sp:");
-		lblTen.setBounds(210, 20, 40, 30);
+		lblTen.setBounds(210, 20, 50, 30);
 		pn_timKiem.add(lblTen);
 		
 		JLabel lblMa = new JLabel("Mã sp:");
@@ -769,8 +769,12 @@ public class ManHinhLapHoaDon extends JPanel {
 						cmb_khuyenmai.setSelectedIndex(0);
 						ManHinhDatHang.resetData();
 						JOptionPane.showMessageDialog(null, "Đặt hàng thành công!");
+						khachHang = null;
+						lbl_kqTenKH.setText("Khách lẻ");
+						List<SanPham> dsSP = sanPham_dao.getDsSanPham();
+						updateDataTableDsSP(dsSP);
 					}
-					khachHang = null;
+					
 				}
 			}
 		});
@@ -834,15 +838,15 @@ public class ManHinhLapHoaDon extends JPanel {
 							lbl_kqtongthanhtoan.setText("");
 							cmb_khuyenmai.setSelectedIndex(0);
 							JOptionPane.showMessageDialog(null, "Thanh toán thành công!");
-						}
-						khachHang = null;
-						donDatHang_DAO.capNhatDDH(maDDH, "Đã thanh toán");
-						ManHinhDatHang.resetData();
-						ManHinhTimKiemHoaDon.resetData();
-						ManHinhChinh.pn_body.removeAll();
-						ManHinhChinh.pn_body.add(ManHinhChinh.mh_dathang);
-						ManHinhChinh.pn_body.validate();
-						ManHinhChinh.pn_body.repaint();
+							khachHang = null;
+							donDatHang_DAO.capNhatDDH(maDDH, "Đã thanh toán");
+							ManHinhDatHang.resetData();
+							ManHinhTimKiemHoaDon.resetData();
+							ManHinhChinh.pn_body.removeAll();
+							ManHinhChinh.pn_body.add(ManHinhChinh.mh_dathang);
+							ManHinhChinh.pn_body.validate();
+							ManHinhChinh.pn_body.repaint();
+						}						
 					}
 				}
 				else {
@@ -862,17 +866,20 @@ public class ManHinhLapHoaDon extends JPanel {
 								int soLuong = (int) model_giohang.getValueAt(row, 3);
 								double giaBan = dinhDangTien((String) model_giohang.getValueAt(row, 4));
 								ChiTietHoaDon ct = new ChiTietHoaDon(maHD, sp, soLuong, giaBan);
-								if (chiTietHoaDon_DAO.themChiTietHD(ct)) System.out.println("ok"); 
+								if (chiTietHoaDon_DAO.themChiTietHD(ct)) sanPham_dao.capNhatSoLuongTon(maSP, soLuong); 
 							}
 							xoaTrangTable(tbl_gioHang);
 							txt_tienKhachTra.setText("");
 							lbl_thienthua.setText("");
 							lbl_kqtongthanhtoan.setText("");
 							cmb_khuyenmai.setSelectedIndex(0);
+							List<SanPham> dsSP = sanPham_dao.getDsSanPham();
+							updateDataTableDsSP(dsSP);
+							khachHang = null;
+							ManHinhTimKiemHoaDon.resetData();
 							JOptionPane.showMessageDialog(null, "Thanh toán thành công!");
 						}
-						khachHang = null;
-						ManHinhTimKiemHoaDon.resetData();
+						
 					}
 				}
 				
@@ -973,13 +980,15 @@ public class ManHinhLapHoaDon extends JPanel {
                 if (soluong<s.getSoLuongTon()) {
                 	soluong+=1;
                 	model_giohang.setValueAt(soluong, row, 3);
+                	double gia = dinhDangTien((String) model_giohang.getValueAt(row, 4));
+    				model_giohang.setValueAt(df.format((double)(soluong*gia)), row, 5);
+                    lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
+                    lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
+                    thayDoiGiaTriTxtTienThua();
+                    rowselect=row;
                 }
-                double gia = dinhDangTien((String) model_giohang.getValueAt(rowselect, 4));
-				model_giohang.setValueAt(df.format((double)(soluong*gia)), rowselect, 5);
-                lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
-                lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
-                thayDoiGiaTriTxtTienThua();
-				rowselect=row;
+                
+				
             }
 
             @Override
@@ -1002,12 +1011,12 @@ public class ManHinhLapHoaDon extends JPanel {
                 if (soluong>1) {
                 	soluong-=1;
                 	model_giohang.setValueAt(soluong, row, 3);
+                	double gia = dinhDangTien((String) model_giohang.getValueAt(row, 4));
+    				model_giohang.setValueAt(df.format((double)(soluong*gia)), row, 5);
+                    lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
+                    lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
+                    thayDoiGiaTriTxtTienThua();
                 }
-                double gia = dinhDangTien((String) model_giohang.getValueAt(rowselect, 4));
-				model_giohang.setValueAt(df.format((double)(soluong*gia)), rowselect, 5);
-                lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
-                lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
-                thayDoiGiaTriTxtTienThua();
 				rowselect=row;
             }
         };
@@ -1138,16 +1147,6 @@ public class ManHinhLapHoaDon extends JPanel {
 		return s;
 	}
 	
-	private String[] capNhatCmbNCC() {
-		String[] s = {};
-		List<String> list = new ArrayList<>(Arrays.asList(s));
-		list.add("Tất cả");
-		for (NhaCungCap ct : nhaCungCap_DAO.getDsNCC()) {
-			list.add(ct.getTenNCC());
-		}
-		s = list.toArray(new String[0]);
-		return s;
-	}
 	
 	private String[] capNhatCmbChatLieu() {
 		String[] s = {};
@@ -1193,7 +1192,7 @@ public class ManHinhLapHoaDon extends JPanel {
 		xoaTrangTable(tbl_dssp);
 		for (SanPham sp : ds) {
 			ImageIcon im = new ImageIcon(sp.getHinhAnh());
-			Object data[] = {im, sp.getMaSP(), sp.getTenSP(), sp.getLoaiSP().getTenLoai(), df.format(sp.getGiaBan()), sp.getSoLuongTon(), sp.getChatLieu().getTenChatLieu(), sp.getMauSac().getTenMauSac(), sp.getKichCo().getTenKichCo(), sp.getNhaCungCap().getTenNCC()};
+			Object data[] = {im, sp.getMaSP(), sp.getTenSP(), sp.getLoaiSP().getTenLoai(), df.format(sp.getGiaBan()), sp.getSoLuongTon(), sp.getChatLieu().getTenChatLieu(), sp.getMauSac().getTenMauSac(), sp.getKichCo().getTenKichCo()};
 			model_dssp.addRow(data);
 		}
 	}
