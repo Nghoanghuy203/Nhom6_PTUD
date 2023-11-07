@@ -95,4 +95,69 @@ public class NhaCungCap_DAO implements I_NhaCungCap{
         }
         return id.replace("%", "")+"-"+String.format("%05d", stt);
     }
+	
+	
+	public static String getMaNCC(String tenNCC) {
+	    String maNCC = null;
+	    ConnectDB.getInstance();
+	    Connection con = ConnectDB.getInstance().getConnection();
+	    PreparedStatement statement = null;
+	    ResultSet rs = null;
+	    String sql = "SELECT maNCC FROM NhaCungCap WHERE tenNCC = ?";
+	    try {
+	        statement = con.prepareStatement(sql);
+	        statement.setString(1, tenNCC);
+	        rs = statement.executeQuery();
+	        if (rs.next()) {
+	        	maNCC = rs.getString("maNCC");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (statement != null) {
+	                statement.close();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return maNCC;
+	}
+	
+	public List<NhaCungCap> timKiem(String ma, String ten, String sdt, String diaChi){
+		List<NhaCungCap> ds = new ArrayList<NhaCungCap>();
+		//NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "select * from NhaCungCap\n"
+				+ "where maNCC like ? and tenNCC like ?\n"
+				+ "and sdtNCC like ? and diaChiNCC like ?";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, ma);
+			statement.setNString(2, ten);
+			statement.setNString(3, sdt);
+			statement.setNString(4, diaChi);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String maNCC = rs.getNString("maNCC");
+				String tenNCC = rs.getNString("tenNCC");
+				String sdtNCC = rs.getNString("sdtNCC");
+				String diaChiNCC = rs.getNString("diaChiNCC");
+				NhaCungCap ncc = new NhaCungCap(maNCC, tenNCC, sdtNCC, diaChiNCC);
+				ds.add(ncc);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ds;
+	}
+
 }

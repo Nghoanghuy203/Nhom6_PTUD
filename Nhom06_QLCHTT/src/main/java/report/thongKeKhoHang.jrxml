@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ff000344-ae93-4e52-9ec0-eaba83d03753">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="QuanLyBanHangThoiTrang"/>
+	<parameter name="ngayLapTK" class="java.lang.String"/>
+	<parameter name="tenNV" class="java.lang.String"/>
+	<parameter name="maNV" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT "SanPham"."maSP",
+	"SanPham"."tenSP",
+	"DanhMuc"."tenDM",
+	"MauSac"."tenMS",
+	"ChatLieu"."tenCL",
+	"KichCo"."tenKC",
+	"NhaCungCap"."tenNCC",
+	"SanPham"."donGia",
+	COALESCE( sum( ChiTietHoaDon.soLuong),0) AS soLuongDaBan,
+	"SanPham"."soLuongTon"
+FROM "HoaDon"
+	inner join "ChiTietHoaDon" ON 
+	 "HoaDon"."maHD" = "ChiTietHoaDon"."maHD" 
+	full join "SanPham" ON 
+	 "ChiTietHoaDon"."maSP" = "SanPham"."maSP" 
+	inner join "DanhMuc" ON 
+	 "SanPham"."maDM" = "DanhMuc"."maDM" 
+	inner join "MauSac" ON 
+	 "SanPham"."maMS" = "MauSac"."maMS" 
+	inner join "ChatLieu" ON 
+	 "SanPham"."maCL" = "ChatLieu"."maCL" 
+	inner join "KichCo" ON 
+	 "SanPham"."maKC" = "KichCo"."maKC" 
+	inner join "NhaCungCap" ON 
+	 "SanPham"."maNCC" = "NhaCungCap"."maNCC" 
+GROUP BY "SanPham"."maSP",
+	"SanPham"."tenSP",
+	"DanhMuc"."tenDM",
+	"MauSac"."tenMS",
+	"ChatLieu"."tenCL",
+	"KichCo"."tenKC",
+	"NhaCungCap"."tenNCC",
+	"SanPham"."donGia",
+	"SanPham"."soLuongTon"
+ORDER BY "SanPham"."soLuongTon" DESC]]>
+	</queryString>
+	<field name="maSP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="maSP"/>
+		<property name="com.jaspersoft.studio.field.label" value="maSP"/>
+	</field>
+	<field name="tenSP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tenSP"/>
+		<property name="com.jaspersoft.studio.field.label" value="tenSP"/>
+	</field>
+	<field name="tenDM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tenDM"/>
+		<property name="com.jaspersoft.studio.field.label" value="tenDM"/>
+	</field>
+	<field name="tenMS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tenMS"/>
+		<property name="com.jaspersoft.studio.field.label" value="tenMS"/>
+	</field>
+	<field name="tenCL" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tenCL"/>
+		<property name="com.jaspersoft.studio.field.label" value="tenCL"/>
+	</field>
+	<field name="tenKC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tenKC"/>
+		<property name="com.jaspersoft.studio.field.label" value="tenKC"/>
+	</field>
+	<field name="tenNCC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tenNCC"/>
+		<property name="com.jaspersoft.studio.field.label" value="tenNCC"/>
+	</field>
+	<field name="donGia" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="donGia"/>
+		<property name="com.jaspersoft.studio.field.label" value="donGia"/>
+	</field>
+	<field name="soLuongDaBan" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="soLuongDaBan"/>
+		<property name="com.jaspersoft.studio.field.label" value="soLuongDaBan"/>
+	</field>
+	<field name="soLuongTon" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="soLuongTon"/>
+		<property name="com.jaspersoft.studio.field.label" value="soLuongTon"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="40" width="552" height="30" uuid="4b0c370d-f86a-4579-95f6-a7f290e02927"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="13"/>
+				</textElement>
+				<text><![CDATA[123 Nguyễn Văn Bảo , phường 4, Gò Vấp , TP HCM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="290" height="40" forecolor="#04010A" uuid="c6aaf1ef-b886-42c3-b656-6c59aed1b84f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="23" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FASHION CLOTHING]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="-5" y="5" width="558" height="30" uuid="bc0cf012-c679-49d5-8c16-a760cf8adefe"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Báo cáo thống kê kho hàng]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="121" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="80" height="30" uuid="6eceaac5-ac8f-4162-affe-c3263716547d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Mã nhân viên :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="80" height="30" uuid="877aff4a-4f07-4917-b943-d56404b92a3c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Tên nhân viên :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="82" y="39" width="188" height="29" uuid="a779f023-c535-4bb2-b125-0d226ab79868"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tenNV}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="82" y="10" width="188" height="29" uuid="8966b7b4-411b-41d6-b87d-d9cd5a7f517e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{maNV}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="10" width="80" height="30" uuid="1066ee41-f021-446c-a38c-f209d658cb45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Ngày lập :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="360" y="9" width="193" height="31" uuid="d0824ae5-6469-4216-857b-bb153e4d53e7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ngayLapTK}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-10" y="91" width="30" height="30" uuid="1b2533a5-d540-4654-b64e-cf4253294c17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[STT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="90" width="50" height="30" uuid="af0d97e0-7692-4850-9499-29bacb5a0106"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Mã SP:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="90" width="193" height="30" uuid="a17516d6-5098-45b8-bebb-f17090db5c99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Tên SP :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="91" width="93" height="30" uuid="b28afeb5-4f00-4091-845e-811fa417039b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Đơn giá :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="90" width="100" height="30" uuid="c67bf4df-88c7-4b33-a6ae-6fd74ca36e61"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Số lượng đã bán:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="456" y="90" width="100" height="30" uuid="ce8742c6-377c-4d39-a564-40222aad8646"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Số lượng còn lại :]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="85" width="558" height="1" forecolor="#000000" uuid="7b90a910-2190-42b0-a2d5-a4845dca7be1">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement x="-10" y="0" width="30" height="29" uuid="5053002e-7d21-436d-ba0e-8d0c1b48d827"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="0" width="50" height="29" uuid="2c173a68-94fc-4ffe-8898-f7241cc9dcb8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{maSP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="193" height="29" uuid="b49dbf97-367e-4dd4-98a6-2f65531a99ba"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tenSP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="456" y="0" width="97" height="29" uuid="f4d343b2-bc1f-4d5e-87bf-1dbfbf0678ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{soLuongTon}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="0" width="101" height="29" uuid="852fe323-e5f4-4ad6-a7e5-51de0c8d526b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{soLuongDaBan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="263" y="0" width="93" height="29" uuid="e87522f7-118e-4d91-9dcf-fd246bfce3db"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{donGia}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-3" y="0" width="558" height="1" forecolor="#000000" uuid="5b33d3e1-06f8-489c-9498-8e394ac6a77d">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="26" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="18" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="398" splitType="Stretch"/>
+	</summary>
+</jasperReport>

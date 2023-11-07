@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -41,10 +42,14 @@ import custom.GeneratorID;
 import custom.RoundedCornerBorder;
 import dao.DonDatHang_DAO;
 import dao.HoaDon_DAO;
+import dao.KhachHang_DAO;
+import dao.NhaCungCap_DAO;
 import dao.NhanVien_DAO;
 import dao.TaiKhoan_DAO;
 import entities.DonDatHang;
 import entities.HoaDon;
+import entities.KhachHang;
+import entities.NhaCungCap;
 import entities.NhanVien;
 import entities.TaiKhoan;
 
@@ -62,17 +67,13 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 	private JTable tbl_Ds;
 	private DefaultTableModel model_ds;
 
-	private JLabel lbl_kqMa;
+	private JTextField txt_maNCC;
 
 	private DecimalFormat df;
 	private DateTimeFormatter dtf;
-
-	private JComboBox cmb_chuongTrinhKM;
-	private JComboBox cmb_nhanVien;
-	private JComboBox cmb_khachHang;
 	
-	private JTextField txt_tongTien;
-	private JTextField txt_tienTra;
+	private JTextField txt_tenNCC;
+	private JTextField txt_SDT;
 	
 
 	private UtilDateModel model_date1;
@@ -80,21 +81,19 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 	private JDatePickerImpl datePicker1;
 	
 	
-	private HoaDon_DAO hoaDon_DAO;
-	private List<HoaDon> dsHD;
-	private JTextField textField;
+	private NhaCungCap_DAO ncc_dao;
+	private List<NhaCungCap> dsNCC;
+	private JTextField txt_diaChi;
 
-	
+
 	
 	/**
 	 * Create the panel.
 	 */
 	public ManHinhTimKiemNhaCungCap() {
 
-		/**
-		 * Create the panel.
-		 */
-
+		ncc_dao = new NhaCungCap_DAO();
+		
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		setSize(1120, 730);
@@ -108,9 +107,7 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 
 		df = new DecimalFormat("#,###");
 		dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-			
-//		hoaDon_DAO = new HoaDon_DAO();
-//		dsHD = hoaDon_DAO.getDsHoaDon();
+
 		
 		JPanel pn_thaotac = new JPanel();
 		pn_thaotac.setBackground(new Color(255, 255, 255));
@@ -140,7 +137,7 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 		pn_kqTimKiem.add(lblKqTimKiem);
 
 		JLabel lbl_thongBaoKq = new JLabel();
-		lbl_thongBaoKq.setBounds(62, 126, 100, 14);
+		lbl_thongBaoKq.setBounds(62, 88, 100, 23);
 		lbl_thongBaoKq.setForeground(Color.red);
 		pn_kqTimKiem.add(lbl_thongBaoKq);
 		
@@ -150,10 +147,47 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 		lblmaHD.setBounds(10, 15, 89, 20);
 		pn_kqTimKiem.add(lblmaHD);
 
-		lbl_kqMa = new JLabel("");
-		lbl_kqMa.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
-		lbl_kqMa.setBounds(99, 15, 100, 20);
-		pn_kqTimKiem.add(lbl_kqMa);
+		txt_maNCC = new JTextField("Nhập mã..");
+		txt_maNCC.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_maNCC.setEditable(false);
+		txt_maNCC.setColumns(10);
+		txt_maNCC.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txt_maNCC.setBackground(new Color(255, 250, 240));
+		txt_maNCC.setBounds(99, 15, 100, 20);
+		pn_kqTimKiem.add(txt_maNCC);
+		txt_maNCC.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txt_maNCC.setText("");
+				txt_maNCC.setForeground(Color.BLACK);
+				txt_maNCC.setEditable(true);
+			}
+		});
 
 		JLabel lblnhanVien = new JLabel("Tên Nhà Cung Cấp:");
 		lblnhanVien.setHorizontalAlignment(SwingConstants.LEFT);
@@ -173,33 +207,133 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 		lbldiaChi.setBounds(778, 15, 67, 20);
 		pn_kqTimKiem.add(lbldiaChi);
 		
-		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.LEFT);
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		textField.setBackground(new Color(255, 250, 240));
-		textField.setBounds(818, 16, 160, 20);
-		pn_kqTimKiem.add(textField);
+		txt_diaChi = new JTextField("Nhập địa chỉ..");
+		txt_diaChi.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_diaChi.setEditable(false);
+		txt_diaChi.setColumns(10);
+		txt_diaChi.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txt_diaChi.setBackground(new Color(255, 250, 240));
+		txt_diaChi.setBounds(818, 16, 160, 20);
+		pn_kqTimKiem.add(txt_diaChi);
+		txt_diaChi.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txt_diaChi.setText("");
+				txt_diaChi.setForeground(Color.BLACK);
+				txt_diaChi.setEditable(true);
+			}
+		});
 		
-		txt_tienTra = new JTextField();
-		txt_tienTra.setBackground(new Color(255, 250, 240));
-		txt_tienTra.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_tienTra.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_tienTra.setBounds(595, 16, 160, 20);
-		pn_kqTimKiem.add(txt_tienTra);
-		txt_tienTra.setColumns(10);
-		txt_tienTra.setEditable(false);
+		txt_SDT = new JTextField("Nhập số đt..");
+		txt_SDT.setBackground(new Color(255, 250, 240));
+		txt_SDT.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txt_SDT.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_SDT.setBounds(595, 16, 160, 20);
+		pn_kqTimKiem.add(txt_SDT);
+		txt_SDT.setColumns(10);
+		txt_SDT.setEditable(false);
+		txt_SDT.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txt_SDT.setText("");
+				txt_SDT.setForeground(Color.BLACK);
+				txt_SDT.setEditable(true);
+			}
+		});
 		
-		txt_tongTien = new JTextField();
-		txt_tongTien.setBackground(new Color(255, 250, 240));
-		txt_tongTien.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_tongTien.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_tongTien.setBounds(320, 16, 160, 20);
-		pn_kqTimKiem.add(txt_tongTien);
-		txt_tongTien.setColumns(10);
-		txt_tongTien.setEditable(false);
 		
+		txt_tenNCC = new JTextField("Nhập tên..");
+		txt_tenNCC.setBackground(new Color(255, 250, 240));
+		txt_tenNCC.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txt_tenNCC.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_tenNCC.setBounds(320, 16, 160, 20);
+		pn_kqTimKiem.add(txt_tenNCC);
+		txt_tenNCC.setColumns(10);
+		txt_tenNCC.setEditable(false);
+		txt_tenNCC.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				txt_tenNCC.setText("");
+				txt_tenNCC.setForeground(Color.BLACK);
+				txt_tenNCC.setEditable(true);
+			}
+		});
 			
 		JButton btnXoaTrang = new JButton("Xóa trắng");
 		btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 14));
@@ -266,73 +400,77 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 				}
 			}
 		});
-//		updateTable();
+		dsNCC = ncc_dao.getDsNCC();
+		updateTable(dsNCC);
+
+		tbl_Ds.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int selected = tbl_Ds.getSelectedRow();
+				String maNCC = (String) model_ds.getValueAt(selected, 0);
+				NhaCungCap ncc = ncc_dao.getNCC(maNCC);
+				hienThiThongTinKetQua(ncc);
+				
+			}
+		});
+
+		btnSearch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String ma = txt_maNCC.getText();
+				ma = ma.equalsIgnoreCase("Nhập mã..")?"":ma;
+				String ten = txt_tenNCC.getText();
+				ten = ten.equalsIgnoreCase("Nhập tên..")?"":ten;
+				String sdt = txt_SDT.getText();
+				sdt = sdt.equalsIgnoreCase("Nhập số đt..")?"":sdt;
+				String diaChi = txt_diaChi.getText();
+				diaChi = diaChi.equalsIgnoreCase("Nhập địa chỉ..")?"":diaChi;
+				dsNCC = ncc_dao.timKiem("%"+ma+"%", "%"+ten+"%","%"+ sdt+"%", "%"+diaChi+"%"); 
+				if (dsNCC.size()==0) {
+					JOptionPane.showMessageDialog(null, "Không tìm thấy!");
+				}
+				else {					
+					updateTable(dsNCC);
+				}
+			}
+		});
+		
+		btnXoaTrang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				xoaTrang();
+			}
+		});
+	}
+	
+	private void xoaTrang() {
+		txt_diaChi.setText("Nhập địa chỉ..");
+		txt_maNCC.setText("Nhập mã..");
+		txt_SDT.setText("Nhập số đt..");
+		txt_tenNCC.setText("Nhập tên..");
+		dsNCC = ncc_dao.getDsNCC();
+		updateTable(dsNCC);
+	}
+	
+	private void hienThiThongTinKetQua(NhaCungCap ncc) {
+		txt_maNCC.setText(ncc.getMaNCC());
+		txt_SDT.setText(ncc.getSdtNCC());
+		txt_diaChi.setText(ncc.getDiaChiNCC());
+		txt_tenNCC.setText(ncc.getTenNCC());
+	}
+	
+	private void xoaTable() {
+        DefaultTableModel dtm = (DefaultTableModel) tbl_Ds.getModel();
+        dtm.getDataVector().removeAllElements();
+    }
+	private void updateTable(List<NhaCungCap> dsNCC) {
+		xoaTable();
+		for (NhaCungCap ncc : dsNCC) {
+			Object data[] = {ncc.getMaNCC(),ncc.getTenNCC(),ncc.getSdtNCC(),ncc.getDiaChiNCC()};
+			model_ds.addRow(data);	
+		}
 	}
 }
-		
-//
-//		tbl_Ds.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				int selected = tbl_Ds.getSelectedRow();
-//				String maHD = (String) model_ds.getValueAt(selected, 0);
-//				HoaDon hd = hoaDon_DAO.getHD(maHD);
-//				
-//				hienThiThongTinKetQua(hd);
-//				
-//			}
-//		});
-//
-//		btnSearch.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				String ma = txtSearch.getText();
-//				HoaDon hd = hoaDon_DAO.getHD(ma);
-//				if (hd!=null) {
-//					hienThiThongTinKetQua(hd);
-//				}
-//				else {
-//					lbl_thongBaoKq.setText("Không tìm thấy");
-//					xoaTrang();
-//				}
-//				
-//			}
-//		});
-//		
-//		btnXoaTrang.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				xoaTrang();
-//			}
-//		});
-//	}
-//	
-//	private void xoaTrang() {
-//		lbl_kqMa.setText("");
-//		txt_tongTien.setText("");
-//		txt_tienTra.setText("");
-//		datePicker1.getJFormattedTextField().setText("01-01-2000");
-//		
-//	}
-//	
-//	private void hienThiThongTinKetQua(HoaDon hd) {
-//		
-//	}
-//	
-//	private void xoaTable() {
-//        DefaultTableModel dtm = (DefaultTableModel) tbl_Ds.getModel();
-//        dtm.getDataVector().removeAllElements();
-//    }
-//	private void updateTable() {
-//		xoaTable();
-//		dsHD = hoaDon_DAO.getDsHoaDon();
-//		for (HoaDon hoaDon : dsHD) {
-//			Object data[] = {hoaDon.getMaHD(),hoaDon.getNgayLap(),hoaDon.getKhachHang(),hoaDon.getNhanVien(),hoaDon.getCtKhuyenMai(),hoaDon.getTongTienHD(),hoaDon.getTienKhachTra()};
-//			model_ds.addRow(data);	
-//		}
-//	}
-//}
 //}

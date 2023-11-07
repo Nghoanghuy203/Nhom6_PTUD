@@ -3,7 +3,10 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import connectDB.ConnectDB;
@@ -14,8 +17,30 @@ public class KhachHang_DAO implements I_KhachHang{
 
 	@Override
 	public List<KhachHang> getDsKhachHang() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<KhachHang> dskh=new ArrayList<KhachHang>();
+		try {
+			ConnectDB.getInstance();
+			Connection con=ConnectDB.getInstance().getConnection();
+			
+			String sql="Select * from KhachHang";
+			Statement statement=con.createStatement();
+			
+			ResultSet rs=statement.executeQuery(sql);
+			while(rs.next()) {
+
+				String maKH = rs.getNString(1);
+				String tenKH = rs.getNString(2);
+				boolean gioiTinh = rs.getBoolean(3);
+				String diaChi = rs.getNString(4);
+				String sdtKH = rs.getNString(5);
+				KhachHang kh = new KhachHang(maKH, tenKH, sdtKH, gioiTinh, diaChi);
+
+				dskh.add(kh);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dskh;
 	}
 
 	@Override
@@ -70,11 +95,27 @@ public class KhachHang_DAO implements I_KhachHang{
 		return n>0;
 	}
 
-	@Override
-	public boolean capNhatKhachHang(String maKH, KhachHang khNew) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public boolean capNhatKhachHang(KhachHang kh) {
+		Connection con = ConnectDB.getInstance().getConnection();
+	    PreparedStatement sttm = null;
+	    int n = 0;
+	    try {
+	        sttm = con.prepareStatement ("UPDATE KhachHang SET tenKH = ?, sdtKH = ?, gioiTinh = ?, diaChi = ? WHERE maKH = ?");
+	        sttm.setString(1, kh.getTenKH());
+	        sttm.setString(2, kh.getSdtKH());
+	        int gt = kh.isGioiTinh() ? 1 : 0;  
+	        sttm.setInt(3, gt);
+	        sttm.setString(4, kh.getDiaChi());
+	        sttm.setString(5, kh.getMaKH());
+
+	        n = sttm.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return n > 0;
 	}
+
 	
 	public KhachHang getKHMaKH(String maKH) {
 		// TODO Auto-generated method stub
@@ -131,5 +172,11 @@ public class KhachHang_DAO implements I_KhachHang{
 			e.printStackTrace();
 		}
 		return id.replace("%", "")+"-"+String.format("%05d", stt+1);
+	}
+
+	@Override
+	public boolean capNhatKhachHang(String maKH, KhachHang khNew) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

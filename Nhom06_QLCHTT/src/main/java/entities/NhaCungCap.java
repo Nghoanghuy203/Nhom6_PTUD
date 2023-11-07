@@ -40,6 +40,11 @@ public class NhaCungCap {
 		this.sdtNCC = sdtNCC;
 		this.diaChiNCC = diaChiNCC;
 	}
+	public NhaCungCap(String maNCC, String tenNCC) {
+		super();
+		this.maNCC = maNCC;
+		this.tenNCC = tenNCC;
+	}
 	
 	
 	

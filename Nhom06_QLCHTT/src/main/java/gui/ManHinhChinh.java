@@ -15,7 +15,7 @@ import connectDB.ConnectDB;
 import custom.ScaledImg;
 import dao.NhanVien_DAO;
 import entities.NhanVien;
-import sendSMS.Mensajessms;
+import sendSMS.SendSMS;
 import custom.CustomScrollBarUI;
 import custom.MenuItem;
 
@@ -49,7 +49,7 @@ public class ManHinhChinh extends JFrame{
 	public static ManHinhLapHoaDon manHinhLapHoaDon;
 	public static ManHinhDatHang mh_dathang;
 	
-	public static Mensajessms sms;
+	public static SendSMS sms;
 	public static Thread thread;
 	
 	
@@ -100,7 +100,7 @@ public class ManHinhChinh extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		sms = new Mensajessms("");
+		sms = new SendSMS("");
 		
 		try {
 			ConnectDB.getInstance().connect();

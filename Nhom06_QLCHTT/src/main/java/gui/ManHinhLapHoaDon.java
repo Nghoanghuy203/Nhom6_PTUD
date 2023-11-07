@@ -62,9 +62,8 @@ import entities.MauSac;
 import entities.NhaCungCap;
 import entities.NhanVien;
 import entities.SanPham;
-import sendSMS.Mensajessms;
-import sendSMS.SendSms;
-
+import report.Report;
+import sendSMS.SendSMS;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -81,6 +80,7 @@ import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.table.TableModel;
 import javax.swing.JTextArea;
+import javax.swing.JCheckBox;
 
 @SuppressWarnings("serial")
 public class ManHinhLapHoaDon extends JPanel {
@@ -183,7 +183,8 @@ public class ManHinhLapHoaDon extends JPanel {
         donDatHang_DAO = new DonDatHang_DAO();
         
         nhanVien = ManHinhChinh.nvAct;
-		
+		khachHang = khachHang_dao.getKHMaKH("KHACHLE");
+        
         JLabel lblTitleHeader = new JLabel("LẬP HÓA ĐƠN");
 		lblTitleHeader.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTitleHeader.setForeground(new Color(65, 105, 225));
@@ -605,7 +606,8 @@ public class ManHinhLapHoaDon extends JPanel {
 				} 
 				else {
 					JOptionPane.showMessageDialog(null,"Không tìm thấy khách hàng!");
-					lbl_kqTenKH.setText("Khách lẻ");
+					khachHang = khachHang_dao.getKHMaKH("KHACHLE");
+					lbl_kqTenKH.setText(khachHang.getTenKH());
 					txt_timkiemKH.setForeground(new Color(192, 192, 192));
 					txt_timkiemKH.setText("Nhập số điện thoại khách hàng ...");
 				}
@@ -737,7 +739,7 @@ public class ManHinhLapHoaDon extends JPanel {
 		
 		btn_dathang = new JButton("Đặt hàng");
 		btn_dathang.setBackground(new Color(255, 127, 80));
-		btn_dathang.setBounds(0, 196, 130, 30);
+		btn_dathang.setBounds(0, 210, 130, 30);
 		pnl_hd.add(btn_dathang);
 		
 		
@@ -772,7 +774,7 @@ public class ManHinhLapHoaDon extends JPanel {
 						cmb_khuyenmai.setSelectedIndex(0);
 						ManHinhDatHang.resetData();
 						JOptionPane.showMessageDialog(null, "Đặt hàng thành công!");
-						khachHang = null;
+						khachHang = khachHang_dao.getKHMaKH("KHACHLE");
 						lbl_kqTenKH.setText("Khách lẻ");
 						List<SanPham> dsSP = sanPham_dao.getDsSanPham();
 						updateDataTableDsSP(dsSP);
@@ -784,18 +786,22 @@ public class ManHinhLapHoaDon extends JPanel {
 		
 		btn_thanhtoan = new JButton("Thanh toán");
 		btn_thanhtoan.setBackground(new Color(255, 127, 80));
-		btn_thanhtoan.setBounds(170, 196, 130, 30);
+		btn_thanhtoan.setBounds(170, 210, 130, 30);
 		pnl_hd.add(btn_thanhtoan);
 		
 		btn_troLai = new JButton("Trở lại");
 		btn_troLai.setBackground(new Color(255, 127, 80));
-		btn_troLai.setBounds(0, 196, 130, 30);
+		btn_troLai.setBounds(0, 210, 130, 30);
 		pnl_hd.add(btn_troLai);
 		
 		JLabel lbl_kqTenKH_1 = new JLabel("Khách lẻ");
 		lbl_kqTenKH_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbl_kqTenKH_1.setBounds(110, 0, 190, 20);
 		pnl_hd.add(lbl_kqTenKH_1);
+		
+		JCheckBox ckb_inHoaDon = new JCheckBox("Xuất hóa đơn");
+		ckb_inHoaDon.setBounds(180, 183, 120, 20);
+		pnl_hd.add(ckb_inHoaDon);
 		lbl_kqTenKH_1.setVisible(false);
 		
 		btn_troLai.setVisible(false);
@@ -836,16 +842,19 @@ public class ManHinhLapHoaDon extends JPanel {
 								if (chiTietHoaDon_DAO.themChiTietHD(ct)) System.out.println("ok"); 
 							}
 							String t = lbl_kqtongthanhtoan.getText();
-							ManHinhChinh.thread = new Mensajessms(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
-							ManHinhChinh.thread.start();
+							//ManHinhChinh.thread = new SendSMS(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
+							//ManHinhChinh.thread.start();
 							xoaTrangTable(tbl_gioHang);
 							txt_tienKhachTra.setText("");
 							lbl_thienthua.setText("");
 							lbl_kqtongthanhtoan.setText("");
 							cmb_khuyenmai.setSelectedIndex(0);
 							JOptionPane.showMessageDialog(null, "Thanh toán thành công!");
-							khachHang = null;
+							khachHang = khachHang_dao.getKHMaKH("KHACHLE");
 							donDatHang_DAO.capNhatDDH(maDDH, "Đã thanh toán");
+							if (ckb_inHoaDon.isSelected()) {
+								Report.xuatHoaDonPDF("sMaHD", maHD, "E:\\hoadon.pdf", false);
+							}
 							ManHinhDatHang.resetData();
 							ManHinhTimKiemHoaDon.resetData();
 							ManHinhChinh.pn_body.removeAll();
@@ -859,6 +868,7 @@ public class ManHinhLapHoaDon extends JPanel {
 					if (validDataThanhToan()) {
 						LocalDateTime ngayLap = LocalDateTime.now();
 						String maCtkm = (String) cmb_khuyenmai.getSelectedItem();
+						maCtkm = maCtkm.equals("Không có")?"MACDINH":maCtkm;
 						ChuongTrinhKhuyenMai ctkm = ctkm_dao.getCTKM(maCtkm);
 						double tongTienHD = dinhDangTien(lbl_kqtongthanhtoan.getText());
 						double tienKhachTra =  Double.parseDouble(txt_tienKhachTra.getText());
@@ -876,8 +886,8 @@ public class ManHinhLapHoaDon extends JPanel {
 							}
 							
 							String t = lbl_kqtongthanhtoan.getText();
-							ManHinhChinh.thread = new Mensajessms(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
-							ManHinhChinh.thread.start();
+							//ManHinhChinh.thread = new SendSMS(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
+							//ManHinhChinh.thread.start();
 							xoaTrangTable(tbl_gioHang);
 							txt_tienKhachTra.setText("");
 							lbl_thienthua.setText("");
@@ -885,9 +895,12 @@ public class ManHinhLapHoaDon extends JPanel {
 							cmb_khuyenmai.setSelectedIndex(0);
 							List<SanPham> dsSP = sanPham_dao.getDsSanPham();
 							updateDataTableDsSP(dsSP);
-							khachHang = null;
+							khachHang = khachHang_dao.getKHMaKH("KHACHLE");
 							ManHinhTimKiemHoaDon.resetData();
 							JOptionPane.showMessageDialog(null, "Thanh toán thành công!");
+							if (ckb_inHoaDon.isSelected()) {
+								Report.xuatHoaDonPDF("sMaHD", maHD, "E:\\hoadon.pdf", false);
+							}
 						}
 						
 					}
@@ -1237,7 +1250,7 @@ public class ManHinhLapHoaDon extends JPanel {
 			JOptionPane.showMessageDialog(null, "Giỏ hàng trống!");
 			return false;
 		}
-		if (khachHang==null) {
+		if (khachHang.getMaKH().equals("KHACHLE")) {
 			JOptionPane.showMessageDialog(null, "Cần thông tin khách hàng để đặt hàng!");
 			return false;
 		}

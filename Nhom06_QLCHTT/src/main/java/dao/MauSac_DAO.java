@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -40,5 +41,34 @@ public class MauSac_DAO implements I_MauSac{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	public static String getMaMauSac(String tenMauSac) {
+	    String maMauSac = null;
+	    ConnectDB.getInstance();
+	    Connection con = ConnectDB.getInstance().getConnection();
+	    PreparedStatement statement = null;
+	    ResultSet rs = null;
+	    String sql = "SELECT maMauSac FROM MauSac WHERE tenMauSac = ?";
+	    try {
+	        statement = con.prepareStatement(sql);
+	        statement.setString(1, tenMauSac);
+	        rs = statement.executeQuery();
+	        if (rs.next()) {
+	            maMauSac = rs.getString("maMauSac");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (statement != null) {
+	                statement.close();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return maMauSac;
+	}
 }

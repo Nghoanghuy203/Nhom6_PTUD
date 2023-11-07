@@ -22,12 +22,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.plaf.ScrollBarUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
 
 import connectDB.ConnectDB;
+import custom.CustomScrollBarUI;
 import dao.HoaDon_DAO;
 import entities.HoaDon;
 import javax.swing.border.MatteBorder;
@@ -179,6 +181,7 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 		scr_Ds.setViewportView(tbl_Ds);
 		scr_Ds.setBounds(10, 30, 1080, 200);
 		scr_Ds.getViewport().setBackground(Color.white);
+		scr_Ds.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		pn_dsnv.add(scr_Ds);
 
 		JLabel lblNewLabel = new JLabel("Danh sách hóa đơn");

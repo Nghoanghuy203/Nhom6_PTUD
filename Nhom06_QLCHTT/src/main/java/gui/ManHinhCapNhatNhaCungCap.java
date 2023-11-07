@@ -357,10 +357,17 @@ public class ManHinhCapNhatNhaCungCap extends JPanel {
 		
 		btnSua.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-				
+			public void mouseClicked(MouseEvent e) {				
+				String hoten = txt_tenNCC.getText();
+				String sdt = txt_sdtNCC.getText();
+				String diaChi = txt_diaChiNCC.getText();
+				String ma = lbl_kqMa.getText();
+				NhaCungCap ncc = new NhaCungCap(ma, hoten, sdt, diaChi);
+				if (nhaCC_dao.capNhatNCC(ma,ncc)) {
+					updateTable();
+					JOptionPane.showMessageDialog(null, "thanh cong");
+				}
+				else JOptionPane.showMessageDialog(null, "that bai!");
 			}
 		});
 	}

@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -41,5 +42,34 @@ public class ChatLieu_DAO implements I_ChatLieu{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	public static String getMaChatLieu(String tenChatLieu) {
+	    String maChatLieu = null;
+	    ConnectDB.getInstance();
+	    Connection con = ConnectDB.getInstance().getConnection();
+	    PreparedStatement statement = null;
+	    ResultSet rs = null;
+	    String sql = "SELECT maChatLieu FROM ChatLieu WHERE tenChatLieu = ?";
+	    try {
+	        statement = con.prepareStatement(sql);
+	        statement.setString(1, tenChatLieu);
+	        rs = statement.executeQuery();
+	        if (rs.next()) {
+	            maChatLieu = rs.getString("maChatLieu");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (statement != null) {
+	                statement.close();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return maChatLieu;
+	}
 }

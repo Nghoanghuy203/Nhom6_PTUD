@@ -284,4 +284,47 @@ public class HoaDon_DAO implements I_HoaDon{
 		}
 		return ds;
 	}
+	
+	public List<HoaDon> timKiemHD(String tmaHD,String tsdtKH,String ttenKH, String ttenNV, String tngayLap) {
+		NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
+		KhachHang_DAO khachHang_DAO = new KhachHang_DAO();
+		ChuongTrinhKhuyenMai_DAO chuongTrinhKhuyenMai_DAO = new ChuongTrinhKhuyenMai_DAO();
+		List<HoaDon> ds = new ArrayList<HoaDon>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "select * \r\n"
+				+ "from HoaDon hd join NhanVien nv\r\n"
+				+ "on hd.maNV = nv.maNV join KhachHang kh\r\n"
+				+ "on hd.maKH = kh.maKH \r\n"
+				+ "where maHD like ? and nv.tenNV like ? and kh.sdtKH like ? and kh.tenKH like ? and CONVERT(nvarchar(20),ngayLap,120) like ?";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, "%"+tmaHD+"%");
+			statement.setNString(2, "%"+ttenNV+"%");
+			statement.setNString(3, "%"+tsdtKH+"%");
+			statement.setNString(4, "%"+ttenKH+"%");
+			statement.setNString(5, tngayLap+"%");
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String maHD = rs.getNString("maHD");
+				String maKH = rs.getNString("maKH");
+				KhachHang kh = khachHang_DAO.getKHMaKH(maKH);
+				String maNV = rs.getNString("maNV");
+				NhanVien nv = nhanVien_DAO.getNhanVien(maNV);
+				LocalDateTime ngayLap = rs.getTimestamp("ngayLap").toLocalDateTime();
+				String maKM = rs.getNString("maKM");
+				ChuongTrinhKhuyenMai ctkm = chuongTrinhKhuyenMai_DAO.getCTKM(maKM);
+				double tongTienHD = rs.getDouble("tongTienHD");
+				double tienKhachTra = rs.getDouble("tienKhachTra");
+				HoaDon hd = new HoaDon(maHD, ngayLap, nv, kh, ctkm, tongTienHD, tienKhachTra);
+				ds.add(hd);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ds;
+	}
 }

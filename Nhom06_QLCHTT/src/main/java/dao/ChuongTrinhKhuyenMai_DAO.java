@@ -22,7 +22,7 @@ public class ChuongTrinhKhuyenMai_DAO implements I_ChuongTrinhKhuyenMai{
 		List<ChuongTrinhKhuyenMai> dsCTKM = new ArrayList<ChuongTrinhKhuyenMai>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from ChuongTrinhKhuyenMai";
+		String sql = "select * from ChuongTrinhKhuyenMai where maKM != 'MACDINH'";
 		try {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
