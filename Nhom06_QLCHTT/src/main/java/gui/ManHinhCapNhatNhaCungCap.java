@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -349,6 +350,9 @@ public class ManHinhCapNhatNhaCungCap extends JPanel {
 				NhaCungCap ncc = new NhaCungCap(ma, hoten, sdt, diaChi);
 				if (nhaCC_dao.themNCC(ncc)) {
 					updateTable();
+					
+				String[] item = 	ManHinhCapNhatSanPham.capNhatCmbNCC();
+				ManHinhCapNhatSanPham.combo_NCC.setModel(new DefaultComboBoxModel<>(item));	
 					JOptionPane.showMessageDialog(null, "thanh cong");
 				}
 				else JOptionPane.showMessageDialog(null, "that bai!");

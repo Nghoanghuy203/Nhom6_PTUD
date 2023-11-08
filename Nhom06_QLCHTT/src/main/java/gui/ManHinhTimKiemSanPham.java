@@ -202,7 +202,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		datePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		datePicker.setBounds(75, 100, 150, 27);
 		datePicker.getJDateInstantPanel().setShowYearButtons(true);
-		datePicker.getJFormattedTextField().setText("01-01-2023");
+		datePicker.getJFormattedTextField().setText("Tất cả");
 		datePicker.setButtonFocusable(false);
 		//datePicker.getModel().setDate(2000, 1, 1);
 		pn_kqTimKiem.add(datePicker);
@@ -478,10 +478,8 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 			tenNCC = tenNCC.equalsIgnoreCase("Tất cả")?"":tenNCC;
 			String tonKho = txt_TonKho.getText();
 			String tinhTrang = cmb_TinhTrang.getSelectedItem().toString();
-			Date selectedDate = (Date) datePicker.getModel().getValue();
-			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-			String mydate = dateFormat.format(selectedDate);
-			
+			String ngay = datePicker.getJFormattedTextField().getText();
+			ngay = ngay.equals("Tất cả")?"":ngay;
 			String tenloaiSP = cmb_LoaiSanPham.getSelectedItem().toString();
 			tenloaiSP = tenloaiSP.equalsIgnoreCase("Tất cả")?"":tenloaiSP;
 			String tenMauSac = cmb_MauSac.getSelectedItem().toString();
@@ -501,7 +499,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 			filters.add(RowFilter.regexFilter(tenSP, 1));
 			filters.add(RowFilter.regexFilter(giaBan, 2));
 			filters.add(RowFilter.regexFilter(giaNhap, 3));
-			filters.add(RowFilter.regexFilter(mydate, 4));
+			filters.add(RowFilter.regexFilter(ngay, 4));
 			filters.add(RowFilter.regexFilter(tenloaiSP, 5));
 			filters.add(RowFilter.regexFilter(tenMauSac, 6));
 			filters.add(RowFilter.regexFilter(tenChatLieu, 7));
@@ -555,6 +553,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		cmb_MauSac.setSelectedIndex(0);
 		cmb_NCC.setSelectedIndex(0);
 		cmb_TinhTrang.setSelectedIndex(0);
+		datePicker.getJFormattedTextField().setText("Tất cả");
 		txt_maSP.requestFocus();
 	}
 

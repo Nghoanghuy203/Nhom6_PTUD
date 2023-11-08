@@ -811,6 +811,7 @@ public class ManHinhLapHoaDon extends JPanel {
 				// TODO Auto-generated method stub
 				lbl_kqTenKH.validate();
 				lbl_kqTenKH.repaint();
+				khachHang = khachHang_dao.getKHMaKH("KHACHLE");
 				ManHinhChinh.pn_body.removeAll();
 				ManHinhChinh.pn_body.add(ManHinhChinh.mh_dathang);
 				ManHinhChinh.pn_body.validate();
@@ -842,8 +843,8 @@ public class ManHinhLapHoaDon extends JPanel {
 								if (chiTietHoaDon_DAO.themChiTietHD(ct)) System.out.println("ok"); 
 							}
 							String t = lbl_kqtongthanhtoan.getText();
-							//ManHinhChinh.thread = new SendSMS(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
-							//ManHinhChinh.thread.start();
+							ManHinhChinh.thread = new SendSMS(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
+							ManHinhChinh.thread.start();
 							xoaTrangTable(tbl_gioHang);
 							txt_tienKhachTra.setText("");
 							lbl_thienthua.setText("");
@@ -886,8 +887,8 @@ public class ManHinhLapHoaDon extends JPanel {
 							}
 							
 							String t = lbl_kqtongthanhtoan.getText();
-							//ManHinhChinh.thread = new SendSMS(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
-							//ManHinhChinh.thread.start();
+							ManHinhChinh.thread = new SendSMS(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
+							ManHinhChinh.thread.start();
 							xoaTrangTable(tbl_gioHang);
 							txt_tienKhachTra.setText("");
 							lbl_thienthua.setText("");

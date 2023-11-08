@@ -76,7 +76,7 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 	private JDatePickerImpl datePicker1;
 
 	private HoaDon_DAO hoaDon_DAO;
-	private List<HoaDon> dsHD;
+	private static List<HoaDon> dsHD;
 	private JTextField txt_maHD;
 	private JTextField txt_tenNV;
 	private JTextField txt_tenKH;
@@ -121,24 +121,15 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		// btnSearch.setBorder(new RoundedCornerBorder());
 		btnSearch.setBackground(new Color(65, 105, 225));
 		btnSearch.setIcon(new ImageIcon(ManHinhTimKiemHoaDon.class.getResource("/images/search.png")));
-		btnSearch.setBounds(804, 109, 100, 30);
+		btnSearch.setBounds(970, 100, 100, 30);
 
 		JPanel pn_kqTimKiem = new JPanel();
 		pn_kqTimKiem.setLayout(null);
 		pn_kqTimKiem.setBackground(new Color(255, 250, 240));
-		pn_kqTimKiem.setBounds(10, 22, 1080, 141);
+		pn_kqTimKiem.setBounds(10, 20, 1080, 140);
 		pn_thaotac.add(pn_kqTimKiem);
 
 		pn_kqTimKiem.add(btnSearch);
-
-		JLabel lblKqTimKiem = new JLabel("Kết quả:");
-		lblKqTimKiem.setBounds(10, 117, 67, 30);
-		pn_kqTimKiem.add(lblKqTimKiem);
-
-		JLabel lbl_thongBaoKq = new JLabel();
-		lbl_thongBaoKq.setBounds(62, 126, 100, 14);
-		lbl_thongBaoKq.setForeground(Color.red);
-		pn_kqTimKiem.add(lbl_thongBaoKq);
 
 		JLabel lblmaHD = new JLabel("Mã Hóa Đơn:");
 		lblmaHD.setHorizontalAlignment(SwingConstants.LEFT);
@@ -146,10 +137,10 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		lblmaHD.setBounds(10, 15, 80, 20);
 		pn_kqTimKiem.add(lblmaHD);
 
-		JLabel lblnhanVien = new JLabel("Nhân viên:");
+		JLabel lblnhanVien = new JLabel("Tên nhân viên:");
 		lblnhanVien.setHorizontalAlignment(SwingConstants.LEFT);
 		lblnhanVien.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblnhanVien.setBounds(223, 15, 67, 20);
+		lblnhanVien.setBounds(510, 15, 90, 20);
 		pn_kqTimKiem.add(lblnhanVien);
 
 		JLabel lblngayLap = new JLabel("Ngày lập:");
@@ -159,27 +150,30 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		pn_kqTimKiem.add(lblngayLap);
 
 		JLabel lbltongTien = new JLabel("Tổng tiền:");
+		//lbltongTien.setVisible(false);
 		lbltongTien.setHorizontalAlignment(SwingConstants.LEFT);
 		lbltongTien.setFont(new Font("Arial", Font.PLAIN, 11));
-		lbltongTien.setBounds(244, 60, 67, 20);
-		pn_kqTimKiem.add(lbltongTien);
+		lbltongTien.setBounds(182, 109, 67, 20);
+		//pn_kqTimKiem.add(lbltongTien);
 
 		JLabel lbltienTra = new JLabel("Tiền trả:");
+		lbltienTra.setVisible(false);
 		lbltienTra.setHorizontalAlignment(SwingConstants.LEFT);
 		lbltienTra.setFont(new Font("Arial", Font.PLAIN, 11));
-		lbltienTra.setBounds(502, 60, 67, 20);
-		pn_kqTimKiem.add(lbltienTra);
+		lbltienTra.setBounds(397, 121, 67, 20);
+		//pn_kqTimKiem.add(lbltienTra);
 
 		JLabel lblkhuyenMai = new JLabel("Khuyến mãi:");
+		lblkhuyenMai.setVisible(false);
 		lblkhuyenMai.setHorizontalAlignment(SwingConstants.LEFT);
 		lblkhuyenMai.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblkhuyenMai.setBounds(647, 15, 67, 20);
-		pn_kqTimKiem.add(lblkhuyenMai);
+		lblkhuyenMai.setBounds(362, 93, 67, 20);
+		//pn_kqTimKiem.add(lblkhuyenMai);
 
-		JLabel lblkhachHang = new JLabel("Khách hàng:");
+		JLabel lblkhachHang = new JLabel("Tên khách hàng:");
 		lblkhachHang.setHorizontalAlignment(SwingConstants.LEFT);
 		lblkhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblkhachHang.setBounds(424, 15, 67, 20);
+		lblkhachHang.setBounds(230, 60, 90, 20);
 		pn_kqTimKiem.add(lblkhachHang);
 
 		String[] item_cv = { "Nhân viên", "Quản lí" };
@@ -188,24 +182,27 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 
 		String[] item_cv3 = { "Nhân viên", "Quản lí" };
 		cmb_chuongTrinhKM = new JComboBox(item_cv);
+		cmb_chuongTrinhKM.setVisible(false);
 		cmb_chuongTrinhKM.setBackground(new Color(245, 222, 179));
-		cmb_chuongTrinhKM.setBounds(719, 13, 90, 25);
-		pn_kqTimKiem.add(cmb_chuongTrinhKM);
+		cmb_chuongTrinhKM.setBounds(434, 91, 90, 25);
+		//pn_kqTimKiem.add(cmb_chuongTrinhKM);
 
 		txt_tienTra = new JTextField();
+		txt_tienTra.setVisible(false);
 		txt_tienTra.setBackground(new Color(255, 250, 240));
 		txt_tienTra.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_tienTra.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_tienTra.setBounds(546, 61, 160, 20);
+		txt_tienTra.setBounds(441, 122, 160, 20);
 		pn_kqTimKiem.add(txt_tienTra);
 		txt_tienTra.setColumns(10);
 
 		txt_tongTien = new JTextField();
+		txt_tongTien.setVisible(false);
 		txt_tongTien.setBackground(new Color(255, 250, 240));
 		txt_tongTien.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_tongTien.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_tongTien.setBounds(305, 61, 160, 20);
-		pn_kqTimKiem.add(txt_tongTien);
+		txt_tongTien.setBounds(243, 110, 160, 20);
+		//pn_kqTimKiem.add(txt_tongTien);
 		txt_tongTien.setColumns(10);
 
 		//
@@ -219,9 +216,9 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		datePicker1 = new JDatePickerImpl(datePanel1, new custom.DateLabelFormatter());
 		datePicker1.setBackground(new Color(255, 255, 255));
 		datePicker1.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		datePicker1.setBounds(62, 58, 150, 27);
+		datePicker1.setBounds(90, 57, 130, 27);
 		datePicker1.getJDateInstantPanel().setShowYearButtons(true);
-		datePicker1.getJFormattedTextField().setText("01-01-2023");
+		datePicker1.getJFormattedTextField().setText("Tất cả");
 		datePicker1.setButtonFocusable(false);
 		// datePicker.getModel().setDate(2000, 1, 1);
 		pn_kqTimKiem.add(datePicker1);
@@ -229,7 +226,7 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		JButton btnXoaTrang = new JButton("Xóa trắng");
 		btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 14));
 		btnXoaTrang.setBackground(new Color(255, 0, 0));
-		btnXoaTrang.setBounds(937, 109, 100, 30);
+		btnXoaTrang.setBounds(860, 100, 100, 30);
 		pn_kqTimKiem.add(btnXoaTrang);
 
 		txt_maHD = new JTextField();
@@ -237,7 +234,7 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		txt_maHD.setColumns(10);
 		txt_maHD.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_maHD.setBackground(new Color(255, 250, 240));
-		txt_maHD.setBounds(90, 15, 123, 20);
+		txt_maHD.setBounds(90, 15, 130, 20);
 		pn_kqTimKiem.add(txt_maHD);
 		
 		txt_tenNV = new JTextField();
@@ -245,7 +242,7 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		txt_tenNV.setColumns(10);
 		txt_tenNV.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_tenNV.setBackground(new Color(255, 250, 240));
-		txt_tenNV.setBounds(280, 15, 134, 20);
+		txt_tenNV.setBounds(600, 15, 180, 20);
 		pn_kqTimKiem.add(txt_tenNV);
 		
 		txt_tenKH = new JTextField();
@@ -253,13 +250,13 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		txt_tenKH.setColumns(10);
 		txt_tenKH.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_tenKH.setBackground(new Color(255, 250, 240));
-		txt_tenKH.setBounds(503, 15, 134, 20);
+		txt_tenKH.setBounds(320, 60, 180, 20);
 		pn_kqTimKiem.add(txt_tenKH);
 		
-		JLabel lblsdt = new JLabel("sdt");
+		JLabel lblsdt = new JLabel("SĐT khách hàng:");
 		lblsdt.setHorizontalAlignment(SwingConstants.LEFT);
 		lblsdt.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblsdt.setBounds(176, 110, 67, 20);
+		lblsdt.setBounds(230, 15, 90, 20);
 		pn_kqTimKiem.add(lblsdt);
 		
 		txt_sdtKH = new JTextField();
@@ -267,7 +264,7 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		txt_sdtKH.setColumns(10);
 		txt_sdtKH.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_sdtKH.setBackground(new Color(255, 250, 240));
-		txt_sdtKH.setBounds(252, 115, 134, 20);
+		txt_sdtKH.setBounds(320, 15, 180, 20);
 		pn_kqTimKiem.add(txt_sdtKH);
 		
 		
@@ -279,8 +276,12 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 				System.out.println(hd.getMaHD());
 			}
 		});
-		btnXemChiTiet.setBounds(689, 113, 89, 23);
+		btnXemChiTiet.setBounds(640, 100, 100, 30);
 		pn_kqTimKiem.add(btnXemChiTiet);
+		
+		JButton btn_inHoaDon = new JButton("In hóa đơn");
+		btn_inHoaDon.setBounds(750, 100, 100, 30);
+		pn_kqTimKiem.add(btn_inHoaDon);
 
 		JPanel pn_dsnv = new JPanel();
 		pn_dsnv.setBackground(new Color(255, 255, 255));
@@ -377,11 +378,13 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 				Date selectedDate = (Date) datePicker1.getModel().getValue();
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				String mydate = dateFormat.format(selectedDate);
-				dsHD = hoaDon_DAO.timKiemHD(maHD, sdtKH, tenKH, tenNV, mydate);
+				String ngay = datePicker1.getJFormattedTextField().getText();
+				ngay=ngay.equals("Tất cả")?"":ngay;
+				dsHD = hoaDon_DAO.timKiemHD(maHD, sdtKH, tenKH, tenNV, ngay);
 				if (dsHD.size()>0) {
 					updateTable(dsHD);
 				} else {
-					lbl_thongBaoKq.setText("Không tìm thấy");
+					JOptionPane.showMessageDialog(null, "Không tìm thấy!");
 					xoaTrang();
 				}
 
@@ -399,10 +402,10 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 
 	private void xoaTrang() {
 		txt_maHD.setText("");
-		txt_tongTien.setText("");
-		txt_tienTra.setText("");
-		datePicker1.getJFormattedTextField().setText("01-01-2000");
-
+		txt_sdtKH.setText("");
+		txt_tenKH.setText("");
+		txt_tenNV.setText("");
+		datePicker1.getJFormattedTextField().setText("Tất cả");
 	}
 
 	private static void xoaTable() {
@@ -414,8 +417,8 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		xoaTable();
 		for (HoaDon hoaDon : ds) {
 			Object data[] = { hoaDon.getMaHD(), dtf.format(hoaDon.getNgayLap()), hoaDon.getNhanVien().getTenNV(),
-					hoaDon.getKhachHang() == null ? "Khách lẻ" : hoaDon.getKhachHang().getTenKH(),
-					hoaDon.getCtKhuyenMai() == null ? "0" : hoaDon.getCtKhuyenMai().getPhanTramKhuyenMai(),
+					hoaDon.getKhachHang()==null?"Khách lẻ":hoaDon.getKhachHang().getTenKH(),
+					hoaDon.getCtKhuyenMai()==null?0:hoaDon.getCtKhuyenMai().getPhanTramKhuyenMai(),
 					df.format(hoaDon.getTongTienHD()) + " VND", df.format(hoaDon.getTienKhachTra()) + " VND" };
 			model_ds.addRow(data);
 		}
@@ -423,8 +426,8 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 
 	public static void resetData() {
 		HoaDon_DAO hoaDon_DAO = new HoaDon_DAO();
-		List<HoaDon> ds = hoaDon_DAO.getDsHoaDon();
-		ManHinhTimKiemHoaDon.updateTable(ds);
+		dsHD = hoaDon_DAO.getDsHoaDon();
+		ManHinhTimKiemHoaDon.updateTable(dsHD);
 	}
 }
 //}

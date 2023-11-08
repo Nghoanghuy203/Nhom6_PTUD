@@ -67,6 +67,7 @@ import dao.MauSac_DAO;
 import dao.NhaCungCap_DAO;
 import dao.SanPham_DAO;
 import entities.ChatLieu;
+import entities.HoaDon;
 import entities.KichCo;
 import entities.LoaiSanPham;
 import entities.MauSac;
@@ -103,14 +104,14 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 	private JComboBox combo_LoaiSanPham;
 	private JComboBox combo_KichCo;
 	private JComboBox combo_ChatLieu;
-	private JComboBox combo_NCC;
+	public static JComboBox combo_NCC;
 	private JComboBox combo_TinhTrang;
 	private UtilDateModel model_date;
 	private JDatePanelImpl datePanel;
 	private JDatePickerImpl datePicker;
 	private JTextField txt_GiaBan;
 	private JTextField txt_TonKho;
-	private NhaCungCap_DAO nhaCungCap_DAO = new NhaCungCap_DAO();
+	private static NhaCungCap_DAO nhaCungCap_DAO = new NhaCungCap_DAO();
 	private SanPham_DAO sanPham_DAO = new SanPham_DAO();
 	private LoaiSanPham_DAO loaiSanPham_DAO = new LoaiSanPham_DAO();
 	private MauSac_DAO mauSac_DAO = new MauSac_DAO();
@@ -228,7 +229,7 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		JPanel pn_kqTimKiem = new JPanel();
 		pn_kqTimKiem.setLayout(null);
 		pn_kqTimKiem.setBackground(new Color(255, 250, 240));
-		pn_kqTimKiem.setBounds(10, 61, 1080, 229);
+		pn_kqTimKiem.setBounds(10, 60, 1080, 230);
 		pn_thaotac.add(pn_kqTimKiem);
 
 		JLabel lblMaSP = new JLabel("Mã sản phẩm:");
@@ -239,25 +240,25 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 
 		txt_maSP = new JLabel("");
 		txt_maSP.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(128, 128, 128)));
-		txt_maSP.setBounds(90, 15, 100, 20);
+		txt_maSP.setBounds(90, 15, 160, 20);
 		pn_kqTimKiem.add(txt_maSP);
 
 		JLabel lblTenSP = new JLabel("Tên sản phẩm:");
 		lblTenSP.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTenSP.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblTenSP.setBounds(200, 15, 80, 20);
+		lblTenSP.setBounds(260, 15, 80, 20);
 		pn_kqTimKiem.add(lblTenSP);
 
 		JLabel lblMauSac = new JLabel("Màu sắc:");
 		lblMauSac.setHorizontalAlignment(SwingConstants.LEFT);
 		lblMauSac.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblMauSac.setBounds(448, 100, 50, 20);
+		lblMauSac.setBounds(430, 85, 60, 20);
 		pn_kqTimKiem.add(lblMauSac);
 
 		JLabel lblNgayNhap = new JLabel("Ngày nhập:");
 		lblNgayNhap.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNgayNhap.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblNgayNhap.setBounds(10, 100, 60, 20);
+		lblNgayNhap.setBounds(10, 120, 80, 20);
 		pn_kqTimKiem.add(lblNgayNhap);
 
 		btnSuaSP = new JButton("Sửa");
@@ -270,7 +271,7 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		txt_TenSP.setBackground(new Color(255, 250, 240));
 		txt_TenSP.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_TenSP.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_TenSP.setBounds(280, 15, 160, 20);
+		txt_TenSP.setBounds(340, 15, 280, 20);
 		pn_kqTimKiem.add(txt_TenSP);
 		txt_TenSP.setColumns(10);
 
@@ -291,7 +292,7 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		datePicker = new JDatePickerImpl(datePanel, new custom.DateLabelFormatter());
 		datePicker.setBackground(new Color(255, 255, 255));
 		datePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		datePicker.setBounds(75, 100, 150, 27);
+		datePicker.setBounds(90, 117, 160, 27);
 		datePicker.getJDateInstantPanel().setShowYearButtons(true);
 		datePicker.getJFormattedTextField().setText("2023-01-01");
 		datePicker.setButtonFocusable(false);
@@ -302,38 +303,38 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		combo_MauSac = new JComboBox();
 		combo_MauSac.setModel(new DefaultComboBoxModel(mauSac));
 		combo_MauSac.setBackground(new Color(245, 222, 179));
-		combo_MauSac.setBounds(498, 100, 90, 25);
+		combo_MauSac.setBounds(490, 84, 130, 22);
 		pn_kqTimKiem.add(combo_MauSac);
 
 		JLabel lblNCC = new JLabel("Nhà cung cấp:");
 		lblNCC.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNCC.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblNCC.setBounds(10, 56, 80, 20);
+		lblNCC.setBounds(10, 50, 80, 20);
 		pn_kqTimKiem.add(lblNCC);
 
 		JLabel lblLoaiSanPham = new JLabel("Loại sản phẩm:");
 		lblLoaiSanPham.setHorizontalAlignment(SwingConstants.LEFT);
 		lblLoaiSanPham.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblLoaiSanPham.setBounds(258, 100, 80, 20);
+		lblLoaiSanPham.setBounds(630, 85, 80, 20);
 		pn_kqTimKiem.add(lblLoaiSanPham);
 
 		String[] loai = capNhatCmbLoai();
 		combo_LoaiSanPham = new JComboBox();
 		combo_LoaiSanPham.setModel(new DefaultComboBoxModel(loai));
 		combo_LoaiSanPham.setBackground(new Color(245, 222, 179));
-		combo_LoaiSanPham.setBounds(338, 100, 100, 25);
+		combo_LoaiSanPham.setBounds(720, 84, 100, 22);
 		pn_kqTimKiem.add(combo_LoaiSanPham);
 
 		JLabel lblTonKho = new JLabel("Tồn kho:");
 		lblTonKho.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTonKho.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblTonKho.setBounds(447, 57, 44, 20);
+		lblTonKho.setBounds(260, 50, 80, 20);
 		pn_kqTimKiem.add(lblTonKho);
 
 		JLabel lblGiaNhap = new JLabel("Giá nhập:");
 		lblGiaNhap.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGiaNhap.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblGiaNhap.setBounds(448, 15, 60, 20);
+		lblGiaNhap.setBounds(430, 50, 60, 20);
 		pn_kqTimKiem.add(lblGiaNhap);
 
 		txt_GiaNhap = new JTextField();
@@ -341,7 +342,7 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		txt_GiaNhap.setColumns(10);
 		txt_GiaNhap.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_GiaNhap.setBackground(new Color(255, 250, 240));
-		txt_GiaNhap.setBounds(498, 16, 120, 20);
+		txt_GiaNhap.setBounds(490, 50, 130, 20);
 		pn_kqTimKiem.add(txt_GiaNhap);
 
 		btnXoaTrangSP = new JButton("Xóa trắng");
@@ -359,7 +360,7 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		JLabel lblGiaBan = new JLabel("Giá bán:");
 		lblGiaBan.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGiaBan.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblGiaBan.setBounds(651, 15, 60, 20);
+		lblGiaBan.setBounds(630, 15, 60, 20);
 		pn_kqTimKiem.add(lblGiaBan);
 
 		txt_GiaBan = new JTextField();
@@ -367,33 +368,33 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		txt_GiaBan.setColumns(10);
 		txt_GiaBan.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_GiaBan.setBackground(new Color(255, 250, 240));
-		txt_GiaBan.setBounds(712, 15, 129, 20);
+		txt_GiaBan.setBounds(690, 15, 130, 20);
 		pn_kqTimKiem.add(txt_GiaBan);
 
 		String[] chatlieu = capNhatCmbChatLieu();
 		combo_ChatLieu = new JComboBox();
 		combo_ChatLieu.setModel(new DefaultComboBoxModel(chatlieu));
 		combo_ChatLieu.setBackground(new Color(245, 222, 179));
-		combo_ChatLieu.setBounds(673, 100, 151, 25);
+		combo_ChatLieu.setBounds(91, 84, 159, 22);
 		pn_kqTimKiem.add(combo_ChatLieu);
 
 		JLabel lblChatLieu = new JLabel("Chất liệu:");
 		lblChatLieu.setHorizontalAlignment(SwingConstants.LEFT);
 		lblChatLieu.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblChatLieu.setBounds(613, 100, 50, 20);
+		lblChatLieu.setBounds(10, 85, 80, 20);
 		pn_kqTimKiem.add(lblChatLieu);
 
 		String[] kc = capNhatCmbKichCo();
 		combo_KichCo = new JComboBox();
 		combo_KichCo.setModel(new DefaultComboBoxModel(kc));
 		combo_KichCo.setBackground(new Color(245, 222, 179));
-		combo_KichCo.setBounds(749, 138, 60, 25);
+		combo_KichCo.setBounds(340, 84, 80, 22);
 		pn_kqTimKiem.add(combo_KichCo);
 
 		JLabel lblKichCo = new JLabel("Kích cỡ:");
 		lblKichCo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblKichCo.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblKichCo.setBounds(699, 138, 50, 20);
+		lblKichCo.setBounds(260, 85, 80, 20);
 		pn_kqTimKiem.add(lblKichCo);
 
 		txt_TonKho = new JTextField();
@@ -401,23 +402,24 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		txt_TonKho.setColumns(10);
 		txt_TonKho.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_TonKho.setBackground(new Color(255, 250, 240));
-		txt_TonKho.setBounds(498, 56, 120, 20);
+		txt_TonKho.setBounds(340, 51, 80, 20);
 		pn_kqTimKiem.add(txt_TonKho);
 
 		JLabel lblTinhTrang = new JLabel("Tình trạng:");
 		lblTinhTrang.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTinhTrang.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblTinhTrang.setBounds(651, 56, 60, 20);
+		lblTinhTrang.setBounds(630, 50, 60, 20);
 		pn_kqTimKiem.add(lblTinhTrang);
 
 		String[] ncc = capNhatCmbNCC();
 		combo_NCC = new JComboBox();
+		combo_NCC.setBackground(new Color(255, 255, 255));
 		combo_NCC.setModel(new DefaultComboBoxModel(ncc));
-		combo_NCC.setBounds(90, 55, 237, 22);
+		combo_NCC.setBounds(90, 49, 160, 22);
 		pn_kqTimKiem.add(combo_NCC);
 
 		btnThemAnh = new JButton("Thêm ảnh");
-		btnThemAnh.setBounds(903, 183, 100, 20);
+		btnThemAnh.setBounds(930, 190, 100, 20);
 		pn_kqTimKiem.add(btnThemAnh);
 
 		// hình
@@ -427,15 +429,16 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 
 		image = new ImageIcon(newimg);
 		lblHinh = new JLabel(image);
-		lblHinh.setBounds(873, 20, 160, 160);
+		lblHinh.setBounds(900, 20, 160, 160);
 		pn_kqTimKiem.add(lblHinh);
 		lblHinh.setHorizontalAlignment(JLabel.CENTER);
 		lblHinh.setOpaque(true);
 
 		combo_TinhTrang = new JComboBox();
+		combo_TinhTrang.setBackground(new Color(255, 255, 255));
 		combo_TinhTrang
 				.setModel(new DefaultComboBoxModel(new String[] { "Đang kinh doanh", "Hết hàng", "Ngừng kinh doanh" }));
-		combo_TinhTrang.setBounds(712, 55, 129, 22);
+		combo_TinhTrang.setBounds(690, 49, 130, 22);
 		pn_kqTimKiem.add(combo_TinhTrang);
 
 		JPanel pn_dsnv = new JPanel();
@@ -702,6 +705,7 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 
 			}
 		} else if (o.equals(btnSearchSP)) {
+			/*
 			String ten = txtSearchSP.getText();
 			DefaultTableModel model = (DefaultTableModel) tbl_Ds.getModel();
 			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
@@ -710,6 +714,15 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 			filters.add(RowFilter.regexFilter(ten, 0));
 			RowFilter<Object, Object> af = RowFilter.andFilter(filters);
 			sorter.setRowFilter(af);
+			*/
+			String ma = txtSearchSP.getText();
+			SanPham sp = sanPham_DAO.getSanPham(ma);
+			if (sp!=null) {
+				txt_maSP.setText(sp.getMaSP());
+				txt_TenSP.setText(sp.getTenSP());
+				
+			}
+			
 		} else if (o.equals(btnXoaTrangSP)) {
 			xoaRong();
 		} else if (o.equals(btnThemAnh)) {
@@ -737,7 +750,7 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		hinhAnh = getImageFromLbl(lblHinh);
 	}
 
-	private String[] capNhatCmbNCC() {
+	public static String[] capNhatCmbNCC() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
 		for (NhaCungCap ncc : nhaCungCap_DAO.getDsNCC()) {

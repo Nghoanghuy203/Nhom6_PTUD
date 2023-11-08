@@ -67,7 +67,23 @@ public class NhaCungCap_DAO implements I_NhaCungCap{
 	@Override
 	public boolean themNCC(NhaCungCap ncc) {
 		// TODO Auto-generated method stub
-		return false;
+		int n = 0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "INSERT INTO NhaCungCap(maNCC,tenNCC,sdtNCC,diaChiNCC) VALUES (?, ?, ?, ?)";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, ncc.getMaNCC());
+			statement.setNString(2, ncc.getTenNCC());
+			statement.setNString(3,ncc.getSdtNCC());
+			statement.setNString(4,ncc.getDiaChiNCC());
+			n = statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
 	}
 
 	@Override
