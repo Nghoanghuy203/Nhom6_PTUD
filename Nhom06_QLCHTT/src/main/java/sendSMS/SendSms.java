@@ -27,18 +27,6 @@ public class SendSMS extends Thread{
 
         System.out.println(message.getSid());
     }
-    /*
-    public static void main(String[] args) {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        Message message = Message.creator(
-                new com.twilio.type.PhoneNumber("+84362026128"),
-                new com.twilio.type.PhoneNumber("+16206589794"),
-                "Este es un mensaje de Prueba desde JAVA2....")
-            .create();
-
-        System.out.println(message.getSid());
-    }
-    */
 
 	@Override
 	public void run() {

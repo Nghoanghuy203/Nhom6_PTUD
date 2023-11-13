@@ -544,7 +544,7 @@ public class ManHinhLapHoaDon extends JPanel {
 					thayDoiGiaTriTxtTienThua();
 				}
 				
-				xoaTrangKqTimKiem();
+				spn_soluong.setValue(1);
 			}
 		});
 		spn_soluong.getModel().setValue(1);
@@ -750,14 +750,9 @@ public class ManHinhLapHoaDon extends JPanel {
 				// TODO Auto-generated method stub
 				if (validDataDatHang()) {
 					LocalDateTime ngayLap = LocalDateTime.now();
-					//String maCtkm = (String) cmb_khuyenmai.getSelectedItem();
-					//ChuongTrinhKhuyenMai ctkm = ctkm_dao.getCTKM(maCtkm);
 					double tongTienHD = dinhDangTien(lbl_kqtongthanhtoan.getText());
-					//double tienKhachTra =  Double.parseDouble(txt_tienKhachTra.getText());
 					String maDDH = donDatHang_DAO.taoMaDonDatHang();
 					DonDatHang ddh = new DonDatHang(maDDH, khachHang, ngayLap, nhanVien, tongTienHD, 0, "Chưa thanh toán");
-					//HoaDon hd = new HoaDon(maHD, ngayLap, nhanVien, khachHang, ctkm, tongTienHD, tienKhachTra);
-					
 					if (donDatHang_DAO.themDDH(ddh)) {
 						for (int row = 0; row < tbl_gioHang.getRowCount(); row++) {
 							String maSP = (String) model_giohang.getValueAt(row, 1);
@@ -819,10 +814,13 @@ public class ManHinhLapHoaDon extends JPanel {
 			}
 		});
 		
+		//thêm sự kiện click chuột cho button thanh toán
 		btn_thanhtoan.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
+				//nếu là màn hình lập hóa đơn từ màn hình đặt hàng chuyển qua
+				//sau khi thanh toán thành công thì tắt đi và chuyển về màn hình đặt hàng
 				if (isDH && !maDDH.equals("")) {
 					if (validDataThanhToan()) {
 						LocalDateTime ngayLap = LocalDateTime.now();
@@ -890,9 +888,10 @@ public class ManHinhLapHoaDon extends JPanel {
 							ManHinhChinh.thread = new SendSMS(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
 							ManHinhChinh.thread.start();
 							xoaTrangTable(tbl_gioHang);
+							lbl_kqTongtien.setText("0 VND");
 							txt_tienKhachTra.setText("");
 							lbl_thienthua.setText("");
-							lbl_kqtongthanhtoan.setText("");
+							lbl_kqtongthanhtoan.setText("0 VND");
 							cmb_khuyenmai.setSelectedIndex(0);
 							List<SanPham> dsSP = sanPham_dao.getDsSanPham();
 							updateDataTableDsSP(dsSP);
@@ -910,21 +909,13 @@ public class ManHinhLapHoaDon extends JPanel {
 			}
 		});
 		
-		//String[] strGioiTinh = {"Nam","Nữ"};
 		
-		
+		//thêm sự kiện click chuột cho button thêm khách hàng mới
 		btn_themKH.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				//thayDoiViTriComponents(100);				
-				//lbl_tenKH.setVisible(false);
-				//lbl_kqTenKH.setVisible(false);
-				//pnl_hd.setVisible(false);
-				//pnl_formNhapThongTinKH.setVisible(true);
 				ManHinhChinh.form.setVisible(true);
-				
-				//f.setVisible(true);
 			}
 		});
 		//
@@ -970,7 +961,6 @@ public class ManHinhLapHoaDon extends JPanel {
 		tbl_gioHang.getColumnModel().getColumn(5).setMinWidth(90);
 		tbl_gioHang.getColumnModel().getColumn(6).setMinWidth(110);
 		
-		//DefaultTableCellRenderer head_render = new DefaultTableCellRenderer(); 
 	    head_render.setBackground(new Color(135, 205, 230));
 	    tbl_gioHang.getTableHeader().setDefaultRenderer(head_render);
 		
@@ -996,6 +986,11 @@ public class ManHinhLapHoaDon extends JPanel {
         
         
         TableActionEvent event = new TableActionEvent() {
+        	/**
+        	 * khi click vào dấu cộng thì tăng số lượng sản phẩm tại row được chọn
+        	 * cập nhật lại các kết quả tính toán tiền
+        	 * @param row
+        	 */
             @Override
             public void onAdd(int row) {
                 System.out.println("Edit row : " + row);
@@ -1011,10 +1006,12 @@ public class ManHinhLapHoaDon extends JPanel {
                     thayDoiGiaTriTxtTienThua();
                     rowselect=row;
                 }
-                
-				
             }
-
+            /**
+        	 * khi click vào dấu X thì xóa sản phẩm tại row được chọn
+        	 * cập nhật lại các kết quả tính toán tiền
+        	 * @param row
+        	 */
             @Override
             public void onDelete(int row) {
                 if (tbl_gioHang.isEditing()) {
@@ -1026,12 +1023,15 @@ public class ManHinhLapHoaDon extends JPanel {
                 lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
                 thayDoiGiaTriTxtTienThua();
             }
-
+            /**
+        	 * khi click vào dấu trừ thì giảm số lượng sản phẩm tại row được chọn
+        	 * cập nhật lại các kết quả tính toán tiền
+        	 * @param row
+        	 */
             @Override
             public void onMinus(int row) {
                 System.out.println("View row : " + row);
                 int soluong = (int) model_giohang.getValueAt(row, 3);
-                //SanPham s = sanPham_dao.getSanPham((String)model_giohang.getValueAt(row, 1));
                 if (soluong>1) {
                 	soluong-=1;
                 	model_giohang.setValueAt(soluong, row, 3);
@@ -1092,9 +1092,15 @@ public class ManHinhLapHoaDon extends JPanel {
             }
         });
         
+        //nếu từ màn hình đặt hàng chuyển sang thì cập nhật danh sách sản phẩm trong giỏ hàng và tên khách hàng
+        //ẩn phần tìm kiếm và thêm khách hàng mới
+        //ẩn nút đặt hàng
+        //hiện nút trở lại để quay về màn hình đặt hàng
         if (isDH && !maDDH.equals("")) {
         	btn_dathang.setVisible(false);
         	btn_troLai.setVisible(true);
+        	pn_KH.setVisible(false);
+        	pnl_hd.setBounds(10, 25, 310, 240);
         	DonDatHang ddh = donDatHang_DAO.getDDH(maDDH);
         	khachHang = khachHang_dao.getKHMaKH(ddh.getKhachHang().getMaKH());
         	lbl_kqTenKH.setVisible(false);
@@ -1113,6 +1119,10 @@ public class ManHinhLapHoaDon extends JPanel {
         
 	}
 	
+	/**
+	 * tính tổng tiền hóa đơn dựa trên danh sách sản phẩm trong giỏ hàng
+	 * @return tổng tiền hóa đơn
+	 */
 	private double tinhTongTienHD() {
 		double sum=0;
 		for (int i = 0; i < tbl_gioHang.getRowCount(); i++) {
@@ -1121,12 +1131,21 @@ public class ManHinhLapHoaDon extends JPanel {
 		return sum;
 	}
 	
+	/**
+	 * chuyển chuỗi 100,000VND thành số thực 100000.0
+	 * @param s
+	 * @return số thực
+	 */
 	public double dinhDangTien(String s) {
 		s=s.replace(" VND", "");
 		s=s.replace(",", "");
 		return Double.parseDouble(s);
 	}
 	
+	/**
+	 * lấy dữ liệu từ csdl để cập nhật combo box chương trình khuyến mãi
+	 * @return mảng chuỗi tên chương trình khuyến mãi
+	 */
 	private String[] capNhatCmbMaCTKM() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
@@ -1138,6 +1157,10 @@ public class ManHinhLapHoaDon extends JPanel {
 		return s;
 	}
 	
+	/**
+	 * lấy dữ liệu từ csdl để cập nhật combo box loại
+	 * @return mảng chuỗi tên loại
+	 */
 	private String[] capNhatCmbLoai() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
@@ -1149,6 +1172,10 @@ public class ManHinhLapHoaDon extends JPanel {
 		return s;
 	}
 	
+	/**
+	 * lấy dữ liệu từ csdl để cập nhật combo box màu sắc
+	 * @return mảng chuỗi tên màu sắc
+	 */
 	private String[] capNhatCmbMauSac() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
@@ -1160,6 +1187,10 @@ public class ManHinhLapHoaDon extends JPanel {
 		return s;
 	}
 	
+	/**
+	 * lấy dữ liệu từ csdl để cập nhật combo box kích cỡ
+	 * @return mảng chuỗi tên kích cỡ
+	 */
 	private String[] capNhatCmbKichCo() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
@@ -1171,7 +1202,10 @@ public class ManHinhLapHoaDon extends JPanel {
 		return s;
 	}
 	
-	
+	/**
+	 * lấy dữ liệu từ csdl để cập nhật combo box chất liệu
+	 * @return mảng chuỗi tên chất liệu
+	 */
 	private String[] capNhatCmbChatLieu() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
@@ -1183,10 +1217,19 @@ public class ManHinhLapHoaDon extends JPanel {
 		return s;
 	}
 	
+	/**
+	 * tính tổng tiền thanh toán
+	 * @return tổng tiền hóa đơn - tổng tiền hóa đơn * phần trăm khuyến mãi
+	 */
 	private double tinhTongThanhToan() {
 		if (ctkm==null) return tinhTongTienHD();
 		return tinhTongTienHD()*((100-ctkm.getPhanTramKhuyenMai())/100);
 	}
+	
+	/**
+	 * tính tiền thừa khi nhập tiền khách trả
+	 * @return tiền khách trả - tổng tiền thanh toán
+	 */
 	private double tinhTienThua() {
 		if (txt_tienKhachTra.getText().isEmpty()) return 0;
 		String tv = GeneratorID.tiengVietFull();
@@ -1194,24 +1237,32 @@ public class ManHinhLapHoaDon extends JPanel {
 		if (m.equals("")) return 0;
 		return Double.parseDouble(m)-tinhTongThanhToan();
 	}
+	
+	/**
+	 * thay đổi gía trị của txt tiền thừa khi nhập tiền khách trả
+	 */
 	private void thayDoiGiaTriTxtTienThua() {
 		double tienThua = tinhTienThua();
 		if (tienThua<0) lbl_kqtienthua.setForeground(Color.red);
 		else lbl_kqtienthua.setForeground(Color.black);
 		lbl_kqtienthua.setText(df.format(tienThua));
 	}
-	private void xoaTrangKqTimKiem() {
-		
-		spn_soluong.setValue(1);
-	}
+
 	
-	
+	/**
+	 * xóa hết dữ liệu trên bảng
+	 * @param t
+	 */
 	private void xoaTrangTable(JTable t) {
 		DefaultTableModel dm = (DefaultTableModel) t.getModel();
 		dm.getDataVector().removeAllElements();
 		t.revalidate();
 	}
 	
+	/**
+	 * cập nhật dữ liệu cho bảng danh sách sản phẩm
+	 * @param ds
+	 */
 	private void updateDataTableDsSP(List<SanPham> ds) {
 		xoaTrangTable(tbl_dssp);
 		for (SanPham sp : ds) {
@@ -1220,6 +1271,11 @@ public class ManHinhLapHoaDon extends JPanel {
 			model_dssp.addRow(data);
 		}
 	}
+	
+	/**
+	 * kiểm tra dữ liệu khi thanh toán
+	 * @return
+	 */
 	private boolean validDataThanhToan() {
 		if (model_giohang.getRowCount()==0) {
 			JOptionPane.showMessageDialog(null, "Giỏ hàng trống!");
@@ -1246,6 +1302,10 @@ public class ManHinhLapHoaDon extends JPanel {
 		return true;
 	}
 	
+	/**
+	 * kiểm tra dữ liệu khi đặt hàng
+	 * @return
+	 */
 	private boolean validDataDatHang() {
 		if (model_giohang.getRowCount()==0) {
 			JOptionPane.showMessageDialog(null, "Giỏ hàng trống!");

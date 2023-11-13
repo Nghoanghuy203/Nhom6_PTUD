@@ -352,7 +352,7 @@ public class ManHinhCapNhatNhaCungCap extends JPanel {
 					updateTable();
 					
 				String[] item = 	ManHinhCapNhatSanPham.capNhatCmbNCC();
-				ManHinhCapNhatSanPham.combo_NCC.setModel(new DefaultComboBoxModel<>(item));	
+				ManHinhCapNhatSanPham.cmb_NCC.setModel(new DefaultComboBoxModel<>(item));	
 					JOptionPane.showMessageDialog(null, "thanh cong");
 				}
 				else JOptionPane.showMessageDialog(null, "that bai!");

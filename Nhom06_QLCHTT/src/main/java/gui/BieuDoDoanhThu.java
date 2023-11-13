@@ -33,6 +33,7 @@ public class BieuDoDoanhThu extends JPanel{
     private ArrayList<Double> listH10;
     private ArrayList<Double> listH11;
     private ArrayList<Double> listH12;
+    private ArrayList<Double> listH13;
     private ArrayList<Double> listH14;
     private ArrayList<Double> listH15;
     private ArrayList<Double> listH16;
@@ -90,6 +91,7 @@ public class BieuDoDoanhThu extends JPanel{
         listH10 = new ArrayList<>();
         listH11 = new ArrayList<>();
         listH12 = new ArrayList<>();
+        listH13 = new ArrayList<>();
         listH14 = new ArrayList<>();
         listH15 = new ArrayList<>();
         listH16 = new ArrayList<>();
@@ -107,7 +109,7 @@ public class BieuDoDoanhThu extends JPanel{
     	String d = ngay<10?"0"+ngay:ngay+"";
     	String t = thang<10?"0"+thang:thang+"";
     	chart.addLegend(d+"/"+t+"/"+nam, Color.decode("#8e008e"), Color.decode("#ff0000"));
-    	double h9=0,h10=0,h11=0,h12=0,h14=0,h15=0,h16=0,h17=0,h18=0,h19=0,h20=0,h21=0;
+    	double h9=0,h10=0,h11=0,h12=0,h13=0,h14=0,h15=0,h16=0,h17=0,h18=0,h19=0,h20=0,h21=0;
     	double total = 0;
         List<HoaDon> dsHD = hoaDon_DAO.getDsHoaDon();
         for (HoaDon hoaDon : dsHD) {
@@ -124,6 +126,9 @@ public class BieuDoDoanhThu extends JPanel{
 				}
 				else if (hoaDon.getNgayLap().getHour()==12) {
 					h12+=hoaDon.getTongTienHD();
+				}
+				else if (hoaDon.getNgayLap().getHour()==13) {
+					h13+=hoaDon.getTongTienHD();
 				}
 				else if (hoaDon.getNgayLap().getHour()==14) {
 					h14+=hoaDon.getTongTienHD();
@@ -155,6 +160,7 @@ public class BieuDoDoanhThu extends JPanel{
         listH10.add(h10);
         listH11.add(h11);
         listH12.add(h12);
+        listH13.add(h13);
         listH14.add(h14);
         listH15.add(h15);
         listH16.add(h16);
@@ -174,6 +180,7 @@ public class BieuDoDoanhThu extends JPanel{
         chart.addData(new ModelChart("10:00", listH10));
         chart.addData(new ModelChart("11:00", listH11));
         chart.addData(new ModelChart("12:00", listH12));
+        chart.addData(new ModelChart("13:00", listH13));
         chart.addData(new ModelChart("14:00", listH14));
         chart.addData(new ModelChart("15:00", listH15));
         chart.addData(new ModelChart("16:00", listH16));

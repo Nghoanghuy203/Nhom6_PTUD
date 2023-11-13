@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -134,19 +135,19 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		JLabel lblmaHD = new JLabel("Mã Hóa Đơn:");
 		lblmaHD.setHorizontalAlignment(SwingConstants.LEFT);
 		lblmaHD.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblmaHD.setBounds(10, 15, 80, 20);
+		lblmaHD.setBounds(10, 18, 80, 20);
 		pn_kqTimKiem.add(lblmaHD);
 
 		JLabel lblnhanVien = new JLabel("Tên nhân viên:");
 		lblnhanVien.setHorizontalAlignment(SwingConstants.LEFT);
 		lblnhanVien.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblnhanVien.setBounds(510, 15, 90, 20);
+		lblnhanVien.setBounds(510, 18, 90, 20);
 		pn_kqTimKiem.add(lblnhanVien);
 
 		JLabel lblngayLap = new JLabel("Ngày lập:");
 		lblngayLap.setHorizontalAlignment(SwingConstants.LEFT);
 		lblngayLap.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblngayLap.setBounds(10, 60, 67, 20);
+		lblngayLap.setBounds(10, 64, 67, 20);
 		pn_kqTimKiem.add(lblngayLap);
 
 		JLabel lbltongTien = new JLabel("Tổng tiền:");
@@ -173,7 +174,7 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		JLabel lblkhachHang = new JLabel("Tên khách hàng:");
 		lblkhachHang.setHorizontalAlignment(SwingConstants.LEFT);
 		lblkhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblkhachHang.setBounds(230, 60, 90, 20);
+		lblkhachHang.setBounds(230, 64, 90, 20);
 		pn_kqTimKiem.add(lblkhachHang);
 
 		String[] item_cv = { "Nhân viên", "Quản lí" };
@@ -187,15 +188,16 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		cmb_chuongTrinhKM.setBounds(434, 91, 90, 25);
 		//pn_kqTimKiem.add(cmb_chuongTrinhKM);
 
+		
 		txt_tienTra = new JTextField();
-		txt_tienTra.setVisible(false);
-		txt_tienTra.setBackground(new Color(255, 250, 240));
-		txt_tienTra.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_tienTra.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_tienTra.setBounds(441, 122, 160, 20);
-		pn_kqTimKiem.add(txt_tienTra);
+		txt_tienTra.setText("Nhập mã...");
+		txt_tienTra.setForeground(Color.GRAY);
+		txt_tienTra.setEditable(false);
 		txt_tienTra.setColumns(10);
-
+		txt_tienTra.setBorder(null);
+		txt_tienTra.setBackground(Color.WHITE);
+		txt_tienTra.setBounds(441, 122, 160, 20);		
+		
 		txt_tongTien = new JTextField();
 		txt_tongTien.setVisible(false);
 		txt_tongTien.setBackground(new Color(255, 250, 240));
@@ -216,7 +218,7 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		datePicker1 = new JDatePickerImpl(datePanel1, new custom.DateLabelFormatter());
 		datePicker1.setBackground(new Color(255, 255, 255));
 		datePicker1.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		datePicker1.setBounds(90, 57, 130, 27);
+		datePicker1.setBounds(87, 63, 130, 27);
 		datePicker1.getJDateInstantPanel().setShowYearButtons(true);
 		datePicker1.getJFormattedTextField().setText("Tất cả");
 		datePicker1.setButtonFocusable(false);
@@ -229,43 +231,214 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 		btnXoaTrang.setBounds(860, 100, 100, 30);
 		pn_kqTimKiem.add(btnXoaTrang);
 
+
+		
+		JPanel pnl_nhapMa = new JPanel();
+		pnl_nhapMa.setLayout(null);
+		pnl_nhapMa.setBorder(new RoundedCornerBorder());
+		pnl_nhapMa.setBackground(Color.WHITE);
+		pnl_nhapMa.setBounds(80, 15, 140, 30);
+		pn_kqTimKiem.add(pnl_nhapMa);
 		txt_maHD = new JTextField();
-		txt_maHD.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_maHD.setText("Nhập mã...");
+		txt_maHD.setForeground(Color.GRAY);
+		txt_maHD.setEditable(false);
 		txt_maHD.setColumns(10);
-		txt_maHD.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_maHD.setBackground(new Color(255, 250, 240));
-		txt_maHD.setBounds(90, 15, 130, 20);
-		pn_kqTimKiem.add(txt_maHD);
-		
+		txt_maHD.setBorder(null);
+		txt_maHD.setBackground(Color.WHITE);
+		txt_maHD.setBounds(15, 5, 120, 20);
+		txt_maHD.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				txt_maHD.setText("");
+				txt_maHD.setForeground(Color.BLACK);
+				txt_maHD.setEditable(true);
+			}
+		});
+		pnl_nhapMa.add(txt_maHD);
+
+		JPanel pnl_tenNV = new JPanel();
+		pnl_tenNV.setLayout(null);
+		pnl_tenNV.setBorder(new RoundedCornerBorder());
+		pnl_tenNV.setBackground(Color.WHITE);
+		pnl_tenNV.setBounds(600, 15, 180, 30);
+		pn_kqTimKiem.add(pnl_tenNV);
 		txt_tenNV = new JTextField();
-		txt_tenNV.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_tenNV.setText("Nhập tên NV..");
+		txt_tenNV.setForeground(Color.GRAY);
+		txt_tenNV.setEditable(false);
 		txt_tenNV.setColumns(10);
-		txt_tenNV.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_tenNV.setBackground(new Color(255, 250, 240));
-		txt_tenNV.setBounds(600, 15, 180, 20);
-		pn_kqTimKiem.add(txt_tenNV);
+		txt_tenNV.setBorder(null);
+		txt_tenNV.setBackground(Color.WHITE);
+		txt_tenNV.setBounds(15, 5, 160, 20);
+		txt_tenNV.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txt_tenNV.setText("");
+				txt_tenNV.setForeground(Color.BLACK);
+				txt_tenNV.setEditable(true);
+			}
+		});
+		pnl_tenNV.add(txt_tenNV);
 		
+
+		JPanel pnl_tenKH = new JPanel();
+		pnl_tenKH.setLayout(null);
+		pnl_tenKH.setBorder(new RoundedCornerBorder());
+		pnl_tenKH.setBackground(Color.WHITE);
+		pnl_tenKH.setBounds(320, 60, 180, 30);
+		pn_kqTimKiem.add(pnl_tenKH);
 		txt_tenKH = new JTextField();
-		txt_tenKH.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_tenKH.setText("Nhập tên KH..");
+		txt_tenKH.setForeground(Color.GRAY);
+		txt_tenKH.setEditable(false);
 		txt_tenKH.setColumns(10);
-		txt_tenKH.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_tenKH.setBackground(new Color(255, 250, 240));
-		txt_tenKH.setBounds(320, 60, 180, 20);
-		pn_kqTimKiem.add(txt_tenKH);
+		txt_tenKH.setBorder(null);
+		txt_tenKH.setBackground(Color.WHITE);
+		txt_tenKH.setBounds(15, 5, 160, 20);
+		txt_tenKH.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				txt_tenKH.setText("");
+				txt_tenKH.setForeground(Color.BLACK);
+				txt_tenKH.setEditable(true);
+			}
+		});
+		pnl_tenKH.add(txt_tenKH);
 		
 		JLabel lblsdt = new JLabel("SĐT khách hàng:");
 		lblsdt.setHorizontalAlignment(SwingConstants.LEFT);
 		lblsdt.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblsdt.setBounds(230, 15, 90, 20);
+		lblsdt.setBounds(230, 18, 90, 20);
 		pn_kqTimKiem.add(lblsdt);
 		
+		
+		JPanel pnl_sdtKH = new JPanel();
+		pnl_sdtKH.setLayout(null);
+		pnl_sdtKH.setBorder(new RoundedCornerBorder());
+		pnl_sdtKH.setBackground(Color.WHITE);
+		pnl_sdtKH.setBounds(320, 15, 140, 30);
+		pn_kqTimKiem.add(pnl_sdtKH);
 		txt_sdtKH = new JTextField();
-		txt_sdtKH.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_sdtKH.setText("Nhập sdt KH..");
+		txt_sdtKH.setForeground(Color.GRAY);
+		txt_sdtKH.setEditable(false);
 		txt_sdtKH.setColumns(10);
-		txt_sdtKH.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_sdtKH.setBackground(new Color(255, 250, 240));
-		txt_sdtKH.setBounds(320, 15, 180, 20);
-		pn_kqTimKiem.add(txt_sdtKH);
+		txt_sdtKH.setBorder(null);
+		txt_sdtKH.setBackground(Color.WHITE);
+		txt_sdtKH.setBounds(15, 5, 120, 20);
+		txt_sdtKH.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				txt_sdtKH.setText("");
+				txt_sdtKH.setForeground(Color.BLACK);
+				txt_sdtKH.setEditable(true);
+			}
+		});
+		pnl_sdtKH.add(txt_sdtKH);
 		
 		
 		JButton btnXemChiTiet = new JButton("Xem chi tiết");

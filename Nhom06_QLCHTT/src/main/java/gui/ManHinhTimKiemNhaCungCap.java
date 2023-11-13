@@ -144,17 +144,23 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 		JLabel lblmaHD = new JLabel("Mã Nhà Cung Cấp:");
 		lblmaHD.setHorizontalAlignment(SwingConstants.LEFT);
 		lblmaHD.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblmaHD.setBounds(10, 15, 89, 20);
+		lblmaHD.setBounds(10, 20, 89, 20);
 		pn_kqTimKiem.add(lblmaHD);
 
-		txt_maNCC = new JTextField("Nhập mã..");
-		txt_maNCC.setHorizontalAlignment(SwingConstants.LEFT);
+		JPanel pnl_nhapMa = new JPanel();
+		pnl_nhapMa.setLayout(null);
+		pnl_nhapMa.setBorder(new RoundedCornerBorder());
+		pnl_nhapMa.setBackground(Color.WHITE);
+		pnl_nhapMa.setBounds(109, 16, 100, 30);
+		pn_kqTimKiem.add(pnl_nhapMa);
+		txt_maNCC = new JTextField();
+		txt_maNCC.setText("Nhập mã...");
+		txt_maNCC.setForeground(Color.GRAY);
 		txt_maNCC.setEditable(false);
 		txt_maNCC.setColumns(10);
-		txt_maNCC.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_maNCC.setBackground(new Color(255, 250, 240));
-		txt_maNCC.setBounds(99, 15, 100, 20);
-		pn_kqTimKiem.add(txt_maNCC);
+		txt_maNCC.setBorder(null);
+		txt_maNCC.setBackground(Color.WHITE);
+		txt_maNCC.setBounds(15, 5, 80, 20);
 		txt_maNCC.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -183,38 +189,46 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
 				txt_maNCC.setText("");
 				txt_maNCC.setForeground(Color.BLACK);
 				txt_maNCC.setEditable(true);
 			}
 		});
+		pnl_nhapMa.add(txt_maNCC);
 
 		JLabel lblnhanVien = new JLabel("Tên Nhà Cung Cấp:");
 		lblnhanVien.setHorizontalAlignment(SwingConstants.LEFT);
 		lblnhanVien.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblnhanVien.setBounds(223, 15, 110, 20);
+		lblnhanVien.setBounds(223, 20, 110, 20);
 		pn_kqTimKiem.add(lblnhanVien);
 
 		JLabel lblngayLap = new JLabel("Số Điện Thoại:");
 		lblngayLap.setHorizontalAlignment(SwingConstants.LEFT);
 		lblngayLap.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblngayLap.setBounds(511, 15, 94, 20);
+		lblngayLap.setBounds(515, 20, 94, 20);
 		pn_kqTimKiem.add(lblngayLap);
 		
 		JLabel lbldiaChi = new JLabel("Địa chỉ:");
 		lbldiaChi.setHorizontalAlignment(SwingConstants.LEFT);
 		lbldiaChi.setFont(new Font("Arial", Font.PLAIN, 11));
-		lbldiaChi.setBounds(778, 15, 67, 20);
-		pn_kqTimKiem.add(lbldiaChi);
+		lbldiaChi.setBounds(778, 20, 67, 20);
+		pn_kqTimKiem.add(lbldiaChi);	
 		
-		txt_diaChi = new JTextField("Nhập địa chỉ..");
-		txt_diaChi.setHorizontalAlignment(SwingConstants.LEFT);
+		JPanel pnl_diaChi = new JPanel();
+		pnl_diaChi.setLayout(null);
+		pnl_diaChi.setBorder(new RoundedCornerBorder());
+		pnl_diaChi.setBackground(Color.WHITE);
+		pnl_diaChi.setBounds(818, 16, 160, 30);
+		pn_kqTimKiem.add(pnl_diaChi);
+		txt_diaChi = new JTextField();
+		txt_diaChi.setText("Nhập địa chỉ..");
+		txt_diaChi.setForeground(Color.GRAY);
 		txt_diaChi.setEditable(false);
 		txt_diaChi.setColumns(10);
-		txt_diaChi.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_diaChi.setBackground(new Color(255, 250, 240));
-		txt_diaChi.setBounds(818, 16, 160, 20);
-		pn_kqTimKiem.add(txt_diaChi);
+		txt_diaChi.setBorder(null);
+		txt_diaChi.setBackground(Color.WHITE);
+		txt_diaChi.setBounds(15, 5, 140, 20);
 		txt_diaChi.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -243,20 +257,33 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
 				txt_diaChi.setText("");
 				txt_diaChi.setForeground(Color.BLACK);
 				txt_diaChi.setEditable(true);
 			}
 		});
+		pnl_diaChi.add(txt_diaChi);
 		
 		txt_SDT = new JTextField("Nhập số đt..");
 		txt_SDT.setBackground(new Color(255, 250, 240));
 		txt_SDT.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_SDT.setHorizontalAlignment(SwingConstants.LEFT);
 		txt_SDT.setBounds(595, 16, 160, 20);
-		pn_kqTimKiem.add(txt_SDT);
-		txt_SDT.setColumns(10);
+		JPanel pnl_sDT = new JPanel();
+		pnl_sDT.setLayout(null);
+		pnl_sDT.setBorder(new RoundedCornerBorder());
+		pnl_sDT.setBackground(Color.WHITE);
+		pnl_sDT.setBounds(595, 16, 160, 30);
+		pn_kqTimKiem.add(pnl_sDT);
+		txt_SDT = new JTextField();
+		txt_SDT.setText("Nhập số ĐT..");
+		txt_SDT.setForeground(Color.GRAY);
 		txt_SDT.setEditable(false);
+		txt_SDT.setColumns(10);
+		txt_SDT.setBorder(null);
+		txt_SDT.setBackground(Color.WHITE);
+		txt_SDT.setBounds(15, 5, 140, 20);
 		txt_SDT.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -285,21 +312,29 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
 				txt_SDT.setText("");
 				txt_SDT.setForeground(Color.BLACK);
 				txt_SDT.setEditable(true);
 			}
 		});
+		pnl_sDT.add(txt_SDT);
 		
-		
-		txt_tenNCC = new JTextField("Nhập tên..");
-		txt_tenNCC.setBackground(new Color(255, 250, 240));
-		txt_tenNCC.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txt_tenNCC.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_tenNCC.setBounds(320, 16, 160, 20);
-		pn_kqTimKiem.add(txt_tenNCC);
-		txt_tenNCC.setColumns(10);
+
+		JPanel pnl_tenNCC = new JPanel();
+		pnl_tenNCC.setLayout(null);
+		pnl_tenNCC.setBorder(new RoundedCornerBorder());
+		pnl_tenNCC.setBackground(Color.WHITE);
+		pnl_tenNCC.setBounds(320, 16, 160, 30);
+		pn_kqTimKiem.add(pnl_tenNCC);
+		txt_tenNCC = new JTextField();
+		txt_tenNCC.setText("Nhập tên NCC..");
+		txt_tenNCC.setForeground(Color.GRAY);
 		txt_tenNCC.setEditable(false);
+		txt_tenNCC.setColumns(10);
+		txt_tenNCC.setBorder(null);
+		txt_tenNCC.setBackground(Color.WHITE);
+		txt_tenNCC.setBounds(15, 5, 140, 20);
 		txt_tenNCC.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -334,6 +369,7 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 				txt_tenNCC.setEditable(true);
 			}
 		});
+		pnl_tenNCC.add(txt_tenNCC);
 			
 		JButton btnXoaTrang = new JButton("Xóa trắng");
 		btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 14));

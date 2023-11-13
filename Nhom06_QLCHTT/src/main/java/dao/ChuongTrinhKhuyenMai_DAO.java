@@ -81,5 +81,67 @@ public class ChuongTrinhKhuyenMai_DAO implements I_ChuongTrinhKhuyenMai{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	public List<ChuongTrinhKhuyenMai> timKiem(String ma,double phanTram,String ngayBatDau,String ngayKetThuc, String trangThai) {
+		List<ChuongTrinhKhuyenMai> ds = new ArrayList<ChuongTrinhKhuyenMai>();
+		//NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		System.out.println(ma);
+		System.out.println(trangThai);
+		System.out.println(ngayBatDau);
+		System.out.println(ngayKetThuc);
+		String sql = "declare @km int,@ma nvarchar(50),@trangThai nvarchar(50),@ngaybd nvarchar(50),@ngaykt nvarchar(50)\n"
+				+ "select @ma = ?,@km = ?,@trangThai = ?,@ngaybd = ?,@ngaykt = ?\n"
+				+ "if @km != 0\n"
+				+ "begin\n"
+				+ "select * from ChuongTrinhKhuyenMai\n"
+				+ "where phanTramKhuyenMai = @km\n"
+				+ "end\n"
+				+ "else if @ma != '%'\n"
+				+ "begin\n"
+				+ "select * from ChuongTrinhKhuyenMai\n"
+				+ "where maKM like @ma\n"
+				+ "end\n"
+				+ "else if @ngaybd != '2023-01-01%'\n"
+				+ "begin\n"
+				+ "select * from ChuongTrinhKhuyenMai\n"
+				+ "where CONVERT(nvarchar(50),ngayBatDau,120) like @ngaybd\n"
+				+ "end\n"
+				+ "else if @ngaykt != '2023-01-01%'\n"
+				+ "begin\n"
+				+ "select * from ChuongTrinhKhuyenMai\n"
+				+ "where CONVERT(nvarchar(50),ngayKetThuc,120) like @ngaykt\n"
+				+ "end\n"
+				+ "else if @trangThai != ''\n"
+				+ "begin\n"
+				+ "select * from ChuongTrinhKhuyenMai\n"
+				+ "where trangThai like @trangThai\n"
+				+ "end";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, ma);
+			statement.setDouble(2, phanTram);
+			statement.setNString(4,ngayBatDau);
+			statement.setNString(5,ngayKetThuc);
+			statement.setNString(3,	trangThai);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				
+				String maKM = rs.getNString("maKM");
+				double phanTram1 = rs.getDouble("phanTramKhuyenMai");
+				LocalDateTime ngay1 = rs.getTimestamp("ngayBatDau").toLocalDateTime();
+				LocalDateTime ngay2 = rs.getTimestamp("ngayKetThuc").toLocalDateTime();
+				String trangThai1 = rs.getNString("trangThai");
+				ChuongTrinhKhuyenMai ctkm = new ChuongTrinhKhuyenMai(maKM, phanTram1, ngay1, ngay2, trangThai1);
+				ds.add(ctkm);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ds;
+	}
 }

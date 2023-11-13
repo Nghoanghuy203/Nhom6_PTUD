@@ -105,11 +105,11 @@ public class ChiTietHoaDon_DAO implements I_ChiTietHoaDon{
 		Connection con = ConnectDB.getConnection();
 		String sql = "declare @ngayhientai nvarchar(20)\r\n"
 				+ "select @ngayhientai = CONVERT(nvarchar(10),GETDATE(),120) + '%'\r\n"
-				+ "select SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \r\n"
+				+ "select top 5 SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \r\n"
 				+ "join HoaDon on HoaDon.maHD = ChiTietHoaDon.maHD \r\n"
 				+ "join SanPham on SanPham.maSP = ChiTietHoaDon.maSP \r\n"
 				+ "where CONVERT(nvarchar(20),HoaDon.ngayLap,120) like @ngayhientai\r\n"
-				+ "group by SanPham.maSP,SanPham.tenSP";
+				+ "group by SanPham.maSP,SanPham.tenSP order by soLuong desc";
 		try {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
@@ -167,11 +167,11 @@ public class ChiTietHoaDon_DAO implements I_ChiTietHoaDon{
 		String sql = "declare @thang nvarchar(20),@start nvarchar(20),@end nvarchar(20)\n"
 				+ "select @thang = ?\n"
 				+ "select @start = '2023'+@thang+'00'+'%',@end = '2023'+@thang+'31'+'%'\n"
-				+ "select SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \n"
+				+ "select top 5 SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \n"
 				+ "join HoaDon on HoaDon.maHD = ChiTietHoaDon.maHD \n"
 				+ "join SanPham on SanPham.maSP = ChiTietHoaDon.maSP \n"
 				+ "where CONVERT(nvarchar(20),HoaDon.ngayLap,120) >= @start AND CONVERT(nvarchar(20),HoaDon.ngayLap,120) <= @end\n"
-				+ "group by SanPham.maSP,SanPham.tenSP";
+				+ "group by SanPham.maSP,SanPham.tenSP order by soLuong desc";
 		PreparedStatement statement = null;
 		try {
 			statement = con.prepareStatement(sql);
@@ -208,11 +208,11 @@ public class ChiTietHoaDon_DAO implements I_ChiTietHoaDon{
 				+ "begin\n"
 				+ "	select @end =DATEDIFF(day,-1,GETDATE()) , @start = DATEDIFF(day,365,@end) \n"
 				+ "end\n"
-				+ "select SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \n"
+				+ "select top 5 SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \n"
 				+ "join HoaDon on HoaDon.maHD = ChiTietHoaDon.maHD \n"
 				+ "join SanPham on SanPham.maSP = ChiTietHoaDon.maSP \n"
 				+ "where CONVERT(nvarchar(20),HoaDon.ngayLap,120) >= @start AND CONVERT(nvarchar(20),HoaDon.ngayLap,120) <= @end\n"
-				+ "group by SanPham.maSP,SanPham.tenSP\n";
+				+ "group by SanPham.maSP,SanPham.tenSP order by soLuong desc\n";
 		try {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);

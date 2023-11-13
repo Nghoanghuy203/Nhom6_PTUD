@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -47,7 +48,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtSearchKH;
+	private JTextField txtTimTheoTen;
 	private JButton btnSearchKH;
 	private JScrollPane scr_Ds;
 	private JTable tbl_Ds;
@@ -64,6 +65,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 	private JTextField txt_maKH;
 	private ArrayList<KhachHang> dsKh = new ArrayList<KhachHang>();
 	private KhachHang_DAO kh_DAO = new KhachHang_DAO(); 
+	private JTextField txtTimTheoSDT;
 	/**
 	 * Launch the application.
 	 */
@@ -101,27 +103,27 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		add(pn_thaotac);
 		pn_thaotac.setLayout(null);
 
-		JPanel timKiem = new JPanel();
-		timKiem.setBackground(new Color(255, 255, 255));
-		timKiem.setBounds(10, 20, 300, 30);
-		timKiem.setBorder(new RoundedCornerBorder());
-		pn_thaotac.add(timKiem);
-		timKiem.setLayout(null);
+		JPanel timKiemTheoTen = new JPanel();
+		timKiemTheoTen.setBackground(new Color(255, 255, 255));
+		timKiemTheoTen.setBounds(128, 26, 190, 30);
+		timKiemTheoTen.setBorder(new RoundedCornerBorder());
+		pn_thaotac.add(timKiemTheoTen);
+		timKiemTheoTen.setLayout(null);
 
-		txtSearchKH = new JTextField();
-		txtSearchKH.setText("Nhập thông tin...");
-		txtSearchKH.setForeground(Color.GRAY);
-		txtSearchKH.setEditable(false);
-		txtSearchKH.setBackground(new Color(255, 255, 255));
-		txtSearchKH.setBounds(10, 3, 188, 24);
-		txtSearchKH.setBorder(null);
-		txtSearchKH.addMouseListener(new MouseAdapter() {
+		txtTimTheoTen = new JTextField();
+		txtTimTheoTen.setText("");
+		txtTimTheoTen.setForeground(Color.GRAY);
+		txtTimTheoTen.setEditable(false);
+		txtTimTheoTen.setBackground(new Color(255, 255, 255));
+		txtTimTheoTen.setBounds(10, 3, 170, 24);
+		txtTimTheoTen.setBorder(null);
+		txtTimTheoTen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				txtSearchKH.setText("");
-				txtSearchKH.setForeground(Color.BLACK);
-				txtSearchKH.setEditable(true);
+				txtTimTheoTen.setText("");
+				txtTimTheoTen.setForeground(Color.BLACK);
+				txtTimTheoTen.setEditable(true);
 			}
 
 			@Override
@@ -139,19 +141,12 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				// TODO Auto-generated method stub
-				txtSearchKH.setText("Nhập mã sản phẩm ...");
-				txtSearchKH.setForeground(Color.GRAY);
+				txtTimTheoTen.setText("");
+				txtTimTheoTen.setForeground(Color.GRAY);
 			}
 		});
-		timKiem.add(txtSearchKH);
-		txtSearchKH.setColumns(10);
-
-		btnSearchKH = new JButton("Tìm");
-		// btnSearch.setBorder(new RoundedCornerBorder());
-		btnSearchKH.setBackground(new Color(65, 105, 225));
-		btnSearchKH.setIcon(new ImageIcon(ManHinhChinh.class.getResource("/images/search.png")));
-		btnSearchKH.setBounds(202, 3, 88, 24);
-		timKiem.add(btnSearchKH);
+		timKiemTheoTen.add(txtTimTheoTen);
+		txtTimTheoTen.setColumns(10);
 
 		JLabel lbl_thongBaoKq = new JLabel();
 		lbl_thongBaoKq.setBounds(60, 60, 100, 14);
@@ -182,7 +177,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		lblGioiTinh.setBounds(460, 58, 50, 20);
 		pn_kqTimKiem.add(lblGioiTinh);
 
-		
+
 
 		txt_hoTenKH = new JTextField();
 		txt_hoTenKH.setBackground(new Color(255, 250, 240));
@@ -234,26 +229,26 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		txt_diaChi.setBackground(new Color(255, 250, 240));
 		txt_diaChi.setBounds(90, 58, 340, 20);
 		pn_kqTimKiem.add(txt_diaChi);
-		
+
 		btnThemKH = new JButton("Thêm");
 		btnThemKH.setBounds(665, 25, 110, 30);
 		pn_kqTimKiem.add(btnThemKH);
 		btnThemKH.setFont(new Font("Arial", Font.BOLD, 14));
 		btnThemKH.setBackground(new Color(0, 128, 0));
-		
+
 		btnSuaKH = new JButton("Sửa");
 		btnSuaKH.setBounds(792, 25, 110, 30);
 		pn_kqTimKiem.add(btnSuaKH);
 		btnSuaKH.setFont(new Font("Arial", Font.BOLD, 14));
 		btnSuaKH.setBackground(new Color(244, 164, 96));
-		
+
 		btnXoaTrangKH = new JButton("Xóa trắng");
 		btnXoaTrangKH.setFont(new Font("Arial", Font.BOLD, 14));
 		btnXoaTrangKH.setBackground(new Color(255, 0, 0));
 		btnXoaTrangKH.setBounds(912, 25, 110, 30);
 		pn_kqTimKiem.add(btnXoaTrangKH);
 
-		
+
 
 		txt_maKH = new JTextField();
 		txt_maKH.setHorizontalAlignment(SwingConstants.LEFT);
@@ -262,6 +257,72 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		txt_maKH.setBackground(new Color(255, 250, 240));
 		txt_maKH.setBounds(90, 15, 127, 20);
 		pn_kqTimKiem.add(txt_maKH);
+
+		btnSearchKH = new JButton("Tìm");
+		btnSearchKH.setBounds(709, 32, 88, 24);
+		pn_thaotac.add(btnSearchKH);
+		// btnSearch.setBorder(new RoundedCornerBorder());
+		btnSearchKH.setBackground(new Color(65, 105, 225));
+		btnSearchKH.setIcon(new ImageIcon(ManHinhChinh.class.getResource("/images/search.png")));
+
+		JLabel lblTimTheoTen = new JLabel("Tên khách hàng:");
+		lblTimTheoTen.setBounds(24, 26, 112, 30);
+		pn_thaotac.add(lblTimTheoTen);
+
+		JPanel timKiemTheoSDT = new JPanel();
+		timKiemTheoSDT.setLayout(null);
+		timKiemTheoSDT.setBorder(new RoundedCornerBorder());
+		timKiemTheoSDT.setBackground(Color.WHITE);
+		timKiemTheoSDT.setBounds(472, 26, 190, 30);
+		pn_thaotac.add(timKiemTheoSDT);
+
+		txtTimTheoSDT = new JTextField();
+		txtTimTheoSDT.setText("");
+		txtTimTheoSDT.setForeground(Color.GRAY);
+		txtTimTheoSDT.setEditable(false);
+		txtTimTheoSDT.setColumns(10);
+		txtTimTheoSDT.setBorder(null);
+		txtTimTheoSDT.setBackground(Color.WHITE);
+		txtTimTheoSDT.setBounds(10, 3, 170, 24);
+		timKiemTheoSDT.add(txtTimTheoSDT);
+		txtTimTheoSDT.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				txtTimTheoSDT.setText("");
+				txtTimTheoSDT.setForeground(Color.BLACK);
+				txtTimTheoSDT.setEditable(true);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		JLabel lblTimTheoSDT = new JLabel("Số điện thoại:");
+		lblTimTheoSDT.setBounds(382, 26, 80, 30);
+		pn_thaotac.add(lblTimTheoSDT);
+		btnSearchKH.addActionListener(this);
 
 		JPanel pn_dsnv = new JPanel();
 		pn_dsnv.setBackground(new Color(255, 255, 255));
@@ -327,12 +388,11 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 			e1.printStackTrace();
 		}
 		docDuLieu();
-		
+
 		btnThemKH.addActionListener(this);
 		btnSuaKH.addActionListener(this);
 		btnXoaTrangKH.addActionListener(this);
 		btnSuaKH.addActionListener(this);
-		btnSearchKH.addActionListener(this);
 		tbl_Ds.addMouseListener(this);
 	}
 
@@ -340,54 +400,56 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnThemKH)) {
-			// TODO Auto-generated method stub
-			String tenKh = txt_hoTenKH.getText();
-			String sdt = txt_soDienThoai.getText();
-			boolean gt = combo_gioiTinh.getSelectedItem().toString().equalsIgnoreCase("Nam")?true:false;
-			String diaChi = txt_diaChi.getText();
-			String maKh = GeneratorID.generateIDKhachHang();
-			KhachHang hk = new KhachHang(maKh,tenKh,sdt,gt,diaChi);
-			if(kh_DAO.themKH(hk)) {
-				Object[] rowData = {maKh,tenKh,sdt,gt?"Nam":"Nữ",diaChi};
-				model_ds.addRow(rowData);
-				dsKh.add(hk);
-				docDuLieu();
-				xoaRong();
-				ManHinhTimKiemKhachHang.resetData();
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "Lỗi thêm!");
-			}
-		}
-		else if (o.equals (btnSuaKH)) { 
-			int row = tbl_Ds.getSelectedRow(); 
-			if (row >= 0){
+			if(validDataKH()) {
+				// TODO Auto-generated method stub
 				String tenKh = txt_hoTenKH.getText();
 				String sdt = txt_soDienThoai.getText();
 				boolean gt = combo_gioiTinh.getSelectedItem().toString().equalsIgnoreCase("Nam")?true:false;
 				String diaChi = txt_diaChi.getText();
-				String maKh = txt_maKH.getText();
+				String maKh = GeneratorID.generateIDKhachHang();
 				KhachHang hk = new KhachHang(maKh,tenKh,sdt,gt,diaChi);
-				if(kh_DAO.capNhatKhachHang(hk)) {
-					tbl_Ds.setValueAt(txt_maKH.getText(), row, 0);
-					tbl_Ds.setValueAt(txt_hoTenKH.getText(), row, 1);
-					tbl_Ds.setValueAt(txt_soDienThoai.getText(), row, 2);
-					tbl_Ds.setValueAt(combo_gioiTinh.getSelectedItem().equals("Nam")?1:0, row, 3);
-					tbl_Ds.setValueAt(txt_diaChi.getText(), row, 4);
+				if(kh_DAO.themKH(hk)) {
+					Object[] rowData = {maKh,tenKh,sdt,gt?"Nam":"Nữ",diaChi};
+					model_ds.addRow(rowData);
+					dsKh.add(hk);
+					docDuLieu();
+					xoaRong();
+					ManHinhTimKiemKhachHang.resetData();
 				}
-				
+				else {
+					JOptionPane.showMessageDialog(this, "Lỗi thêm!");
+				}}
+		}
+		else if (o.equals (btnSuaKH)) { 
+			if(validDataKH()) {
+				int row = tbl_Ds.getSelectedRow(); 
+				if (row >= 0){
+					String tenKh = txt_hoTenKH.getText();
+					String sdt = txt_soDienThoai.getText();
+					boolean gt = combo_gioiTinh.getSelectedItem().toString().equalsIgnoreCase("Nam")?true:false;
+					String diaChi = txt_diaChi.getText();
+					String maKh = txt_maKH.getText();
+					KhachHang hk = new KhachHang(maKh,tenKh,sdt,gt,diaChi);
+					if(kh_DAO.capNhatKhachHang(hk)) {
+						tbl_Ds.setValueAt(txt_maKH.getText(), row, 0);
+						tbl_Ds.setValueAt(txt_hoTenKH.getText(), row, 1);
+						tbl_Ds.setValueAt(txt_soDienThoai.getText(), row, 2);
+						tbl_Ds.setValueAt(combo_gioiTinh.getSelectedItem().equals("Nam")?1:0, row, 3);
+						tbl_Ds.setValueAt(txt_diaChi.getText(), row, 4);
+					}	
+					ManHinhTimKiemKhachHang.resetData();
+				}
 			}
-			
-			
 		}
 		else if(o.equals (btnSearchKH)){
-			String sdt = txtSearchKH.getText();
-
+			String ten = txtTimTheoTen.getText();
+			String sdt = txtTimTheoSDT.getText();
 			DefaultTableModel model = (DefaultTableModel) tbl_Ds.getModel();
 			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 			tbl_Ds.setRowSorter(sorter);
 			List<RowFilter<Object, Object>> filters = new ArrayList<>();
-			filters.add(RowFilter.regexFilter(sdt, 2));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(ten), 1));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(sdt), 2));
 			RowFilter<Object, Object> af = RowFilter.andFilter(filters);
 			sorter.setRowFilter(af);
 		}
@@ -414,7 +476,10 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		txt_hoTenKH.setText("");
 		txt_maKH.setText(""); 
 		txt_soDienThoai.setText(""); 
-		txtSearchKH.setText(""); 
+		txtTimTheoTen.setText(""); 
+		txtTimTheoSDT.setForeground(Color.gray);
+		txtTimTheoSDT.setText("");
+		txtTimTheoSDT.setForeground(Color.gray);
 		txt_maKH.requestFocus();
 	}
 
@@ -432,25 +497,25 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	public static void updateData(List<KhachHang> ds) {
 		//xoaTrangTable(tbl_Ds);
@@ -459,14 +524,35 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 					,kh.getTenKH()
 					,kh.getSdtKH()
 					,kh.isGioiTinh()?"Nam":"Nữ"
-					,kh.getDiaChi()};
+						,kh.getDiaChi()};
 			model_ds.addRow(rowData);
 		}
 	}
-	
+
 	public static void resetData() {
 		KhachHang_DAO kh_DAO = new KhachHang_DAO();
 		List<KhachHang> ds = kh_DAO.getDsKhachHang();
 		ManHinhCapNhatKhachHang.updateData(ds);
 	}
+	public  boolean validDataKH() {
+		String hoTen = txt_hoTenKH.getText().trim();
+		String soDienThoai = txt_soDienThoai.getText().trim();
+		String diaChi = txt_diaChi.getText();
+		if(!(hoTen.length() > 0 && hoTen.matches("^("+GeneratorID.tiengVietLow().toUpperCase()+GeneratorID.tiengVietLow()+"*((\\s)))+"+GeneratorID.tiengVietLow().toUpperCase()+GeneratorID.tiengVietLow()+"*$"))) {
+			JOptionPane.showMessageDialog(null, "Họ Tên không chứa ký tự số. VD: Nguyễn Văn A");
+			return false;
+		}
+		if (!(soDienThoai.length() == 10 && soDienThoai.matches("0[0-9]{9}"))) {
+			JOptionPane.showMessageDialog(null, "Số Điện thoại bắt đầu bằng số 0 và độ dài số điện thoại bằng 10");
+			return false;
+		}
+		if (!(diaChi.length()>0)) {
+			JOptionPane.showMessageDialog(null, "Nhập địa chỉ khách hàng");
+			return false;
+		}
+
+		return true;
+	}
+	
+	
 }

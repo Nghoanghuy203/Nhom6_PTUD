@@ -39,6 +39,7 @@ public class BieuDoBanChay extends JPanel {
     public void ThongKeNgayHomNay(List<ThongKeBanChay> ds) {
     	chart.clear();
     	initComponents();
+    	/*
     	int t = 0;
     	int size = ds.size();
     	double[] arr = new double[size];
@@ -52,12 +53,19 @@ public class BieuDoBanChay extends JPanel {
     	}
 		chart.addData(new ModelChart("Ngày Hôm Nay",arr ));
     	chart.start();
+    	*/
+    	chart.addLegend("Ngày hôm nay", new Color(randomIntColor(),randomIntColor(), randomIntColor()));
+    	for (ThongKeBanChay thongKeBanChay : ds) {
+			chart.addData(new ModelChart(thongKeBanChay.getMaSP(), new double[] {thongKeBanChay.getTongSoLuong()}));
+		}
+    	chart.start();
     }
     
     public void ThongKe7NgayGanNhat(List<ThongKeBanChay> ds) {
     	chart.clear();
     	initComponents();
-    	int t = 0;
+    	
+    	/*int t = 0;
     	int size = ds.size();
     	double[] arr = new double[size];
     	int i = 0;
@@ -69,12 +77,18 @@ public class BieuDoBanChay extends JPanel {
     		chart.addLegend(ma.getMaSP(), new Color(randomIntColor(),randomIntColor(), randomIntColor()));
     	}
 		chart.addData(new ModelChart("7 Ngày Gần Nhất",arr ));
+    	*/
+    	chart.addLegend("7 ngày gần nhất", new Color(randomIntColor(),randomIntColor(), randomIntColor()));
+    	for (ThongKeBanChay thongKeBanChay : ds) {
+			chart.addData(new ModelChart(thongKeBanChay.getMaSP(), new double[] {thongKeBanChay.getTongSoLuong()}));
+		}
     	chart.start();
     }
     
-    public void ThongKe1Thang(List<ThongKeBanChay> ds) {
+    public void ThongKe1Thang(int thang,List<ThongKeBanChay> ds) {
     	chart.clear();
     	initComponents();
+    	/*
     	int t = 0;
     	int size = ds.size();
     	double[] arr = new double[size];
@@ -87,12 +101,18 @@ public class BieuDoBanChay extends JPanel {
     		chart.addLegend(ma.getMaSP(), new Color(randomIntColor(),randomIntColor(), randomIntColor()));
     	}
 		chart.addData(new ModelChart("1 Tháng",arr ));
+		*/
+    	chart.addLegend("Tháng "+thang,  new Color(randomIntColor(),randomIntColor(), randomIntColor()));
+    	for (ThongKeBanChay thongKeBanChay : ds) {
+			chart.addData(new ModelChart(thongKeBanChay.getMaSP(), new double[] {thongKeBanChay.getTongSoLuong()}));
+		}
     	chart.start();
     }
     
     public void ThongKe1Nam(List<ThongKeBanChay> ds) {
     	chart.clear();
     	initComponents();
+    	/*
     	int t = 0;
     	int size = ds.size();
     	double[] arr = new double[size];
@@ -105,12 +125,18 @@ public class BieuDoBanChay extends JPanel {
     		chart.addLegend(ma.getMaSP(), new Color(randomIntColor(),randomIntColor(), randomIntColor()));
     	}
 		chart.addData(new ModelChart("1 Năm",arr ));
+    	*/
+    	chart.addLegend("Năm nay",  new Color(randomIntColor(),randomIntColor(), randomIntColor()));
+    	for (ThongKeBanChay thongKeBanChay : ds) {
+			chart.addData(new ModelChart(thongKeBanChay.getMaSP(), new double[] {thongKeBanChay.getTongSoLuong()}));
+		}
     	chart.start();
     }
     
     public void ThongKeTuyChinh(List<ThongKeBanChay> ds) {
     	chart.clear();
     	initComponents();
+    	/*
     	int t = 0;
     	int size = ds.size();
     	double[] arr = new double[size];
@@ -123,6 +149,11 @@ public class BieuDoBanChay extends JPanel {
     		chart.addLegend(ma.getMaSP(), new Color(randomIntColor(),randomIntColor(), randomIntColor()));
     	}
 		chart.addData(new ModelChart("Tùy Chỉnh",arr ));
+    	*/
+    	chart.addLegend("7 ngày gần nhất", Color.cyan);
+    	for (ThongKeBanChay thongKeBanChay : ds) {
+			chart.addData(new ModelChart(thongKeBanChay.getMaSP(), new double[] {thongKeBanChay.getTongSoLuong()}));
+		}
     	chart.start();
     }
     /**
@@ -215,7 +246,7 @@ public class BieuDoBanChay extends JPanel {
     // End of variables declaration//GEN-END:variables
     private int randomIntColor() {
     	double randomDouble = Math.random();
-        randomDouble = randomDouble * 255 + 0;
+        randomDouble = randomDouble * 100 + 0;
         return (int) randomDouble;
     }
 }

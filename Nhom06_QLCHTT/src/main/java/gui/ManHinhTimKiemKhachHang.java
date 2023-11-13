@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -346,11 +347,11 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 			tbl_Ds.setRowSorter(sorter);
 			List<RowFilter<Object, Object>> filters = new ArrayList<>();
-			filters.add(RowFilter.regexFilter(maKh, 0));
-			filters.add(RowFilter.regexFilter(tenKh, 1));
-			filters.add(RowFilter.regexFilter(sdt, 2));
-			filters.add(RowFilter.regexFilter(gt, 3));
-			filters.add(RowFilter.regexFilter(diaChi, 4));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(maKh), 0));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tenKh), 1));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(sdt), 2));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(gt), 3));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(diaChi), 4));
 			RowFilter<Object, Object> af = RowFilter.andFilter(filters);
 			sorter.setRowFilter(af);
 		}

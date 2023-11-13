@@ -12,16 +12,16 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-public class Chart extends javax.swing.JPanel {
+public class ScrollChart extends javax.swing.JPanel {
 
     private List<ModelLegend> legends = new ArrayList<>();
     private List<ModelChart> model = new ArrayList<>();
-    private final int seriesSize = 30;
-    private final int seriesSpace = 60;
+    private final int seriesSize = 20;
+    private final int seriesSpace = 70;
     private final Animator animator;
     private float animate;
 
-    public Chart() {
+    public ScrollChart() {
         initComponents();
         TimingTarget target = new TimingTargetAdapter() {
             @Override
@@ -46,8 +46,7 @@ public class Chart extends javax.swing.JPanel {
                 double x = (size.getWidth() - totalSeriesWidth) / 2;
                 for (int i = 0; i < legends.size(); i++) {
                     ModelLegend legend = legends.get(i);
-                    g2.setColor(new Color(randomIntColor(), randomIntColor(), randomIntColor()));
-                    //g2.setColor(new Color(randomIntColor(),randomIntColor(),randomIntColor()));
+                    g2.setColor(legend.getColor());
                     double seriesValues = chart.getSeriesValuesOf(model.get(index).getValues()[i], size.getHeight()) * animate;
                     g2.fillRect((int) (size.getX() + x), (int) (size.getY() + size.getHeight() - seriesValues), seriesSize, (int) seriesValues);
                     x += seriesSpace + seriesSize;
@@ -56,12 +55,6 @@ public class Chart extends javax.swing.JPanel {
         });
     }
     
-    private int randomIntColor() {
-    	double randomDouble = Math.random();
-        randomDouble = randomDouble * 255 + 0;
-        return (int) randomDouble;
-    }
-
     public void addLegend(String name, Color color) {
         ModelLegend data = new ModelLegend(name, color);
         legends.add(data);

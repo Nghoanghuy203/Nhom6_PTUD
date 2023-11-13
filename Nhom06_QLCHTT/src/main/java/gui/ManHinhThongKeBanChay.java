@@ -188,7 +188,7 @@ public class ManHinhThongKeBanChay extends JPanel {
 		scr_Ds.getViewport().setBackground(Color.white);
 		pn_dsnv.add(scr_Ds);
 
-		JLabel lblNewLabel = new JLabel("Danh sách hóa đơn");
+		JLabel lblNewLabel = new JLabel("Danh sách top 5 sản phẩm bán chạy");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		lblNewLabel.setForeground(new Color(65, 105, 225));
@@ -210,7 +210,7 @@ public class ManHinhThongKeBanChay extends JPanel {
 			}
 		});
 		
-		JLabel lblTmKimNhn = new JLabel("THỐNG KÊ DOANH THU");
+		JLabel lblTmKimNhn = new JLabel("THỐNG KÊ BÁN CHẠY");
 		lblTmKimNhn.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTmKimNhn.setForeground(new Color(100, 149, 237));
 		lblTmKimNhn.setFont(new Font("Arial", Font.BOLD, 20));
@@ -224,7 +224,7 @@ public class ManHinhThongKeBanChay extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 
-		JLabel lblBiuDoanh = new JLabel("Biểu đồ doanh thu");
+		JLabel lblBiuDoanh = new JLabel("Biểu đồ top 5 sản phẩm bán chạy");
 		lblBiuDoanh.setBounds(0, 0, 1100, 30);
 		lblBiuDoanh.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBiuDoanh.setForeground(new Color(65, 105, 225));
@@ -306,8 +306,17 @@ public class ManHinhThongKeBanChay extends JPanel {
 					if (cmb_tieuChi.getSelectedItem().equals("Tháng")) {
 						lblThang.setVisible(true);
 						cmb_thang.setVisible(true);
+						LocalDate homNay = LocalDate.now();
+						cmb_thang.setSelectedIndex(homNay.getMonthValue()-1);
 //						int thang = LocalDate.now().getMonthValue();
 //						cmb_thang.setSelectedIndex(thang-1);
+						chart = new BieuDoBanChay();
+						pn_bieuDo.removeAll();
+						pn_bieuDo.add(chart);
+						int thang = Integer.parseInt((String)(cmb_thang.getSelectedItem()));
+						dsbc = cthd_DAO.getDSCTHD1Thang(thang);					
+						chart.ThongKe1Thang(thang,dsbc);
+						updateTable(dsbc);
 						
 					}
 					if (cmb_tieuChi.getSelectedItem().equals("Năm")) {
@@ -350,7 +359,7 @@ public class ManHinhThongKeBanChay extends JPanel {
 				pn_bieuDo.add(chart);
 				int thang = Integer.parseInt((String)(cmb_thang.getSelectedItem()));
 				dsbc = cthd_DAO.getDSCTHD1Thang(thang);					
-				chart.ThongKe1Thang(dsbc);
+				chart.ThongKe1Thang(thang,dsbc);
 				updateTable(dsbc);
 			}
 		});

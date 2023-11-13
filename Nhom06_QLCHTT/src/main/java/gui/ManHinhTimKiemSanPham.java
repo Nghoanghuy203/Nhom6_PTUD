@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
@@ -51,12 +52,14 @@ import custom.CustomScrollBarUI;
 import custom.GeneratorID;
 import custom.RoundedCornerBorder;
 import dao.ChatLieu_DAO;
+import dao.KhachHang_DAO;
 import dao.KichCo_DAO;
 import dao.LoaiSanPham_DAO;
 import dao.MauSac_DAO;
 import dao.NhaCungCap_DAO;
 import dao.SanPham_DAO;
 import entities.ChatLieu;
+import entities.KhachHang;
 import entities.KichCo;
 import entities.LoaiSanPham;
 import entities.MauSac;
@@ -70,10 +73,10 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 	private JButton btnXoaTrangSP;
 	private JScrollPane scr_Ds;
 	private JTable tbl_Ds;
-	private DefaultTableModel model_ds;
+	private static DefaultTableModel model_ds;
 
-	private DecimalFormat df;
-	private DateTimeFormatter dtf;
+	private static DecimalFormat df;
+	private static DateTimeFormatter dtf;
 
 	private JTextField txt_TenSP;
 	private JTextField txt_ngaySinh;
@@ -90,7 +93,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 	private JTextField txt_GiaBan;
 	private JTextField txt_TonKho;
 	private NhaCungCap_DAO nhaCungCap_DAO = new NhaCungCap_DAO();
-	private SanPham_DAO sanPham_DAO = new SanPham_DAO();
+	private static SanPham_DAO sanPham_DAO = new SanPham_DAO();
 	private LoaiSanPham_DAO loaiSanPham_DAO = new LoaiSanPham_DAO();
 	private MauSac_DAO mauSac_DAO = new MauSac_DAO();
 	private KichCo_DAO kichCo_DAO = new KichCo_DAO();
@@ -159,7 +162,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		JLabel lblTenSP = new JLabel("Tên sản phẩm:");
 		lblTenSP.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTenSP.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblTenSP.setBounds(200, 15, 80, 20);
+		lblTenSP.setBounds(190, 15, 80, 20);
 		pn_kqTimKiem.add(lblTenSP);
 
 		JLabel lblMauSac = new JLabel("Màu sắc:");
@@ -179,7 +182,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		txt_TenSP.setBackground(new Color(255, 250, 240));
 		txt_TenSP.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_TenSP.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_TenSP.setBounds(280, 15, 160, 20);
+		txt_TenSP.setBounds(264, 16, 160, 20);
 		pn_kqTimKiem.add(txt_TenSP);
 		txt_TenSP.setColumns(10);
 
@@ -233,16 +236,16 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		cmb_LoaiSanPham.setBounds(338, 100, 100, 25);
 		pn_kqTimKiem.add(cmb_LoaiSanPham);
 
-		JLabel lblTonKho = new JLabel("Tồn kho:");
+		JLabel lblTonKho = new JLabel("Số lượng:");
 		lblTonKho.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTonKho.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblTonKho.setBounds(447, 57, 44, 20);
+		lblTonKho.setBounds(433, 56, 65, 20);
 		pn_kqTimKiem.add(lblTonKho);
 
 		JLabel lblGiaNhap = new JLabel("Giá nhập:");
 		lblGiaNhap.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGiaNhap.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblGiaNhap.setBounds(448, 15, 60, 20);
+		lblGiaNhap.setBounds(434, 15, 60, 20);
 		pn_kqTimKiem.add(lblGiaNhap);
 
 		txt_GiaNhap = new JTextField();
@@ -318,7 +321,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		String[] ncc = capNhatCmbNCC();
 		cmb_NCC = new JComboBox();
 		cmb_NCC.setModel(new DefaultComboBoxModel(ncc));
-		cmb_NCC.setBounds(90, 55, 237, 22);
+		cmb_NCC.setBounds(90, 55, 323, 22);
 		pn_kqTimKiem.add(cmb_NCC);
 		
 		btnSearchSP = new JButton("Tìm");
@@ -337,7 +340,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		txt_maSP.setColumns(10);
 		txt_maSP.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txt_maSP.setBackground(new Color(255, 250, 240));
-		txt_maSP.setBounds(90, 15, 100, 20);
+		txt_maSP.setBounds(90, 15, 90, 20);
 		pn_kqTimKiem.add(txt_maSP);
 
 		//hình
@@ -495,18 +498,18 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 			tbl_Ds.setRowSorter(sorter);
 			List<RowFilter<Object, Object>> filters = new ArrayList<>();
-			filters.add(RowFilter.regexFilter(maSP, 0));
-			filters.add(RowFilter.regexFilter(tenSP, 1));
-			filters.add(RowFilter.regexFilter(giaBan, 2));
-			filters.add(RowFilter.regexFilter(giaNhap, 3));
-			filters.add(RowFilter.regexFilter(ngay, 4));
-			filters.add(RowFilter.regexFilter(tenloaiSP, 5));
-			filters.add(RowFilter.regexFilter(tenMauSac, 6));
-			filters.add(RowFilter.regexFilter(tenChatLieu, 7));
-			filters.add(RowFilter.regexFilter(tenKichCo, 8));
-			filters.add(RowFilter.regexFilter(tenNCC, 9));
-			filters.add(RowFilter.regexFilter(tonKho, 10));
-			filters.add(RowFilter.regexFilter(tinhTrang, 11));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(maSP), 0));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tenSP), 1));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(giaBan), 2));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(giaNhap), 3));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(ngay), 4));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tenloaiSP), 5));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tenMauSac), 6));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tenChatLieu), 7));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tenKichCo), 8));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tenNCC), 9));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tonKho), 10));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tinhTrang), 11));
 			
 			RowFilter<Object, Object> af = RowFilter.andFilter(filters);
 			sorter.setRowFilter(af);
@@ -593,6 +596,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
 		list.add("Tất cả");
+
 		for (KichCo ct : kichCo_DAO.getDsKichCo()) {
 			list.add(ct.getTenKichCo());
 		}
@@ -605,10 +609,53 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
 		list.add("Tất cả");
+	
 		for (ChatLieu cl : chatLieu_DAO.getDsChatLieu()) {
 			list.add(cl.getTenChatLieu());
 		}
 		s = list.toArray(new String[0]);
 		return s;
+	}
+	public  boolean validDataKH() {
+		String hoTen = txt_TenSP.getText().trim();
+		String soDienThoai = txt_GiaNhap.getText().trim();
+		String diaChi = txt_GiaBan.getText();
+		if(!(hoTen.length() > 0 && hoTen.matches("^("+GeneratorID.tiengVietLow().toUpperCase()+GeneratorID.tiengVietLow()+"*((\\s)))+"+GeneratorID.tiengVietLow().toUpperCase()+GeneratorID.tiengVietLow()+"*$"))) {
+			JOptionPane.showMessageDialog(null, "Họ Tên không chứa ký tự số. VD: Nguyễn Văn A");
+			return false;
+		}
+		if (!(soDienThoai.length() == 10 && soDienThoai.matches("0[0-9]{9}"))) {
+			JOptionPane.showMessageDialog(null, "Số Điện thoại bắt đầu bằng số 0 và độ dài số điện thoại bằng 10");
+			return false;
+		}
+		if (!(diaChi.length()>0)) {
+			JOptionPane.showMessageDialog(null, "Nhập địa chỉ khách hàng");
+			return false;
+		}
+
+		return true;
+	}
+	public static void updateData(List<SanPham> ds)  {
+		//xoaTrangTable(tbl_Ds);
+		
+		df = new DecimalFormat("#,###");
+		dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	
+
+		List<SanPham> list = sanPham_DAO.getDsSanPham();
+		for (SanPham sp : list) {
+			String[] rowData = { sp.getMaSP(), sp.getTenSP(), Double.toString(sp.getGiaNhap()),
+					Double.toString(sp.getGiaBan()), dtf.format(sp.getNgayNhap()).substring(0, 10),
+					sp.getLoaiSP().getTenLoai(), sp.getMauSac().getTenMauSac(), sp.getChatLieu().getTenChatLieu(),
+					sp.getKichCo().getTenKichCo(), sp.getNhaCungCap().getTenNCC(), Integer.toString(sp.getSoLuongTon()),
+					sp.getTrangThai() };
+			model_ds.addRow(rowData);
+		}
+
+	}
+	public static void resetData() {
+		SanPham_DAO sp_DAO = new SanPham_DAO();
+		List<SanPham> ds = sp_DAO.getDsSanPham();
+		ManHinhTimKiemSanPham.updateData(ds);
 	}
 }

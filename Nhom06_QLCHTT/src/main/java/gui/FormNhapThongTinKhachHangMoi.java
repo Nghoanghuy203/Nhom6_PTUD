@@ -129,6 +129,7 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 		scr_nhapDiaChiKH.setBounds(140, 140, 260, 50);
 		main.add(scr_nhapDiaChiKH);
 		
+		//khi nhấn vào dấu X ở góc trên cùng bên phải thì kích hoạt sự kiện
 		btnExit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -136,6 +137,10 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 			}
 		});
 	}
+	/**
+	 * hàm kiểm tra nhập thông tin khách hàng
+	 * @return true khi nhập đúng, nếu sai thì hiển thị thông báo và trả về false
+	 */
 	public static boolean validDataKHNew() {
 		String hoTen = txt_kqHotenKHMoi.getText().trim();
 		String soDienThoai = txt_kqSdtKHMoi.getText().trim();
@@ -158,7 +163,6 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 			txt_kqDiaChiKHMoi.selectAll();
 			return false;
 		}
-		
 		return true;
 	}
 }

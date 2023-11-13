@@ -342,84 +342,12 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 			@Override
 			public void contentsChanged(ListDataEvent e) {
 				// TODO Auto-generated method stub
-				if (cmb_thang.getSelectedItem().equals("Tháng 1")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(1);
-					dsHD = hoaDon_DAO.getDSHDTheoThang(1);
-					updateTable(dsHD);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 2")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(2);
-					dsHD = hoaDon_DAO.getDSHDTheoThang(2);
-					updateTable(dsHD);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 3")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(3);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 4")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(4);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 5")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(5);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 6")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(6);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 7")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(7);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 8")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(8);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 9")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(9);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 10")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(10);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 11")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(11);
-					dsHD = hoaDon_DAO.getDSHDTheoThang(11);
-					updateTable(dsHD);
-				}
-				if (cmb_thang.getSelectedItem().equals("Tháng 12")) {
-					chart = new BieuDoDoanhThu();
-					pn_bieuDo.removeAll();
-					pn_bieuDo.add(chart);
-					chart.thongKeTheoThang(12);
-				}
+				int thang = cmb_thang.getSelectedIndex()+1;
+				chart = new BieuDoDoanhThu();
+				pn_bieuDo.removeAll();
+				pn_bieuDo.add(chart);
+				chart.thongKeTheoThang(thang);
+				dsHD = hoaDon_DAO.getDSHDTheoThang(thang);
 			}
 		});
 	}
@@ -429,6 +357,7 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 		DefaultTableModel dm = (DefaultTableModel) t.getModel();
 		dm.getDataVector().removeAllElements();
 	}
+	
 	private void updateTable(List<HoaDon> ds) {
 		xoaTrangTable(tbl_Ds);
 		tbl_Ds.revalidate();

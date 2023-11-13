@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connectDB.ConnectDB;
+import custom.barChart.ThongKeTonKho;
 import entities.ChatLieu;
 import entities.KichCo;
 import entities.LoaiSanPham;
@@ -319,4 +320,58 @@ public class SanPham_DAO implements I_SanPham {
 		}
 		return ds;
 	}
+
+	public List<ThongKeTonKho> getDSTonKho() {
+		List<ThongKeTonKho> dstk = new ArrayList<ThongKeTonKho>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT maSP, tenSP, SUM(soLuongTon) AS TonKho \n"
+				+ "FROM SanPham \n"
+				+ "GROUP BY maSP,tenSP";
+		try {
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String maSP = rs.getNString("maSP");
+				String tenSP = rs.getNString("tenSP");
+				int soLuong = rs.getInt("TonKho");
+				ThongKeTonKho tk = new ThongKeTonKho(maSP, tenSP, soLuong);
+				dstk.add(tk);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return dstk;
+	}
+	public List<ThongKeTonKho> getDSTonKhoTheoTieuChi(String tenSP) {
+		List<ThongKeTonKho> dstk = new ArrayList<ThongKeTonKho>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT maSP, tenSP, SUM(soLuongTon) AS TonKho\n"
+				+ "FROM SanPham\n"
+				+ "WHERE maLoai = (SELECT [maLoai] FROM LoaiSanPham WHERE [tenLoai] = ?)\n"
+				+ "GROUP BY maSP, tenSP";
+		PreparedStatement statement = null;
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, tenSP);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String maSP = rs.getNString("maSP");
+				String tensp = rs.getNString("tenSP");
+				int soLuong = rs.getInt("TonKho");
+				ThongKeTonKho tk = new ThongKeTonKho(maSP, tensp, soLuong);
+				dstk.add(tk);
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return dstk;
+	}
 }
+
+
