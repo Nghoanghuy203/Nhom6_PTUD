@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,9 +89,28 @@ public class NhaCungCap_DAO implements I_NhaCungCap{
 
 	@Override
 	public boolean capNhatNCC(String maNCC, NhaCungCap nccNew) {
-		// TODO Auto-generated method stub
-		return false;
+		int n=0;
+		ConnectDB.getInstance();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "\n"
+				+ "Update NhaCungCap set tenNCC = ? , sdtNCC = ?, diaChiNCC = ? \n"
+				+ "Where maNCC = ?";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1,nccNew.getTenNCC());
+			statement.setNString(2, nccNew.getSdtNCC());
+			statement.setNString(3, nccNew.getDiaChiNCC());
+			statement.setNString(4, maNCC);
+			n= statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
 	}
+
 	
 	public static String taoMaNhaCungCap(String ten) {
 		int stt=0;

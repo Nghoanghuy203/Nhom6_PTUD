@@ -41,6 +41,8 @@ import dao.ChiTietHoaDon_DAO;
 import dao.LoaiSanPham_DAO;
 import dao.SanPham_DAO;
 import entities.LoaiSanPham;
+import entities.SanPham;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -50,18 +52,18 @@ import javax.swing.ScrollPaneConstants;
 
 
 public class ManHinhThongKeTonKho extends JPanel{
-	private JScrollPane scr_Ds;
-	public static JTable tbl_Ds;
-	public static DefaultTableModel model_ds;
+	private JScrollPane scrDanhSach;
+	public static JTable tbl_DanhSachSanPham;
+	public static DefaultTableModel model_danhSachSanPham;
 
 
-	private JComboBox<String> cmb_tieuChi;
+	private JComboBox<String> cmbTieuChi;
 
-	private SanPham_DAO sp_DAO;
+	private static SanPham_DAO sanPham_DAO;
 	private LoaiSanPham_DAO loaiSanPham_DAO = new LoaiSanPham_DAO();
-	public static List<ThongKeTonKho> dstk;
+	public static List<ThongKeTonKho> danhSachThongKe;
 	private BieuDoTonKho chart;
-	private JPanel pn_bieuDo;
+	private JPanel pnlBieuDo;
 	/**
 	 * Create the panel.
 	 */
@@ -83,66 +85,55 @@ public class ManHinhThongKeTonKho extends JPanel{
 		}
 
 
-		sp_DAO = new SanPham_DAO();
+		sanPham_DAO = new SanPham_DAO();
 
-		JPanel pn_timKiem = new JPanel();
-		pn_timKiem.setBackground(new Color(255, 255, 255));
-		pn_timKiem.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true),
+		JPanel pnlThaoTacChinh = new JPanel();
+		pnlThaoTacChinh.setBackground(new Color(255, 255, 255));
+		pnlThaoTacChinh.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true),
 				"Ti\u00EAu ch\u00ED th\u1ED1ng k\u00EA", TitledBorder.LEADING, TitledBorder.TOP, null,
 				new Color(65, 105, 225)));
-		pn_timKiem.setBounds(10, 50, 1100, 80);
-		add(pn_timKiem);
-		pn_timKiem.setLayout(null);
+		pnlThaoTacChinh.setBounds(10, 50, 1100, 80);
+		add(pnlThaoTacChinh);
+		pnlThaoTacChinh.setLayout(null);
 
-		JLabel lbl_thongBaoKq = new JLabel();
-		lbl_thongBaoKq.setBounds(60, 60, 100, 14);
-		lbl_thongBaoKq.setForeground(Color.red);
-		pn_timKiem.add(lbl_thongBaoKq);
-
-		JPanel pn_kqTimKiem = new JPanel();
-		pn_kqTimKiem.setLayout(null);
-		pn_kqTimKiem.setBackground(new Color(255, 250, 240));
-		pn_kqTimKiem.setBounds(10, 20, 1080, 50);
-		pn_timKiem.add(pn_kqTimKiem);
+		JPanel pnlThaoTac = new JPanel();
+		pnlThaoTac.setLayout(null);
+		pnlThaoTac.setBackground(new Color(255, 250, 240));
+		pnlThaoTac.setBounds(10, 20, 1080, 50);
+		pnlThaoTacChinh.add(pnlThaoTac);
 
 		JLabel lblTieuChi = new JLabel("Tiêu chí:");
 		lblTieuChi.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTieuChi.setFont(new Font("Arial", Font.PLAIN, 11));
 		lblTieuChi.setBounds(10, 10, 50, 30);
-		pn_kqTimKiem.add(lblTieuChi);
+		pnlThaoTac.add(lblTieuChi);
 
 
 
 		String[] loai = capNhatCmbLoai();
-		cmb_tieuChi = new JComboBox();
-		cmb_tieuChi.setModel(new DefaultComboBoxModel(loai));
-		cmb_tieuChi.setBackground(new Color(245, 222, 179));
-		cmb_tieuChi.setBounds(60, 10, 150, 30);
-		pn_kqTimKiem.add(cmb_tieuChi);
+		cmbTieuChi = new JComboBox();
+		cmbTieuChi.setModel(new DefaultComboBoxModel(loai));
+		cmbTieuChi.setBackground(new Color(245, 222, 179));
+		cmbTieuChi.setBounds(60, 10, 150, 30);
+		pnlThaoTac.add(cmbTieuChi);
 		
-		JButton btnXuatBaoCao = new JButton("Xuất báo cáo");
+		JButton btnXuatBaoCao = new JButton("Xuất file *.xlxs");
 		btnXuatBaoCao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnXuatBaoCao.setBounds(239, 14, 139, 23);
-		pn_kqTimKiem.add(btnXuatBaoCao);
-
-		JButton btnTimNV = new JButton("Thống kê");
-		btnTimNV.setIcon(null);
-		btnTimNV.setBounds(970, 9, 100, 30);
-		//pn_kqTimKiem.add(btnTimNV);
-		btnTimNV.setFont(new Font("Arial", Font.BOLD, 14));
-		btnTimNV.setBackground(new Color(147, 112, 219));
+		btnXuatBaoCao.setBounds(930, 10, 140, 30);
+		pnlThaoTac.add(btnXuatBaoCao);
 
 
-		JPanel pn_dsnv = new JPanel();
-		pn_dsnv.setBackground(new Color(255, 255, 255));
-		pn_dsnv.setBounds(10, 519, 1100, 200);
-		add(pn_dsnv);
-		pn_dsnv.setLayout(null);
 
-		model_ds = new DefaultTableModel(new Object[][] {
+		JPanel pnlDanhSachSanPham = new JPanel();
+		pnlDanhSachSanPham.setBackground(new Color(255, 255, 255));
+		pnlDanhSachSanPham.setBounds(10, 519, 1100, 200);
+		add(pnlDanhSachSanPham);
+		pnlDanhSachSanPham.setLayout(null);
+
+		model_danhSachSanPham = new DefaultTableModel(new Object[][] {
 
 		}, new String[] { "Mã Sản Phẩm","Tên Sản Phẩm","Số Lượng" }
 
@@ -156,27 +147,27 @@ public class ManHinhThongKeTonKho extends JPanel{
 			}
 		};
 
-		tbl_Ds = new JTable(model_ds);
-		tbl_Ds.setSelectionBackground(new Color(65, 105, 225));
-		tbl_Ds.setRowHeight(40);
-		tbl_Ds.setGridColor(new Color(0, 0, 0));
+		tbl_DanhSachSanPham = new JTable(model_danhSachSanPham);
+		tbl_DanhSachSanPham.setSelectionBackground(new Color(65, 105, 225));
+		tbl_DanhSachSanPham.setRowHeight(40);
+		tbl_DanhSachSanPham.setGridColor(new Color(0, 0, 0));
 
 		DefaultTableCellRenderer head_render = new DefaultTableCellRenderer();
 		head_render.setBackground(new Color(135, 205, 230));
-		tbl_Ds.getTableHeader().setDefaultRenderer(head_render);
+		tbl_DanhSachSanPham.getTableHeader().setDefaultRenderer(head_render);
 
-		scr_Ds = new JScrollPane();
-		scr_Ds.setViewportView(tbl_Ds);
-		scr_Ds.setBounds(10, 30, 1080, 160);
-		scr_Ds.getViewport().setBackground(Color.white);
-		pn_dsnv.add(scr_Ds);
+		scrDanhSach = new JScrollPane();
+		scrDanhSach.setViewportView(tbl_DanhSachSanPham);
+		scrDanhSach.setBounds(10, 30, 1080, 160);
+		scrDanhSach.getViewport().setBackground(Color.white);
+		pnlDanhSachSanPham.add(scrDanhSach);
 
-		JLabel lblDs_SP = new JLabel("Danh sách sản phẩm");
-		lblDs_SP.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDs_SP.setFont(new Font("Arial", Font.BOLD, 16));
-		lblDs_SP.setForeground(new Color(65, 105, 225));
-		lblDs_SP.setBounds(0, 0, 1100, 30);
-		pn_dsnv.add(lblDs_SP);
+		JLabel lblDanhSachSanPham = new JLabel("Danh sách sản phẩm");
+		lblDanhSachSanPham.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDanhSachSanPham.setFont(new Font("Arial", Font.BOLD, 16));
+		lblDanhSachSanPham.setForeground(new Color(65, 105, 225));
+		lblDanhSachSanPham.setBounds(0, 0, 1100, 30);
+		pnlDanhSachSanPham.add(lblDanhSachSanPham);
 
 		JLabel btnExit = new JLabel("");
 		btnExit.setIcon(new ImageIcon(ManHinhChinh.class.getResource("/images/close.png")));
@@ -193,54 +184,49 @@ public class ManHinhThongKeTonKho extends JPanel{
 			}
 		});
 
-		JLabel lblTmKimNhn = new JLabel("THỐNG KÊ TỒN KHO");
-		lblTmKimNhn.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTmKimNhn.setForeground(new Color(100, 149, 237));
-		lblTmKimNhn.setFont(new Font("Arial", Font.BOLD, 20));
-		lblTmKimNhn.setBounds(20, 0, 1080, 50);
-		add(lblTmKimNhn);
+		JLabel lblTenManHinh = new JLabel("THỐNG KÊ TỒN KHO");
+		lblTenManHinh.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTenManHinh.setForeground(new Color(100, 149, 237));
+		lblTenManHinh.setFont(new Font("Arial", Font.BOLD, 20));
+		lblTenManHinh.setBounds(20, 0, 1080, 50);
+		add(lblTenManHinh);
 
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(245, 222, 179)));
-		panel.setBounds(10, 133, 1100, 386);
-		add(panel);
-		panel.setLayout(null);
+		JPanel pnlChart = new JPanel();
+		pnlChart.setBackground(new Color(255, 255, 255));
+		pnlChart.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(245, 222, 179)));
+		pnlChart.setBounds(10, 133, 1100, 386);
+		add(pnlChart);
+		pnlChart.setLayout(null);
 
 		JLabel lblBieuDoTonKho = new JLabel("Biểu đồ số lượng tồn kho");
 		lblBieuDoTonKho.setBounds(0, 0, 1100, 30);
 		lblBieuDoTonKho.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBieuDoTonKho.setForeground(new Color(65, 105, 225));
 		lblBieuDoTonKho.setFont(new Font("Arial", Font.BOLD, 16));
-		panel.add(lblBieuDoTonKho);
+		pnlChart.add(lblBieuDoTonKho);
 
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(ManHinhThongKeDoanhThu.class.getResource("/images/doanhthu.png")));
-		lblNewLabel_1.setBounds(10, 30, 1080, 310);
-		//panel.add(lblNewLabel_1);
-
-		pn_bieuDo = new JPanel();
-		pn_bieuDo.setBounds(10, 30, 1090, 309);
-		//panel.add(pn_bieuDo);
-		pn_bieuDo.setLayout(null);
-
-		dstk = sp_DAO.getDSTonKho();
 		
 
-		JScrollPane scroll_chart = new JScrollPane();
-		scroll_chart.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		scroll_chart.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroll_chart.setBounds(10, 30, 1080, 345);
-		panel.add(scroll_chart);
-		//pn_bieuDo.add(scroll_chart);
+		pnlBieuDo = new JPanel();
+		pnlBieuDo.setBounds(10, 30, 1090, 309);
+		pnlBieuDo.setLayout(null);
+
+		danhSachThongKe = sanPham_DAO.getDSTonKho();
+		
+
+		JScrollPane scr_chart = new JScrollPane();
+		scr_chart.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scr_chart.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scr_chart.setBounds(10, 30, 1080, 345);
+		pnlChart.add(scr_chart);
 		chart = new BieuDoTonKho();
-		scroll_chart.setViewportView(chart);
-		scroll_chart.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
-		scroll_chart.getVerticalScrollBar().setUI(new CustomScrollBarUI());
-		chart.ThongKeKho(dstk);
+		scr_chart.setViewportView(chart);
+		scr_chart.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
+		scr_chart.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		chart.ThongKeKho(danhSachThongKe);
 		
-		updateTable(dstk);
-		cmb_tieuChi.getModel().addListDataListener(new ListDataListener() {
+		updateTable(danhSachThongKe);
+		cmbTieuChi.getModel().addListDataListener(new ListDataListener() {
 
 			@Override
 			public void intervalRemoved(ListDataEvent e) {
@@ -257,74 +243,54 @@ public class ManHinhThongKeTonKho extends JPanel{
 			@Override
 			public void contentsChanged(ListDataEvent e) {
 				// TODO Auto-generated method stub
-				String tc = cmb_tieuChi.getSelectedItem().toString();
-				tc = tc.equalsIgnoreCase("")?"Tất cả":tc;
-				if(tc.equalsIgnoreCase("Tất cả")) {
-					/*
-					pn_bieuDo.removeAll();
-					pn_bieuDo.remove(scroll_chart);
-					pn_bieuDo.add(chart);
-					panel.add(pn_bieuDo);
-					*/
+				String tieuChi = cmbTieuChi.getSelectedItem().toString();
+				tieuChi = tieuChi.equalsIgnoreCase("")?"Tất cả":tieuChi;
+				if(tieuChi.equalsIgnoreCase("Tất cả")) {
 					chart = new BieuDoTonKho();
-					scroll_chart.revalidate();
-					scroll_chart.setViewportView(chart);
-					
-					//pn_bieuDo.add(scroll_chart);
-					chart.ThongKeKho(dstk);
-					updateTable(dstk);
+					scr_chart.revalidate();
+					scr_chart.setViewportView(chart);
+					chart.ThongKeKho(danhSachThongKe);
+					updateTable(danhSachThongKe);
 				}
 				else {
-					/*
-					pn_bieuDo.removeAll();
-					pn_bieuDo.remove(scroll_chart);
-					pn_bieuDo.add(chart);
-					panel.add(pn_bieuDo);
-					*/
-					dstk = sp_DAO.getDSTonKhoTheoTieuChi(tc);
-					//pn_bieuDo.add(scroll_chart);
-					scroll_chart.revalidate();;
+					danhSachThongKe = sanPham_DAO.getDSTonKhoTheoTieuChi(tieuChi);
+					scr_chart.revalidate();;
 					chart = new BieuDoTonKho();
-					scroll_chart.setViewportView(chart);
-					
-					chart.ThongKeKho(dstk);
-
-					updateTable(dstk);
-
+					scr_chart.setViewportView(chart);
+					chart.ThongKeKho(danhSachThongKe);
+					updateTable(danhSachThongKe);
 				}
-
-
 			}
 		});
 		btnXuatBaoCao.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	String tc = cmb_tieuChi.getSelectedItem().toString();
-				tc = tc.equalsIgnoreCase("")?"Tất cả":tc;
-				xuatBaoCaoExcelTheoTieuChi(tc);
+		    	String tieuChi = cmbTieuChi.getSelectedItem().toString();
+		    	tieuChi = tieuChi.equalsIgnoreCase("")?"Tất cả":tieuChi;
+				xuatBaoCaoExcelTheoTieuChi(tieuChi);
 		    }
 		});
 	}
 
 
 	private void xoaTrangTable(JTable t) {
-		DefaultTableModel dm = (DefaultTableModel) t.getModel();
-		dm.getDataVector().removeAllElements();
+		DefaultTableModel dtm = (DefaultTableModel) t.getModel();
+		dtm.getDataVector().removeAllElements();
 	}
-	private void updateTable(List<ThongKeTonKho> ds) {
-		xoaTrangTable(tbl_Ds);
-		tbl_Ds.revalidate();
+	private void updateTable(List<ThongKeTonKho> danhSach) {
+		xoaTrangTable(tbl_DanhSachSanPham);
+		tbl_DanhSachSanPham.revalidate();
 
-		for (ThongKeTonKho tk : ds) {
-			Object data[] = {tk.getMaSP(),tk.getTenSP(),tk.getTongSoLuong()};
-			model_ds.addRow(data);
+		for (ThongKeTonKho tonKho : danhSach) {
+			Object data[] = {tonKho.getMaSP(),tonKho.getTenSP(),tonKho.getTongSoLuong()};
+			model_danhSachSanPham.addRow(data);
 		}
 	}
 	private String[] capNhatCmbLoai() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
 		list.add("Tất cả");
-		for (LoaiSanPham ct : loaiSanPham_DAO.getDsLoaiSP()) {
-			list.add(ct.getTenLoai());
+		for (LoaiSanPham loai : loaiSanPham_DAO.getDsLoaiSP()) {
+			list.add(loai.getTenLoai());
 		}
 		s = list.toArray(new String[0]);
 		return s;
@@ -333,12 +299,12 @@ public class ManHinhThongKeTonKho extends JPanel{
 
 	private void xuatBaoCaoExcelTheoTieuChi(String tieuChi) {
 	    try {
-	        JFileChooser fileChooser = new JFileChooser();
-	        fileChooser.setDialogTitle("Chọn vị trí lưu file Excel");
-	        int userSelection = fileChooser.showSaveDialog(null);
+	        JFileChooser fchViTri = new JFileChooser();
+	        fchViTri.setDialogTitle("Chọn vị trí lưu file Excel");
+	        int userSelection = fchViTri.showSaveDialog(null);
 
 	        if (userSelection == JFileChooser.APPROVE_OPTION) {
-	            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+	            String filePath = fchViTri.getSelectedFile().getAbsolutePath();
 	            if (!filePath.endsWith(".xlsx")) {
 	                filePath += ".xlsx";
 	            }
@@ -353,18 +319,18 @@ public class ManHinhThongKeTonKho extends JPanel{
 	                cell.setCellValue(headers[i]);
 	            }
 
-	            List<ThongKeTonKho> dsThongKe = new ArrayList<>();
+	            List<ThongKeTonKho> danhSachThongKe = new ArrayList<>();
 	            if (tieuChi.equalsIgnoreCase("Tất cả")) {
-	                dsThongKe = sp_DAO.getDSTonKho();
+	                danhSachThongKe = sanPham_DAO.getDSTonKho();
 	            } else {
-	                dsThongKe = sp_DAO.getDSTonKhoTheoTieuChi(tieuChi);
+	            	danhSachThongKe = sanPham_DAO.getDSTonKhoTheoTieuChi(tieuChi);
 	            }
 
-	            for (int i = 0; i < dsThongKe.size(); i++) {
+	            for (int i = 0; i < danhSachThongKe.size(); i++) {
 	                Row dataRow = sheet.createRow(i + 1);
-	                dataRow.createCell(0).setCellValue(dsThongKe.get(i).getMaSP());
-	                dataRow.createCell(1).setCellValue(dsThongKe.get(i).getTenSP());
-	                dataRow.createCell(2).setCellValue(dsThongKe.get(i).getTongSoLuong());
+	                dataRow.createCell(0).setCellValue(danhSachThongKe.get(i).getMaSP());
+	                dataRow.createCell(1).setCellValue(danhSachThongKe.get(i).getTenSP());
+	                dataRow.createCell(2).setCellValue(danhSachThongKe.get(i).getTongSoLuong());
 	            }
 
 	            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
@@ -380,6 +346,7 @@ public class ManHinhThongKeTonKho extends JPanel{
 	        JOptionPane.showMessageDialog(null, "Lỗi khi xuất báo cáo: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
 	    }
 	}
+	
 
 }
 

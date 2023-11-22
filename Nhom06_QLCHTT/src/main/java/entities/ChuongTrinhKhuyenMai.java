@@ -44,7 +44,7 @@ public class ChuongTrinhKhuyenMai {
 	public void setNgayKetThuc(LocalDateTime ngayKetThuc) {
 		this.ngayKetThuc = ngayKetThuc;
 	}
-	public String isTrangThai() {
+	public String getTrangThai() {
 		return trangThai;
 	}
 	

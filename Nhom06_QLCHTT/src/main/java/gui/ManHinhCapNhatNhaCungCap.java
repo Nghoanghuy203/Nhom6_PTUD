@@ -94,7 +94,7 @@ public class ManHinhCapNhatNhaCungCap extends JPanel {
 
 		JPanel pn_thaotac = new JPanel();
 		pn_thaotac.setBackground(new Color(255, 255, 255));
-		pn_thaotac.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "C\u1EADp nh\u1EADt th\u00F4ng tin nh\u00E2n vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(65, 105, 225)));
+		pn_thaotac.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "C\u1EADp nh\u1EADt th\u00F4ng tin nh\u00E0 cung c\u1EA5p", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(65, 105, 225)));
 		pn_thaotac.setBounds(10, 50, 1100, 231);
 		add(pn_thaotac);
 		pn_thaotac.setLayout(null);
@@ -241,7 +241,7 @@ public class ManHinhCapNhatNhaCungCap extends JPanel {
 
 		JPanel pn_dsnv = new JPanel();
 		pn_dsnv.setBackground(new Color(255, 255, 255));
-		pn_dsnv.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "Danh s\u00E1ch nh\u00E2n vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(65, 105, 225)));
+		pn_dsnv.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "Danh s\u00E1ch nh\u00E0 cung c\u1EA5p", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(65, 105, 225)));
 		pn_dsnv.setBounds(10, 280, 1100, 440);
 		add(pn_dsnv);
 		pn_dsnv.setLayout(null);
@@ -276,7 +276,7 @@ public class ManHinhCapNhatNhaCungCap extends JPanel {
 		scr_Ds.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		pn_dsnv.add(scr_Ds);
 		
-		JLabel lblTenManHinh = new JLabel("CẬP NHẬT THÔNG TIN NHÂN VIÊN");
+		JLabel lblTenManHinh = new JLabel("CẬP NHẬT NHÀ CUNG CẤP");
 		lblTenManHinh.setFont(new Font("Arial", Font.BOLD, 20));
 		lblTenManHinh.setForeground(new Color(100, 149, 237));
 		lblTenManHinh.setHorizontalAlignment(SwingConstants.CENTER);
@@ -351,8 +351,10 @@ public class ManHinhCapNhatNhaCungCap extends JPanel {
 				if (nhaCC_dao.themNCC(ncc)) {
 					updateTable();
 					
-				String[] item = 	ManHinhCapNhatSanPham.capNhatCmbNCC();
-				ManHinhCapNhatSanPham.cmb_NCC.setModel(new DefaultComboBoxModel<>(item));	
+				String[] item = ManHinhCapNhatSanPham.capNhatCmbNhaCungCap();
+				String[] t_item = ManHinhTimKiemSanPham.capNhatCmbNCC();
+				ManHinhCapNhatSanPham.cmbNhaCungCap.setModel(new DefaultComboBoxModel<>(item));	
+				ManHinhTimKiemSanPham.cmbNhaCungCap.setModel(new DefaultComboBoxModel<>(t_item));
 					JOptionPane.showMessageDialog(null, "thanh cong");
 				}
 				else JOptionPane.showMessageDialog(null, "that bai!");

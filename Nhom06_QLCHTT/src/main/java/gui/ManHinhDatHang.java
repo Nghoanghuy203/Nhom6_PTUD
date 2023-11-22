@@ -49,7 +49,7 @@ import javax.swing.GroupLayout.Alignment;
 public class ManHinhDatHang extends JPanel {
 
 	private JTextField txtSdt;
-	private JButton btnSearch;
+	private JButton btnTim;
 	
 	private JScrollPane scr_Ds;
 	private static JTable tbl_Ds;
@@ -70,10 +70,7 @@ public class ManHinhDatHang extends JPanel {
 	private JTextField txtTenNV;
 	private JTextField txtMaDon;
 	private JDateChooser dc_ngayLap;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	
 
 	/**
 	 * Create the panel.
@@ -135,18 +132,11 @@ public class ManHinhDatHang extends JPanel {
 		pnl_tkSdt.add(txtSdt);
 		txtSdt.setColumns(10);
 		
-		btnSearch = new JButton("Tìm");
-		//btnSearch.setBorder(new RoundedCornerBorder());
-		btnSearch.setBackground(new Color(65, 105, 225));
-		btnSearch.setIcon(new ImageIcon(ManHinhLapHoaDon.class.getResource("/images/search.png")));
-		btnSearch.setBounds(1000, 20, 90, 30);
-		pn_timKiem.add(btnSearch);
-		
-		
-		
-		JLabel lblKqTimKiem = new JLabel("Kết quả:");
-		lblKqTimKiem.setBounds(10, 60, 50, 14);
-		//pn_timKiem.add(lblKqTimKiem);
+		btnTim = new JButton("Tìm");
+		btnTim.setBackground(new Color(65, 105, 225));
+		btnTim.setIcon(new ImageIcon(ManHinhLapHoaDon.class.getResource("/images/search.png")));
+		btnTim.setBounds(1000, 20, 90, 30);
+		pn_timKiem.add(btnTim);
 		
 		JLabel lbl_thongBaoKq = new JLabel();
 		lbl_thongBaoKq.setBounds(60, 60, 100, 14);
@@ -342,30 +332,30 @@ public class ManHinhDatHang extends JPanel {
 			}
 		});
 		
-		JLabel lblNewLabel = new JLabel("Ngày đặt:");
-		lblNewLabel.setBounds(600, 20, 60, 30);
-		pn_timKiem.add(lblNewLabel);
+		JLabel lbl_ngayDat = new JLabel("Ngày đặt:");
+		lbl_ngayDat.setBounds(600, 20, 60, 30);
+		pn_timKiem.add(lbl_ngayDat);
 		
 		dc_ngayLap = new JDateChooser();
 		dc_ngayLap.setBounds(660, 20, 150, 30);
 		dc_ngayLap.setDateFormatString("yyyy-MM-dd");
 		pn_timKiem.add(dc_ngayLap);
 		
-		JLabel lblNewLabel_3 = new JLabel("Mã đơn:");
-		lblNewLabel_3.setBounds(10, 20, 80, 30);
-		pn_timKiem.add(lblNewLabel_3);
+		JLabel lbl_maDon = new JLabel("Mã đơn:");
+		lbl_maDon.setBounds(10, 20, 80, 30);
+		pn_timKiem.add(lbl_maDon);
 		
-		JLabel lblNewLabel_3_1 = new JLabel("Sđt khách hàng:");
-		lblNewLabel_3_1.setBounds(300, 20, 90, 30);
-		pn_timKiem.add(lblNewLabel_3_1);
+		JLabel lbl_sdtKH = new JLabel("Sđt khách hàng:");
+		lbl_sdtKH.setBounds(300, 20, 90, 30);
+		pn_timKiem.add(lbl_sdtKH);
 		
-		JLabel lblNewLabel_3_2 = new JLabel("Tên nhân viên:");
-		lblNewLabel_3_2.setBounds(10, 62, 80, 30);
-		pn_timKiem.add(lblNewLabel_3_2);
+		JLabel lbl_tenNV = new JLabel("Tên nhân viên:");
+		lbl_tenNV.setBounds(10, 62, 80, 30);
+		pn_timKiem.add(lbl_tenNV);
 		
-		JLabel lblNewLabel_3_2_1 = new JLabel("Tên nhân viên:");
-		lblNewLabel_3_2_1.setBounds(300, 60, 80, 30);
-		pn_timKiem.add(lblNewLabel_3_2_1);
+		JLabel lbl_tenKH = new JLabel("Tên khách hàng:");
+		lbl_tenKH.setBounds(300, 60, 90, 30);
+		pn_timKiem.add(lbl_tenKH);
 		
 		JButton btnXoaTrang = new JButton("Xóa trắng");
 		btnXoaTrang.addMouseListener(new MouseAdapter() {
@@ -385,104 +375,6 @@ public class ManHinhDatHang extends JPanel {
 		btnXoaTrang.setBackground(new Color(255, 99, 71));
 		btnXoaTrang.setBounds(1000, 60, 90, 30);
 		pn_timKiem.add(btnXoaTrang);
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBorder(new MatteBorder(2, 0, 0, 0, (Color) new Color(245, 222, 179)));
-		panel.setBounds(10, 60, 1080, 160);
-		//pn_timKiem.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lblNewLabel_1 = new JLabel("THÔNG TIN ĐƠN ĐẶT HÀNG");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setForeground(new Color(65, 105, 225));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(0, 0, 1080, 30);
-		panel.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("Tên khách hàng:");
-		lblNewLabel_2.setBounds(10, 40, 100, 20);
-		panel.add(lblNewLabel_2);
-		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		textField.setBackground(new Color(255, 255, 255));
-		textField.setBounds(110, 40, 160, 20);
-		panel.add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblNewLabel_2_1 = new JLabel("Số điện thoại:");
-		lblNewLabel_2_1.setBounds(280, 40, 70, 20);
-		panel.add(lblNewLabel_2_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		textField_1.setBackground(Color.WHITE);
-		textField_1.setBounds(350, 40, 130, 20);
-		panel.add(textField_1);
-		
-		JLabel lblNewLabel_2_2 = new JLabel("Địa chỉ:");
-		lblNewLabel_2_2.setBounds(10, 70, 90, 20);
-		panel.add(lblNewLabel_2_2);
-		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		textField_2.setColumns(10);
-		textField_2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		textField_2.setBackground(Color.WHITE);
-		textField_2.setBounds(110, 70, 370, 20);
-		panel.add(textField_2);
-		
-		JLabel lbl_tongthanhtoan = new JLabel("Tổng thanh toán:");
-		lbl_tongthanhtoan.setBounds(540, 40, 100, 20);
-		panel.add(lbl_tongthanhtoan);
-		
-		JLabel lbl_kqtongthanhtoan = new JLabel("0 VND");
-		lbl_kqtongthanhtoan.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbl_kqtongthanhtoan.setBounds(650, 40, 190, 20);
-		panel.add(lbl_kqtongthanhtoan);
-		
-		JLabel lbl_tienkhachtra = new JLabel("Tiền khách trả:");
-		lbl_tienkhachtra.setBounds(540, 70, 90, 20);
-		panel.add(lbl_tienkhachtra);
-		
-		textField_3 = new JTextField();
-		textField_3.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField_3.setColumns(10);
-		textField_3.setBounds(650, 68, 165, 25);
-		panel.add(textField_3);
-		
-		JLabel lbl_kqtienkhachtra = new JLabel("VND");
-		lbl_kqtienkhachtra.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbl_kqtienkhachtra.setBounds(815, 70, 25, 20);
-		panel.add(lbl_kqtienkhachtra);
-		
-		JLabel lbl_thienthua = new JLabel("Tiền thừa trả khách:");
-		lbl_thienthua.setBounds(540, 100, 120, 20);
-		panel.add(lbl_thienthua);
-		
-		JLabel lbl_kqtienthua = new JLabel("0 VND");
-		lbl_kqtienthua.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbl_kqtienthua.setBounds(650, 100, 190, 20);
-		panel.add(lbl_kqtienthua);
-		
-		JButton btn_thanhtoan = new JButton("Hủy đơn");
-		btn_thanhtoan.setBackground(new Color(255, 51, 51));
-		btn_thanhtoan.setBounds(940, 41, 130, 30);
-		panel.add(btn_thanhtoan);
-		
-		JButton btn_thanhtoan_1 = new JButton("Mua thêm");
-		btn_thanhtoan_1.setBackground(new Color(0, 153, 0));
-		btn_thanhtoan_1.setBounds(940, 82, 130, 30);
-		panel.add(btn_thanhtoan_1);
-		
-		JButton btn_thanhtoan_1_1 = new JButton("Thanh toán");
-		btn_thanhtoan_1_1.setBackground(new Color(255, 127, 80));
-		btn_thanhtoan_1_1.setBounds(940, 119, 130, 30);
-		panel.add(btn_thanhtoan_1_1);
 		
 		JPanel pn_dsddh = new JPanel();
 		pn_dsddh.setBackground(new Color(255, 255, 255));
@@ -551,10 +443,11 @@ public class ManHinhDatHang extends JPanel {
 		pn_dsddh.add(scr_Ds);
 		
 		
-		
+		//cài dữ liệu mặc định khi khởi chạy chương trình
 		List<DonDatHang> ds = donDatHang_dao.getDsDonDatHang();
-		updateDataTableDsDDH(ds);
+		capNhatDuLieuCuaBang(ds);
 		
+		//xử lý sự kiện khi click chọn 1 dòng dữ liệu của bảng
 		tbl_Ds.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -580,8 +473,8 @@ public class ManHinhDatHang extends JPanel {
 				}
 			}
 		});
-		
-		btnSearch.addMouseListener(new MouseAdapter() {
+		//xử lý sự kiện khi click vào nút tìm kiếm
+		btnTim.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
@@ -603,7 +496,7 @@ public class ManHinhDatHang extends JPanel {
 				System.out.println(tenNV);
 				System.out.println(ngayLap);
 				if (ds.size()>0) {
-					updateDataTableDsDDH(ds);
+					capNhatDuLieuCuaBang(ds);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy!");
@@ -611,23 +504,32 @@ public class ManHinhDatHang extends JPanel {
 			}
 		});
 	}
-	
-	private static void xoaTrangTable(JTable t) {
+	/**
+	 * xóa dữ liệu của bảng
+	 * @param t là bảng cần xóa dữ liệu
+	 */
+	private static void xoaNhatDuLieuCuaBang(JTable t) {
 		DefaultTableModel dm = (DefaultTableModel) t.getModel();
 		dm.getDataVector().removeAllElements();
 		t.revalidate();
 	}
-	
-	public static void updateDataTableDsDDH(List<DonDatHang> ds) {
-		xoaTrangTable(tbl_Ds);
+	/**
+	 * cập nhật dữ liệu của bảng danh sách đơn đặt hàng
+	 * @param ds là danh sách đơn đặt hàng
+	 */
+	public static void capNhatDuLieuCuaBang(List<DonDatHang> ds) {
+		xoaNhatDuLieuCuaBang(tbl_Ds);
 		for (DonDatHang donDatHang : ds) {
 			Object data[] = {donDatHang.getMaDDH(),donDatHang.getNhanVien().getTenNV(),donDatHang.getKhachHang().getTenKH(),dtf.format(donDatHang.getNgayLap()).toString(),df.format(donDatHang.getTongTienDDH()),donDatHang.getTinhTrangThanhToan()};
 			model_ds.addRow(data);
 		}
 	}
-	public static void resetData() {
+	/**
+	 * hàm đọc lại dữ liệu của bảng khi có sự thay đổi dữ liệu do màn hình khác tác động
+	 */
+	public static void docLaiDuLieuCuaBang() {
 		DonDatHang_DAO donDatHang_DAO = new DonDatHang_DAO();
 		List<DonDatHang> ds = donDatHang_DAO.getDsDonDatHang();
-		ManHinhDatHang.updateDataTableDsDDH(ds);
+		ManHinhDatHang.capNhatDuLieuCuaBang(ds);
 	}
 }

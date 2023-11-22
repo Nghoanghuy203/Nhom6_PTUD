@@ -67,6 +67,7 @@ import sendSMS.SendSMS;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -112,7 +113,7 @@ public class ManHinhLapHoaDon extends JPanel {
 	public static KhachHang khachHang;
 	private NhanVien nhanVien;
 	private NhanVien_DAO nhanVien_DAO;
-	private ChuongTrinhKhuyenMai_DAO ctkm_dao;
+	private static ChuongTrinhKhuyenMai_DAO ctkm_dao;
 	private ChuongTrinhKhuyenMai ctkm;
 	private LoaiSanPham_DAO loaiSanPham_DAO;
 	private KichCo_DAO kichCo_DAO;
@@ -131,7 +132,7 @@ public class ManHinhLapHoaDon extends JPanel {
 	
 	public JLabel lbl_kqTenKH;
 	private JLabel lbl_kqTongtien;
-	private JComboBox cmb_khuyenmai;
+	public static JComboBox cmb_khuyenmai;
 	private JLabel lbl_ptkm;
 	private JLabel lbl_kqtongthanhtoan;
 	private JLabel lbl_kqtienthua;
@@ -260,6 +261,8 @@ public class ManHinhLapHoaDon extends JPanel {
 						FormNhapThongTinKhachHangMoi.txt_kqSdtKHMoi.setText("");
 						FormNhapThongTinKhachHangMoi.txt_kqDiaChiKHMoi.setText("");
 						ManHinhChinh.form.setVisible(false);
+						ManHinhTimKiemKhachHang.resetData();
+						ManHinhCapNhatKhachHang.resetData();
 						JOptionPane.showMessageDialog(null, "Thêm khách hàng mới thành công!");
 					}
 				}	
@@ -292,7 +295,7 @@ public class ManHinhLapHoaDon extends JPanel {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy!");
 				}
 				else {					
-					updateDataTableDsSP(dskq);
+					capNhatDuLieuCuaBang(dskq);
 				}
 				txt_tkMaSp.setText("Nhập mã sản phẩm ...");
 				txt_tkMaSp.setForeground(Color.gray);
@@ -503,7 +506,7 @@ public class ManHinhLapHoaDon extends JPanel {
 		});
 		
 		List<SanPham> dssp = sanPham_dao.getDsSanPham();
-		updateDataTableDsSP(dssp);
+		capNhatDuLieuCuaBang(dssp);
 		
 		btnThem.addMouseListener(new MouseAdapter() {
 			@Override
@@ -532,7 +535,7 @@ public class ManHinhLapHoaDon extends JPanel {
 						model_giohang.setValueAt(df.format((double)(soluong*gia)), row, 5);
 		                lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
 		                lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
-		                thayDoiGiaTriTxtTienThua();
+		                thayDoiGiaTriTienThua();
 	                }					
 				}
 				else {
@@ -541,7 +544,7 @@ public class ManHinhLapHoaDon extends JPanel {
 					model_giohang.addRow(data);
 					lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
 					lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
-					thayDoiGiaTriTxtTienThua();
+					thayDoiGiaTriTienThua();
 				}
 				
 				spn_soluong.setValue(1);
@@ -718,7 +721,7 @@ public class ManHinhLapHoaDon extends JPanel {
 			@Override
 			public void caretUpdate(CaretEvent e) {
 				// TODO Auto-generated method stub
-				thayDoiGiaTriTxtTienThua();
+				thayDoiGiaTriTienThua();
 			}
 		});
 		
@@ -748,7 +751,7 @@ public class ManHinhLapHoaDon extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if (validDataDatHang()) {
+				if (kiemTraDuLieuDatHang()) {
 					LocalDateTime ngayLap = LocalDateTime.now();
 					double tongTienHD = dinhDangTien(lbl_kqtongthanhtoan.getText());
 					String maDDH = donDatHang_DAO.taoMaDonDatHang();
@@ -762,17 +765,17 @@ public class ManHinhLapHoaDon extends JPanel {
 							ChiTietDonDatHang ct = new ChiTietDonDatHang(maDDH, sp, soLuong, giaBan);
 							if (chiTietDonDatHang_DAO.themChiTietDDH(ct)) System.out.println("ok"); 
 						}
-						xoaTrangTable(tbl_gioHang);
+						xoaDuLieuCuaBang(tbl_gioHang);
 						txt_tienKhachTra.setText("");
 						lbl_thienthua.setText("");
 						lbl_kqtongthanhtoan.setText("");
 						cmb_khuyenmai.setSelectedIndex(0);
-						ManHinhDatHang.resetData();
+						ManHinhDatHang.docLaiDuLieuCuaBang();
 						JOptionPane.showMessageDialog(null, "Đặt hàng thành công!");
 						khachHang = khachHang_dao.getKHMaKH("KHACHLE");
 						lbl_kqTenKH.setText("Khách lẻ");
 						List<SanPham> dsSP = sanPham_dao.getDsSanPham();
-						updateDataTableDsSP(dsSP);
+						capNhatDuLieuCuaBang(dsSP);
 					}
 					
 				}
@@ -800,6 +803,7 @@ public class ManHinhLapHoaDon extends JPanel {
 		lbl_kqTenKH_1.setVisible(false);
 		
 		btn_troLai.setVisible(false);
+		
 		btn_troLai.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -822,9 +826,10 @@ public class ManHinhLapHoaDon extends JPanel {
 				//nếu là màn hình lập hóa đơn từ màn hình đặt hàng chuyển qua
 				//sau khi thanh toán thành công thì tắt đi và chuyển về màn hình đặt hàng
 				if (isDH && !maDDH.equals("")) {
-					if (validDataThanhToan()) {
+					if (kiemTraDuLieuThanhToan()) {
 						LocalDateTime ngayLap = LocalDateTime.now();
 						String maCtkm = (String) cmb_khuyenmai.getSelectedItem();
+						maCtkm = maCtkm.equals("Không có")?"MACDINH":maCtkm;
 						ChuongTrinhKhuyenMai ctkm = ctkm_dao.getCTKM(maCtkm);
 						double tongTienHD = dinhDangTien(lbl_kqtongthanhtoan.getText());
 						double tienKhachTra =  Double.parseDouble(txt_tienKhachTra.getText());
@@ -841,9 +846,9 @@ public class ManHinhLapHoaDon extends JPanel {
 								if (chiTietHoaDon_DAO.themChiTietHD(ct)) System.out.println("ok"); 
 							}
 							String t = lbl_kqtongthanhtoan.getText();
-							ManHinhChinh.thread = new SendSMS(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
+							ManHinhChinh.thread = new SendSMS("Nhân viên "+nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
 							ManHinhChinh.thread.start();
-							xoaTrangTable(tbl_gioHang);
+							xoaDuLieuCuaBang(tbl_gioHang);
 							txt_tienKhachTra.setText("");
 							lbl_thienthua.setText("");
 							lbl_kqtongthanhtoan.setText("");
@@ -854,7 +859,7 @@ public class ManHinhLapHoaDon extends JPanel {
 							if (ckb_inHoaDon.isSelected()) {
 								Report.xuatHoaDonPDF("sMaHD", maHD, "E:\\hoadon.pdf", false);
 							}
-							ManHinhDatHang.resetData();
+							ManHinhDatHang.docLaiDuLieuCuaBang();
 							ManHinhTimKiemHoaDon.resetData();
 							ManHinhChinh.pn_body.removeAll();
 							ManHinhChinh.pn_body.add(ManHinhChinh.mh_dathang);
@@ -864,7 +869,7 @@ public class ManHinhLapHoaDon extends JPanel {
 					}
 				}
 				else {
-					if (validDataThanhToan()) {
+					if (kiemTraDuLieuThanhToan()) {
 						LocalDateTime ngayLap = LocalDateTime.now();
 						String maCtkm = (String) cmb_khuyenmai.getSelectedItem();
 						maCtkm = maCtkm.equals("Không có")?"MACDINH":maCtkm;
@@ -885,16 +890,16 @@ public class ManHinhLapHoaDon extends JPanel {
 							}
 							
 							String t = lbl_kqtongthanhtoan.getText();
-							ManHinhChinh.thread = new SendSMS(nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
+							ManHinhChinh.thread = new SendSMS("Nhân viên "+nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
 							ManHinhChinh.thread.start();
-							xoaTrangTable(tbl_gioHang);
+							xoaDuLieuCuaBang(tbl_gioHang);
 							lbl_kqTongtien.setText("0 VND");
 							txt_tienKhachTra.setText("");
 							lbl_thienthua.setText("");
 							lbl_kqtongthanhtoan.setText("0 VND");
 							cmb_khuyenmai.setSelectedIndex(0);
 							List<SanPham> dsSP = sanPham_dao.getDsSanPham();
-							updateDataTableDsSP(dsSP);
+							capNhatDuLieuCuaBang(dsSP);
 							khachHang = khachHang_dao.getKHMaKH("KHACHLE");
 							ManHinhTimKiemHoaDon.resetData();
 							JOptionPane.showMessageDialog(null, "Thanh toán thành công!");
@@ -911,6 +916,7 @@ public class ManHinhLapHoaDon extends JPanel {
 		
 		
 		//thêm sự kiện click chuột cho button thêm khách hàng mới
+		//hiển thị form nhập thông tin khách hàng
 		btn_themKH.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -1003,7 +1009,7 @@ public class ManHinhLapHoaDon extends JPanel {
     				model_giohang.setValueAt(df.format((double)(soluong*gia)), row, 5);
                     lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
                     lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
-                    thayDoiGiaTriTxtTienThua();
+                    thayDoiGiaTriTienThua();
                     rowselect=row;
                 }
             }
@@ -1021,7 +1027,7 @@ public class ManHinhLapHoaDon extends JPanel {
                 model.removeRow(row);
                 lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
                 lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
-                thayDoiGiaTriTxtTienThua();
+                thayDoiGiaTriTienThua();
             }
             /**
         	 * khi click vào dấu trừ thì giảm số lượng sản phẩm tại row được chọn
@@ -1039,7 +1045,7 @@ public class ManHinhLapHoaDon extends JPanel {
     				model_giohang.setValueAt(df.format((double)(soluong*gia)), row, 5);
                     lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
                     lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
-                    thayDoiGiaTriTxtTienThua();
+                    thayDoiGiaTriTienThua();
                 }
 				rowselect=row;
             }
@@ -1113,7 +1119,7 @@ public class ManHinhLapHoaDon extends JPanel {
 				model_giohang.addRow(data);
 				lbl_kqTongtien.setText(df.format(tinhTongTienHD()));
 				lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
-				thayDoiGiaTriTxtTienThua();
+				thayDoiGiaTriTienThua();
 			}
         }
         
@@ -1146,12 +1152,12 @@ public class ManHinhLapHoaDon extends JPanel {
 	 * lấy dữ liệu từ csdl để cập nhật combo box chương trình khuyến mãi
 	 * @return mảng chuỗi tên chương trình khuyến mãi
 	 */
-	private String[] capNhatCmbMaCTKM() {
+	public static String[] capNhatCmbMaCTKM() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
 		list.add("Không có");
 		for (ChuongTrinhKhuyenMai ct : ctkm_dao.getDsCTKM()) {
-			list.add(ct.getMaKM());
+			if (ct.getTrangThai().equalsIgnoreCase("Đang diễn ra")) list.add(ct.getMaKM());
 		}
 		s = list.toArray(new String[0]);
 		return s;
@@ -1241,7 +1247,7 @@ public class ManHinhLapHoaDon extends JPanel {
 	/**
 	 * thay đổi gía trị của txt tiền thừa khi nhập tiền khách trả
 	 */
-	private void thayDoiGiaTriTxtTienThua() {
+	private void thayDoiGiaTriTienThua() {
 		double tienThua = tinhTienThua();
 		if (tienThua<0) lbl_kqtienthua.setForeground(Color.red);
 		else lbl_kqtienthua.setForeground(Color.black);
@@ -1251,9 +1257,9 @@ public class ManHinhLapHoaDon extends JPanel {
 	
 	/**
 	 * xóa hết dữ liệu trên bảng
-	 * @param t
+	 * @param t bảng cần xóa dữ liệu
 	 */
-	private void xoaTrangTable(JTable t) {
+	private void xoaDuLieuCuaBang(JTable t) {
 		DefaultTableModel dm = (DefaultTableModel) t.getModel();
 		dm.getDataVector().removeAllElements();
 		t.revalidate();
@@ -1261,10 +1267,10 @@ public class ManHinhLapHoaDon extends JPanel {
 	
 	/**
 	 * cập nhật dữ liệu cho bảng danh sách sản phẩm
-	 * @param ds
+	 * @param ds là danh sách sản phẩm
 	 */
-	private void updateDataTableDsSP(List<SanPham> ds) {
-		xoaTrangTable(tbl_dssp);
+	private void capNhatDuLieuCuaBang(List<SanPham> ds) {
+		xoaDuLieuCuaBang(tbl_dssp);
 		for (SanPham sp : ds) {
 			ImageIcon im = new ImageIcon(sp.getHinhAnh());
 			Object data[] = {im, sp.getMaSP(), sp.getTenSP(), sp.getLoaiSP().getTenLoai(), df.format(sp.getGiaBan()), sp.getSoLuongTon(), sp.getChatLieu().getTenChatLieu(), sp.getMauSac().getTenMauSac(), sp.getKichCo().getTenKichCo()};
@@ -1276,7 +1282,7 @@ public class ManHinhLapHoaDon extends JPanel {
 	 * kiểm tra dữ liệu khi thanh toán
 	 * @return
 	 */
-	private boolean validDataThanhToan() {
+	private boolean kiemTraDuLieuThanhToan() {
 		if (model_giohang.getRowCount()==0) {
 			JOptionPane.showMessageDialog(null, "Giỏ hàng trống!");
 			return false;
@@ -1306,7 +1312,7 @@ public class ManHinhLapHoaDon extends JPanel {
 	 * kiểm tra dữ liệu khi đặt hàng
 	 * @return
 	 */
-	private boolean validDataDatHang() {
+	private boolean kiemTraDuLieuDatHang() {
 		if (model_giohang.getRowCount()==0) {
 			JOptionPane.showMessageDialog(null, "Giỏ hàng trống!");
 			return false;

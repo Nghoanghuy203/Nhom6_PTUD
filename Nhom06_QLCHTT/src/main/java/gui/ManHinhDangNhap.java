@@ -40,7 +40,7 @@ public class ManHinhDangNhap extends JFrame{
 	/**
 	 * Launch the application.
 	 */
-	/*
+	
 	public static void main(String[] args) {
 		
 		try {

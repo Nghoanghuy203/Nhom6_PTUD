@@ -16,7 +16,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 
 public class BieuDoTonKho extends JPanel{
-	private PanelShadow panelShadow1;
+	private PanelShadow pnlShadow;
     public BieuDoTonKho() {
     	setSize(1080, 300);
 		setVisible(true);
@@ -25,33 +25,23 @@ public class BieuDoTonKho extends JPanel{
     }
     
     
-    
-    
-    public void ThongKeKho(List<ThongKeTonKho> ds) {
+    public void ThongKeKho(List<ThongKeTonKho> danhSach) {
     	chart.clear();
     	initComponents();
-    	
-    	int t = 0;
-    	int size = ds.size();
+    	int size = danhSach.size();
     	double[] arr = new double[size];
     	int i = 0;
-    	for (ThongKeTonKho sl : ds) {
-    		arr[i++] = (double)sl.getTongSoLuong(); 
+    	for (ThongKeTonKho soLuong : danhSach) {
+    		arr[i++] = (double)soLuong.getTongSoLuong(); 
     	}
     	
-    	for (ThongKeTonKho sl : ds) {
-    		chart.addLegend(sl.getMaSP(), new Color(randomIntColor(),randomIntColor(), randomIntColor()));
+    	for (ThongKeTonKho soLuong : danhSach) {
+    		chart.addLegend(soLuong.getMaSP(), new Color(randomIntColor(),randomIntColor(), randomIntColor()));
     	}
 		chart.addData(new ModelChart("",arr ));
     	chart.start();
     	
-    	/*
-    	chart.addLegend("Tồn Kho", new Color(randomIntColor(),randomIntColor(), randomIntColor()));
-    	for (ThongKeTonKho thongKeTonKho : ds) {
-			chart.addData(new ModelChart(thongKeTonKho.getMaSP(), new double[] {thongKeTonKho.getTongSoLuong()}));
-		}
-    	chart.start();
-    	*/
+    	
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,43 +52,43 @@ public class BieuDoTonKho extends JPanel{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelShadow1 = new PanelShadow();
-        panelShadow1.setShadowColor(new Color(65, 105, 225));
-        panelShadow1.setShadowSize(2);
+        pnlShadow = new PanelShadow();
+        pnlShadow.setShadowColor(new Color(65, 105, 225));
+        pnlShadow.setShadowSize(2);
         chart = new ScrollChart();
         
-        panelShadow1.setBackground(new java.awt.Color(255, 255, 255));
-        panelShadow1.setBorder(new EmptyBorder(10, 10, 10, 10));
-        panelShadow1.setColorGradient(new Color(255, 255, 255));
-        //panelShadow1.setColorGradient(new Color(255,255,255));
+        pnlShadow.setBackground(new java.awt.Color(255, 255, 255));
+        pnlShadow.setBorder(new EmptyBorder(10, 10, 10, 10));
+        pnlShadow.setColorGradient(new Color(255, 255, 255));
+
 
         chart.setForeground(Color.BLACK);
 
-        javax.swing.GroupLayout panelShadow1Layout = new javax.swing.GroupLayout(panelShadow1);
-        panelShadow1Layout.setHorizontalGroup(
-        	panelShadow1Layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(panelShadow1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlShadowLayout = new javax.swing.GroupLayout(pnlShadow);
+        pnlShadowLayout.setHorizontalGroup(
+        	pnlShadowLayout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(pnlShadowLayout.createSequentialGroup()
         			.addComponent(chart, GroupLayout.DEFAULT_SIZE, 1100, Short.MAX_VALUE)
         			.addContainerGap())
         );
-        panelShadow1Layout.setVerticalGroup(
-        	panelShadow1Layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(panelShadow1Layout.createSequentialGroup()
+        pnlShadowLayout.setVerticalGroup(
+        	pnlShadowLayout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(pnlShadowLayout.createSequentialGroup()
         			.addContainerGap()
         			.addComponent(chart, GroupLayout.PREFERRED_SIZE, 310, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(25, Short.MAX_VALUE))
         );
-        panelShadow1.setLayout(panelShadow1Layout);
+        pnlShadow.setLayout(pnlShadowLayout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelShadow1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlShadow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelShadow1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlShadow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         
     }// </editor-fold>//GEN-END:initComponents

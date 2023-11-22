@@ -232,17 +232,16 @@ public class ChiTietHoaDon_DAO implements I_ChiTietHoaDon{
 	}
 	
 	public List<ThongKeBanChay> getDSCTHDTuyChinh(LocalDate ngaybatdau,LocalDate ngayketthuc) {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String ngaybatdau1 = dtf.format(ngaybatdau);
-		String ngayketthuc1 = dtf.format(ngayketthuc);
 		List<ThongKeBanChay> dsbc = new ArrayList<ThongKeBanChay>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \n"
+		String sql = "declare @start nvarchar(20), @end nvarchar(20)\n"
+				+ "select @start = ?,@end = ?\n"
+				+ "select top 5 SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \n"
 				+ "join HoaDon on HoaDon.maHD = ChiTietHoaDon.maHD \n"
 				+ "join SanPham on SanPham.maSP = ChiTietHoaDon.maSP \n"
-				+ "where CONVERT(nvarchar(20),ngayLap,120) >= ? and CONVERT(nvarchar(20),ngayLap,120) >= ?\r\n"
-				+ "group by SanPham.maSP,SanPham.tenSP";
+				+ "where CONVERT(nvarchar(20),HoaDon.ngayLap,120) >= @start and CONVERT(nvarchar(20),HoaDon.ngayLap,120) <= @end\n"
+				+ "group by SanPham.maSP,SanPham.tenSP order by soLuong desc";
 		PreparedStatement statement = null;
 		try {
 			statement = con.prepareStatement(sql);
@@ -264,5 +263,3 @@ public class ChiTietHoaDon_DAO implements I_ChiTietHoaDon{
 		return dsbc;
 	}
 }
-
-

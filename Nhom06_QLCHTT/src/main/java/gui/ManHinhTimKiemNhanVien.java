@@ -69,7 +69,7 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 		dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		
 		nhanVien_DAO = new NhanVien_DAO();
-		dsNV = nhanVien_DAO.getDsNhanVien();
+		
 		
 		JPanel pn_timKiem = new JPanel();
 		pn_timKiem.setBackground(new Color(255, 255, 255));
@@ -85,65 +85,65 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 		lbl_thongBaoKq.setForeground(Color.red);
 		pn_timKiem.add(lbl_thongBaoKq);
 
-		JPanel pn_kqTimKiem = new JPanel();
-		pn_kqTimKiem.setLayout(null);
-		pn_kqTimKiem.setBackground(new Color(255, 250, 240));
-		pn_kqTimKiem.setBounds(10, 20, 1080, 150);
-		pn_timKiem.add(pn_kqTimKiem);
+		JPanel pn_TimKiem = new JPanel();
+		pn_TimKiem.setLayout(null);
+		pn_TimKiem.setBackground(new Color(255, 250, 240));
+		pn_TimKiem.setBounds(10, 20, 1080, 150);
+		pn_timKiem.add(pn_TimKiem);
 
 		JLabel lblGioiTinh = new JLabel("Giới tính:");
 		lblGioiTinh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGioiTinh.setFont(new Font("Arial", Font.PLAIN, 11));
 		lblGioiTinh.setBounds(520, 110, 50, 30);
-		pn_kqTimKiem.add(lblGioiTinh);
+		pn_TimKiem.add(lblGioiTinh);
 
 		String[] item_gt = { "Tất cả", "Nam", "Nữ" };
 		JComboBox cmb_gioiTinh = new JComboBox(item_gt);
 		cmb_gioiTinh.setBackground(new Color(245, 222, 179));
 		cmb_gioiTinh.setBounds(600, 110, 140, 30);
-		pn_kqTimKiem.add(cmb_gioiTinh);
+		pn_TimKiem.add(cmb_gioiTinh);
 
 		JLabel lblChucVu = new JLabel("Chức vụ:");
 		lblChucVu.setHorizontalAlignment(SwingConstants.LEFT);
 		lblChucVu.setFont(new Font("Arial", Font.PLAIN, 11));
 		lblChucVu.setBounds(10, 110, 50, 30);
-		pn_kqTimKiem.add(lblChucVu);
+		pn_TimKiem.add(lblChucVu);
 
 		String[] item_cv = { "Tất cả", "Nhân viên", "Quản lí" };
 		JComboBox cmb_chucVu = new JComboBox(item_cv);
 		cmb_chucVu.setBackground(new Color(245, 222, 179));
 		cmb_chucVu.setBounds(90, 110, 140, 30);
-		pn_kqTimKiem.add(cmb_chucVu);
+		pn_TimKiem.add(cmb_chucVu);
 
 		JButton btnXoaTrang = new JButton("Xóa trắng");
 		btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 14));
 		btnXoaTrang.setBackground(new Color(255, 0, 0));
 		btnXoaTrang.setBounds(860, 110, 100, 30);
-		pn_kqTimKiem.add(btnXoaTrang);
+		pn_TimKiem.add(btnXoaTrang);
 
 		JButton btnTimNV = new JButton("Tìm");
 		btnTimNV.setIcon(new ImageIcon(ManHinhTimKiemNhanVien.class.getResource("/images/icon_timkiem.png")));
 		btnTimNV.setBounds(970, 110, 100, 30);
-		pn_kqTimKiem.add(btnTimNV);
+		pn_TimKiem.add(btnTimNV);
 		btnTimNV.setFont(new Font("Arial", Font.BOLD, 14));
 		btnTimNV.setBackground(new Color(65, 105, 225));
 
 		String[] item_cl = { "Tất cả", "Ca 1", "Ca 2" };
 		JComboBox cmb_caLam = new JComboBox(item_cl);
 		cmb_caLam.setBounds(320, 110, 140, 30);
-		pn_kqTimKiem.add(cmb_caLam);
+		pn_TimKiem.add(cmb_caLam);
 		cmb_caLam.setBackground(new Color(245, 222, 179));
 
 		JLabel lblCaLam = new JLabel("Ca làm:");
 		lblCaLam.setBounds(240, 110, 45, 30);
-		pn_kqTimKiem.add(lblCaLam);
+		pn_TimKiem.add(lblCaLam);
 
 		JPanel pnl_nhapMa = new JPanel();
 		pnl_nhapMa.setLayout(null);
 		pnl_nhapMa.setBorder(new RoundedCornerBorder());
 		pnl_nhapMa.setBackground(Color.WHITE);
 		pnl_nhapMa.setBounds(90, 10, 140, 30);
-		pn_kqTimKiem.add(pnl_nhapMa);
+		pn_TimKiem.add(pnl_nhapMa);
 
 		txtMa = new JTextField();
 		txtMa.setText("Nhập mã...");
@@ -168,20 +168,20 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 		lblMa.setHorizontalAlignment(SwingConstants.LEFT);
 		lblMa.setFont(new Font("Arial", Font.PLAIN, 11));
 		lblMa.setBounds(10, 10, 80, 30);
-		pn_kqTimKiem.add(lblMa);
+		pn_TimKiem.add(lblMa);
 		
 		JLabel lblTen = new JLabel("Tên nhân viên:");
 		lblTen.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTen.setFont(new Font("Arial", Font.PLAIN, 11));
 		lblTen.setBounds(240, 10, 80, 30);
-		pn_kqTimKiem.add(lblTen);
+		pn_TimKiem.add(lblTen);
 		
 		JPanel pnl_nhapHoten = new JPanel();
 		pnl_nhapHoten.setLayout(null);
 		pnl_nhapHoten.setBorder(new RoundedCornerBorder());
 		pnl_nhapHoten.setBackground(Color.WHITE);
 		pnl_nhapHoten.setBounds(320, 10, 190, 30);
-		pn_kqTimKiem.add(pnl_nhapHoten);
+		pn_TimKiem.add(pnl_nhapHoten);
 		
 		txtHoTen = new JTextField();
 		txtHoTen.setText("Nhập họ tên...");
@@ -206,14 +206,14 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 		lblSdt.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSdt.setFont(new Font("Arial", Font.PLAIN, 11));
 		lblSdt.setBounds(520, 10, 80, 30);
-		pn_kqTimKiem.add(lblSdt);
+		pn_TimKiem.add(lblSdt);
 		
 		JPanel pnl_nhapSdt = new JPanel();
 		pnl_nhapSdt.setLayout(null);
 		pnl_nhapSdt.setBorder(new RoundedCornerBorder());
 		pnl_nhapSdt.setBackground(Color.WHITE);
 		pnl_nhapSdt.setBounds(600, 10, 140, 30);
-		pn_kqTimKiem.add(pnl_nhapSdt);
+		pn_TimKiem.add(pnl_nhapSdt);
 		
 		txtSdt = new JTextField();
 		txtSdt.setText("Nhập số điện thoại...");
@@ -236,14 +236,14 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 		
 		JLabel lblNgaySinh = new JLabel("CCCD:");
 		lblNgaySinh.setBounds(10, 60, 80, 30);
-		pn_kqTimKiem.add(lblNgaySinh);
+		pn_TimKiem.add(lblNgaySinh);
 		
 		JPanel pnl_nhapMa_1 = new JPanel();
 		pnl_nhapMa_1.setLayout(null);
 		pnl_nhapMa_1.setBorder(new RoundedCornerBorder());
 		pnl_nhapMa_1.setBackground(Color.WHITE);
 		pnl_nhapMa_1.setBounds(320, 60, 420, 30);
-		pn_kqTimKiem.add(pnl_nhapMa_1);
+		pn_TimKiem.add(pnl_nhapMa_1);
 		
 		txtDiaChi = new JTextField();
 		txtDiaChi.setText("Nhập địa chỉ...");
@@ -268,14 +268,14 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 		lblaCh.setHorizontalAlignment(SwingConstants.LEFT);
 		lblaCh.setFont(new Font("Arial", Font.PLAIN, 11));
 		lblaCh.setBounds(240, 60, 80, 30);
-		pn_kqTimKiem.add(lblaCh);
+		pn_TimKiem.add(lblaCh);
 		
 		JPanel pnl_nhapMa_2 = new JPanel();
 		pnl_nhapMa_2.setLayout(null);
 		pnl_nhapMa_2.setBorder(new RoundedCornerBorder());
 		pnl_nhapMa_2.setBackground(Color.WHITE);
 		pnl_nhapMa_2.setBounds(90, 60, 140, 30);
-		pn_kqTimKiem.add(pnl_nhapMa_2);
+		pn_TimKiem.add(pnl_nhapMa_2);
 		
 		txtCCCD = new JTextField();
 		txtCCCD.setText("Nhập cccd...");
@@ -360,15 +360,18 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 			}
 		});
 		
-		JLabel lblTmKimNhn = new JLabel("TÌM KIẾM NHÂN VIÊN");
-		lblTmKimNhn.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTmKimNhn.setForeground(new Color(100, 149, 237));
-		lblTmKimNhn.setFont(new Font("Arial", Font.BOLD, 20));
-		lblTmKimNhn.setBounds(20, 0, 1080, 50);
-		add(lblTmKimNhn);
+		JLabel lblHeader = new JLabel("TÌM KIẾM NHÂN VIÊN");
+		lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeader.setForeground(new Color(100, 149, 237));
+		lblHeader.setFont(new Font("Arial", Font.BOLD, 20));
+		lblHeader.setBounds(20, 0, 1080, 50);
+		add(lblHeader);
 		
-		updateTable(dsNV);
-
+		//hiển thị dữ liệu danh sách nhân viên khi khởi chạy chương trình
+		dsNV = nhanVien_DAO.getDsNhanVien();
+		capNhatDuLieuCuaBang(dsNV);
+		
+		//xử lý sự kiện khi click chọn một dòng trong bảng danh sách nhân viên
 		tbl_Ds.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -377,7 +380,7 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 
 			}
 		});
-		
+		//xử lý sự kiện khi click chọn nút tìm nhân viên
 		btnTimNV.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -410,11 +413,12 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy!");
 				}
 				else {					
-					updateTable(dsNV);
+					capNhatDuLieuCuaBang(dsNV);
 				}
 				
 			}
 		});
+		//xử lý sự kiện khi click chọn nút xóa trắng
 		btnXoaTrang.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -435,12 +439,20 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 			}
 		});
 	}
-	private void xoaTrangTable(JTable t) {
+	/**
+	 * hàm xóa dữ liệu trên bảng
+	 * @param t là bảng cần xóa
+	 */
+	private void xoaDuLieuCuaBang(JTable t) {
 		DefaultTableModel dm = (DefaultTableModel) t.getModel();
 		dm.getDataVector().removeAllElements();
 	}
-	private void updateTable(List<NhanVien> dsNV) {
-		xoaTrangTable(tbl_Ds);
+	/**
+	 * hàm cập nhật dữ liệu bảng danh sách nhân viên
+	 * @param dsNV là dánh sách nhân viên cần hiển thị lên bảng
+	 */
+	private void capNhatDuLieuCuaBang(List<NhanVien> dsNV) {
+		xoaDuLieuCuaBang(tbl_Ds);
 		for (NhanVien nv : dsNV) {
 			Object data[] = {nv.getMaNV(), nv.getTenNV(), dtf.format(nv.getNgaySinh()), nv.isGioiTinh()?"Nam":"Nữ", nv.getSdt(), nv.getDiaChi(), nv.getChucVu(), nv.getCaLamViec(), df.format(nv.tinhLuong())};
 			model_ds.addRow(data);

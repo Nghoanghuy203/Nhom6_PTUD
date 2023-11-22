@@ -85,8 +85,11 @@ public class BieuDoDoanhThu extends JPanel{
         hoaDon_DAO = new HoaDon_DAO();
         df = new DecimalFormat("#,##0.## VND");
     }
-    
+    /**
+     * thống kê ngày hôm nay
+     */
     public void thongKeNgayHomNay() {
+    	//biến chứa dữ liệu của mỗi giờ
     	listH9 = new ArrayList<>();
         listH10 = new ArrayList<>();
         listH11 = new ArrayList<>();
@@ -109,8 +112,9 @@ public class BieuDoDoanhThu extends JPanel{
     	String d = ngay<10?"0"+ngay:ngay+"";
     	String t = thang<10?"0"+thang:thang+"";
     	chart.addLegend(d+"/"+t+"/"+nam, Color.decode("#8e008e"), Color.decode("#ff0000"));
+    	//biến chứa tổng dữ liệu của mỗi giờ
     	double h9=0,h10=0,h11=0,h12=0,h13=0,h14=0,h15=0,h16=0,h17=0,h18=0,h19=0,h20=0,h21=0;
-    	double total = 0;
+    	double total = 0;//biến chứa tổng doanh thu của ngày
         List<HoaDon> dsHD = hoaDon_DAO.getDsHoaDon();
         for (HoaDon hoaDon : dsHD) {
 			if (hoaDon.getNgayLap().getYear()==nam && hoaDon.getNgayLap().getMonthValue()==thang && hoaDon.getNgayLap().getDayOfMonth()==ngay) {
@@ -175,7 +179,6 @@ public class BieuDoDoanhThu extends JPanel{
         chart.setTitleColor(Color.red);
         
         
-        //thongKeTheoNgay(ngayHomNay,"#8e008e","#ff0000");
         chart.addData(new ModelChart("09:00", listH9));
         chart.addData(new ModelChart("10:00", listH10));
         chart.addData(new ModelChart("11:00", listH11));
@@ -192,7 +195,9 @@ public class BieuDoDoanhThu extends JPanel{
         chart.start();
         
     }
-    
+    /**
+     * thống kê 7 ngày gân nhất
+     */
     public void thongKe7NgayGanNhat() {
     	LocalDate ngay1 = LocalDate.now().minusDays(1);
 		LocalDate ngay2 = ngay1.minusDays(1);
@@ -269,8 +274,86 @@ public class BieuDoDoanhThu extends JPanel{
         
         chart.start();
     }
-    
+    /**
+     * thống kê tùy chỉnh, chọn ngày bắt đầu để thống kê 7 ngày tiếp sau đó
+     * @param ngayKT là ngày được lấy dữ liệu trên gui
+     */
+    public void thongKeTuyChinh(LocalDate ngayKT) {
+    	LocalDate ngay1 = ngayKT;
+		LocalDate ngay2 = ngay1.minusDays(1);
+		LocalDate ngay3 = ngay2.minusDays(1);
+		LocalDate ngay4 = ngay3.minusDays(1);
+		LocalDate ngay5 = ngay4.minusDays(1);
+		LocalDate ngay6 = ngay5.minusDays(1);
+		LocalDate ngay7 = ngay6.minusDays(1);
+    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    	chart.addLegend(dtf.format(ngay7)+" - "+dtf.format(ngay1),Color.decode("#00c0c0"),Color.decode("#008e00"));
+    	//biến chứa dữ liệu cho mỗi ngày
+    	ArrayList<Double> listDataDay1 = new ArrayList<>();
+        ArrayList<Double> listDataDay2 = new ArrayList<>();
+        ArrayList<Double> listDataDay3 = new ArrayList<>();
+        ArrayList<Double> listDataDay4 = new ArrayList<>();
+        ArrayList<Double> listDataDay5 = new ArrayList<>();
+        ArrayList<Double> listDataDay6 = new ArrayList<>();
+        ArrayList<Double> listDataDay7 = new ArrayList<>();
+    	
+		double total=0;//biến tính tôngr doanh thu
+		//biến chứa tổng doanh thu cho mỗi ngày
+		double dataN1=0, dataN2=0, dataN3=0, dataN4=0, dataN5=0, dataN6=0, dataN7=0;
+		List<HoaDon> dsHD = hoaDon_DAO.getDSHDTuyChinh(ngay7,ngay1.plusDays(1));
+		for (HoaDon hoaDon : dsHD) {
+			total+=hoaDon.getTongTienHD();
+			if (hoaDon.getNgayLap().toLocalDate().equals(ngay1)) {
+				dataN1+=hoaDon.getTongTienHD();
+			}
+			else if (hoaDon.getNgayLap().toLocalDate().equals(ngay2)) {
+				dataN2+=hoaDon.getTongTienHD();
+			}
+			else if (hoaDon.getNgayLap().toLocalDate().equals(ngay3)) {
+				dataN3+=hoaDon.getTongTienHD();
+			}
+			else if (hoaDon.getNgayLap().toLocalDate().equals(ngay4)) {
+				dataN4+=hoaDon.getTongTienHD();
+			}
+			else if (hoaDon.getNgayLap().toLocalDate().equals(ngay5)) {
+				dataN5+=hoaDon.getTongTienHD();
+			}
+			else if (hoaDon.getNgayLap().toLocalDate().equals(ngay6)) {
+				dataN6+=hoaDon.getTongTienHD();
+			}
+			else if (hoaDon.getNgayLap().toLocalDate().equals(ngay7)) {
+				dataN7+=hoaDon.getTongTienHD();
+			}
+		}
+        
+		listDataDay1.add(dataN1);
+		listDataDay2.add(dataN2);
+		listDataDay3.add(dataN3);
+		listDataDay4.add(dataN4);
+		listDataDay5.add(dataN5);
+		listDataDay6.add(dataN6);
+		listDataDay7.add(dataN7);
+		
+		chart.clear();
+		chart.setTitle("Tổng doanh thu từ "+dtf.format(ngay7)+" đến "+dtf.format(ngay1)+": "+df.format(total));
+		chart.setTitleColor(Color.red);
+        
+        chart.addData(new ModelChart(dtf.format(ngay7), listDataDay7));
+        chart.addData(new ModelChart(dtf.format(ngay6), listDataDay6));
+        chart.addData(new ModelChart(dtf.format(ngay5), listDataDay5));
+        chart.addData(new ModelChart(dtf.format(ngay4), listDataDay4));
+        chart.addData(new ModelChart(dtf.format(ngay3), listDataDay3));
+        chart.addData(new ModelChart(dtf.format(ngay2), listDataDay2));
+        chart.addData(new ModelChart(dtf.format(ngay1), listDataDay1));
+        
+        chart.start();
+    }
+    /**
+     * thống kê theo tháng
+     * @param thang là tháng cần thống kê
+     */
     public void thongKeTheoThang(int thang) {
+    	//tạo biến chứa dữ liệu
     	listDataDay01 = new ArrayList<>();
     	listDataDay02 = new ArrayList<>();
     	listDataDay03 = new ArrayList<>();
@@ -304,8 +387,9 @@ public class BieuDoDoanhThu extends JPanel{
     	listDataDay31 = new ArrayList<>();
     	
     	int namNay = LocalDate.now().getYear();
+    	//tạo biến chứa dữ liệu cho từng ngày
     	double n01 = 0, n02= 0, n03= 0, n04= 0, n05= 0, n06= 0, n07= 0, n08= 0, n09= 0, n10= 0, n11 = 0, n12= 0, n13= 0, n14= 0, n15= 0, n16= 0, n17= 0, n18= 0, n19= 0, n20= 0, n21 = 0, n22= 0, n23= 0, n24= 0, n25= 0, n26= 0, n27= 0, n28= 0, n29= 0, n30= 0, n31 = 0;
-    	double total=0;
+    	double total=0;//biến chứa dữ liệu cho cả tháng
     	List<HoaDon> dsHD = hoaDon_DAO.getDSHDTheoThang(thang);
     	for (HoaDon hoaDon : dsHD) {
 			if (hoaDon.getNgayLap().getYear()==namNay) {
@@ -442,6 +526,7 @@ public class BieuDoDoanhThu extends JPanel{
 				}
 			}
 		}
+    	//thêm dữ liệu vào biến chứa dữ liệu
     	listDataDay01.add(n01);
 		listDataDay02.add(n02);
 		listDataDay03.add(n03);
@@ -508,15 +593,15 @@ public class BieuDoDoanhThu extends JPanel{
     	chart.addData(new ModelChart("27", listDataDay27));
     	chart.addData(new ModelChart("28", listDataDay28));
     	
-    	if (thang==2) {
-    		if (ktraNamNhuan(LocalDate.now().getYear())) chart.addData(new ModelChart("29", listDataDay29));
+    	if (thang==2) {//nếu là tháng 2
+    		if (ktraNamNhuan(LocalDate.now().getYear())) chart.addData(new ModelChart("29", listDataDay29));//nếu năm nhuận thì thêm ngày 29
     	}
-    	else if (thang==4 || thang==6 || thang==9 || thang==11 ) {
+    	else if (thang==4 || thang==6 || thang==9 || thang==11 ) {//thang 4,6,9,11 có 30 ngày
     		chart.addData(new ModelChart("29", listDataDay29));
     		chart.addData(new ModelChart("29", listDataDay29));
         	chart.addData(new ModelChart("30", listDataDay30));
     	}
-    	else {
+    	else {//cònn lại 31 ngày
     		chart.addData(new ModelChart("29", listDataDay29));
     		chart.addData(new ModelChart("29", listDataDay29));
         	chart.addData(new ModelChart("30", listDataDay30));
@@ -526,8 +611,13 @@ public class BieuDoDoanhThu extends JPanel{
     	chart.start();
     }
     
+    /**
+     * thống kê theo năm
+     * @param nam là năm cần thống kê
+     */
     public void thongKeTheoNam(int nam) {
     	
+    	//tạo mảng chứa dữ liệu
     	ArrayList<Double> listDataT1 = new ArrayList<>();
     	ArrayList<Double> listDataT2 = new ArrayList<>();
     	ArrayList<Double> listDataT3 = new ArrayList<>();
@@ -540,9 +630,9 @@ public class BieuDoDoanhThu extends JPanel{
     	ArrayList<Double> listDataT10 = new ArrayList<>();
     	ArrayList<Double> listDataT11 = new ArrayList<>();
     	ArrayList<Double> listDataT12 = new ArrayList<>();
-    	
+    	//tạo biến lưu tổng doanh thu trong tháng
     	double t1=0, t2=0, t3=0, t4=0, t5=0, t6=0, t7=0, t8=0, t9=0, t10=0, t11=0, t12=0;
-    	double total=0;
+    	double total=0;//biến lưu tổng doanh thu trong năm
     	List<HoaDon> dsHD = hoaDon_DAO.getDSHDTheoNam(nam);
     	for (HoaDon hoaDon : dsHD) {
     		total+=hoaDon.getTongTienHD();
@@ -585,6 +675,7 @@ public class BieuDoDoanhThu extends JPanel{
 			}
 		}
     	
+    	//thêm dữ liệu vào mảng dữ liệu
     	listDataT1.add(t1);
     	listDataT2.add(t2);
     	listDataT3.add(t3);
@@ -598,11 +689,12 @@ public class BieuDoDoanhThu extends JPanel{
     	listDataT11.add(t11);
     	listDataT12.add(t12);
     	
+    	//vẽ biểu đồ
     	chart.clear();
-    	chart.setTitle("Tổng doanh thu của năm "+nam+": "+df.format(total));
-    	chart.setTitleColor(Color.red);
+    	chart.setTitle("Tổng doanh thu của năm "+nam+": "+df.format(total));//thông báo doanh thu
+    	chart.setTitleColor(Color.red);//màu chữ là màu đỏ
     	chart.addLegend(nam+"",Color.decode("#ff8e00"),Color.decode("#ffff00"));
-    	
+    	//thêm dữ liệu cho biểu đồ
     	chart.addData(new ModelChart("Tháng 1", listDataT1));
     	chart.addData(new ModelChart("Tháng 2", listDataT2));
     	chart.addData(new ModelChart("Tháng 3", listDataT3));
@@ -616,7 +708,7 @@ public class BieuDoDoanhThu extends JPanel{
     	chart.addData(new ModelChart("Tháng 11", listDataT11));
     	chart.addData(new ModelChart("Tháng 12", listDataT12));
     	
-    	chart.start();
+    	chart.start();//khởi chạy biểu đồ
     }
 
     /**
@@ -637,9 +729,9 @@ public class BieuDoDoanhThu extends JPanel{
         panelShadow1.setBorder(new EmptyBorder(10, 10, 10, 10));
         panelShadow1.setColorGradient(new java.awt.Color(190, 240, 255));
         //panelShadow1.setColorGradient(new Color(255,255,255));
-
-        chart.setForeground(Color.BLACK);
-        chart.setFillColor(true);
+        
+        chart.setForeground(Color.BLACK); //màu chữ là màu đen
+        chart.setFillColor(true); 
 
         javax.swing.GroupLayout panelShadow1Layout = new javax.swing.GroupLayout(panelShadow1);
         panelShadow1.setLayout(panelShadow1Layout);
@@ -671,6 +763,11 @@ public class BieuDoDoanhThu extends JPanel{
         
     }
     
+    /**
+     * kiểm tra năm nhuận
+     * @param nam là năm cần kiểm tra
+     * @return true nếu là năm nhuận ngược lại trả về false
+     */
     private boolean ktraNamNhuan(int nam) {
     	if(nam % 4 == 0)//chia hết cho 4 là năm nhuận
         {

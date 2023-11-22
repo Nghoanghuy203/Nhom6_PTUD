@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -426,6 +427,8 @@ public class ManHinhCapNhatChuongTrinhKhuyenMai extends JPanel {
 
 					if (validDataChuongTrinhKhuyenMai()) {
 						if (khuyenMai_dao.themCTKM(ctkm)) {
+							String[] item = ManHinhLapHoaDon.capNhatCmbMaCTKM();
+							ManHinhLapHoaDon.cmb_khuyenmai.setModel(new DefaultComboBoxModel<>(item));
 							updateTable();
 							JOptionPane.showMessageDialog(null, "thanh cong");
 						} else
@@ -488,7 +491,7 @@ public class ManHinhCapNhatChuongTrinhKhuyenMai extends JPanel {
 	private void hienThiThongTinKetQua(ChuongTrinhKhuyenMai ctkm) {
 		txt_maKM.setText(ctkm.getMaKM());
 		txt_phanTramKhuyenMai.setText(ctkm.getPhanTramKhuyenMai() + "");
-		txt_trangThai.setText(ctkm.isTrangThai());
+		txt_trangThai.setText(ctkm.getTrangThai());
 		datePicker1.getJFormattedTextField().setText(dtf.format(ctkm.getNgayBatDau()));
 		datePicker2.getJFormattedTextField().setText(dtf.format(ctkm.getNgayKetThuc()));
 	}
@@ -504,7 +507,7 @@ public class ManHinhCapNhatChuongTrinhKhuyenMai extends JPanel {
 		for (ChuongTrinhKhuyenMai chuongTrinhKhuyenMai : dsKM) {
 			Object data[] = { chuongTrinhKhuyenMai.getMaKM(), (int) chuongTrinhKhuyenMai.getPhanTramKhuyenMai(),
 					dtf.format(chuongTrinhKhuyenMai.getNgayBatDau()), dtf.format(chuongTrinhKhuyenMai.getNgayKetThuc()),
-					chuongTrinhKhuyenMai.isTrangThai() };
+					chuongTrinhKhuyenMai.getTrangThai() };
 			model_ds.addRow(data);
 		}
 	}

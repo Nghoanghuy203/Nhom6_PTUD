@@ -22,7 +22,7 @@ public class KhachHang_DAO implements I_KhachHang{
 			ConnectDB.getInstance();
 			Connection con=ConnectDB.getInstance().getConnection();
 			
-			String sql="Select * from KhachHang";
+			String sql="Select * from KhachHang where maKH != 'KHACHLE'";
 			Statement statement=con.createStatement();
 			
 			ResultSet rs=statement.executeQuery(sql);

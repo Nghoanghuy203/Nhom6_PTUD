@@ -449,13 +449,21 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 				System.out.println(hd.getMaHD());
 			}
 		});
-		btnXemChiTiet.setBounds(640, 100, 100, 30);
+		btnXemChiTiet.setBounds(750, 100, 100, 30);
 		pn_kqTimKiem.add(btnXemChiTiet);
-		
+		/*
 		JButton btn_inHoaDon = new JButton("In hóa đơn");
 		btn_inHoaDon.setBounds(750, 100, 100, 30);
 		pn_kqTimKiem.add(btn_inHoaDon);
-
+		
+		btn_inHoaDon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Report.xuatHoaDonPDF("sMaHD", hd.getMaHD().toString(), "E:\\HoaDon"+hd.getMaHD()+".pdf", true);
+				System.out.println(hd.getMaHD());
+			}
+		});
+	*/
 		JPanel pn_dsnv = new JPanel();
 		pn_dsnv.setBackground(new Color(255, 255, 255));
 		pn_dsnv.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "Danh sách hóa đơn",

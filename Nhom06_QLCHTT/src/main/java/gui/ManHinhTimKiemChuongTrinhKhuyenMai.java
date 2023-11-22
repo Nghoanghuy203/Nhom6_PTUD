@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
@@ -35,6 +36,8 @@ import javax.swing.table.DefaultTableModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+
+import com.toedter.calendar.JDateChooser;
 
 import connectDB.ConnectDB;
 import custom.CustomScrollBarUI;
@@ -77,13 +80,8 @@ public class ManHinhTimKiemChuongTrinhKhuyenMai extends JPanel {
 	private JLabel lbl_kqTGBD;
 	private JLabel lbl_kqTGKT;
 
-	private UtilDateModel model_date1;
-	private JDatePanelImpl datePanel1;
-	private JDatePickerImpl datePicker1;
-	
-	private UtilDateModel model_date2;
-	private JDatePanelImpl datePanel2;
-	private JDatePickerImpl datePicker2;
+	private JDateChooser dc_ngayBatDau;
+	private JDateChooser dc_ngayKetThuc;
 	
 	private ChuongTrinhKhuyenMai_DAO khuyenMai_dao;
 	private List<ChuongTrinhKhuyenMai> dsKM;
@@ -207,13 +205,13 @@ public class ManHinhTimKiemChuongTrinhKhuyenMai extends JPanel {
 		JLabel lblNgayBatDau = new JLabel("Ngày bắt đầu:");
 		lblNgayBatDau.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNgayBatDau.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblNgayBatDau.setBounds(10, 57, 67, 20);
+		lblNgayBatDau.setBounds(10, 63, 67, 20);
 		pn_kqTimKiem.add(lblNgayBatDau);
 
 		JLabel lblNgayKetThuc = new JLabel("Ngày kết thúc:");
 		lblNgayKetThuc.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNgayKetThuc.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblNgayKetThuc.setBounds(300, 57, 88, 20);
+		lblNgayKetThuc.setBounds(300, 63, 88, 20);
 		pn_kqTimKiem.add(lblNgayKetThuc);
 
 		JLabel lblTrangThai = new JLabel("Trạng thái:");
@@ -279,40 +277,20 @@ public class ManHinhTimKiemChuongTrinhKhuyenMai extends JPanel {
 		cmb_trangThai.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		cmb_trangThai.setBounds(671, 16, 160, 30);
 		pn_kqTimKiem.add(cmb_trangThai);
-		//
-		model_date1 = new UtilDateModel();
-		Properties p1 = new Properties();
-		p1.put("text.today", "Today");
-		p1.put("text.month", "Month");
-		p1.put("text.year", "Year");
-		datePanel1 = new JDatePanelImpl(model_date1,p1);
-		model_date1.setDate(2000, 1, 1);
-		datePicker1 = new JDatePickerImpl(datePanel1, new custom.DateLabelFormatter());
-		datePicker1.setBackground(new Color(255, 255, 255));
-		datePicker1.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		datePicker1.setBounds(90, 57, 150, 30);
-		datePicker1.getJDateInstantPanel().setShowYearButtons(true);
-		datePicker1.getJFormattedTextField().setText("2000-01-01");
-		datePicker1.setButtonFocusable(false);
-		//datePicker.getModel().setDate(2000, 1, 1);
-		pn_kqTimKiem.add(datePicker1);
 		
-		model_date2 = new UtilDateModel();
-		Properties p2 = new Properties();
-		p2.put("text.today", "Today");
-		p2.put("text.month", "Month");
-		p2.put("text.year", "Year");
-		datePanel2 = new JDatePanelImpl(model_date2,p2);
-		model_date2.setDate(2000, 1, 1);
-		datePicker2 = new JDatePickerImpl(datePanel2, new custom.DateLabelFormatter());
-		datePicker2.setBackground(new Color(255, 255, 255));
-		datePicker2.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		datePicker2.setBounds(380, 57, 150, 30);
-		datePicker2.getJDateInstantPanel().setShowYearButtons(true);
-		datePicker2.getJFormattedTextField().setText("2000-01-01");
-		datePicker2.setButtonFocusable(false);
-		//datePicker.getModel().setDate(2000, 1, 1);
-		pn_kqTimKiem.add(datePicker2);
+		dc_ngayBatDau= new JDateChooser();
+		dc_ngayBatDau.setBounds(90, 57, 150, 30);
+		pn_kqTimKiem.add(dc_ngayBatDau);
+		
+		dc_ngayKetThuc = new JDateChooser();
+		dc_ngayKetThuc.setBounds(380, 57, 150, 30);
+		pn_kqTimKiem.add(dc_ngayKetThuc);
+		
+		Calendar defaultDate = Calendar.getInstance();
+        defaultDate.set(2023, Calendar.JANUARY, 1);
+		dc_ngayBatDau.setDate(defaultDate.getTime());
+        defaultDate.set(2023, Calendar.DECEMBER, 1);
+		dc_ngayKetThuc.setDate(defaultDate.getTime());
 		
 			
 		JButton btnXoaTrang = new JButton("Xóa trắng");
@@ -411,43 +389,14 @@ public class ManHinhTimKiemChuongTrinhKhuyenMai extends JPanel {
 				String maKM = txt_maKM.getText();
 				maKM = maKM.equalsIgnoreCase("Nhập mã..")?"":maKM;
 				double phanTram = txt_phanTramKhuyenMai.getText().equalsIgnoreCase("Nhập % khuyến mãi..")?0:Integer.parseInt(txt_phanTramKhuyenMai.getText());
-			
 				
-//				Calendar defaultDate = Calendar.getInstance();
-//		        defaultDate.set(2023, Calendar.JANUARY, 1); // Ngày mặc định là 1/1/2023
-//		        model_date1.setValue(defaultDate.getTime());
-//		        Properties properties = new Properties();
-//		        JDatePanelImpl datePanel = new JDatePanelImpl(model_date1, properties);
-//		        datePicker1 = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-//		        
-//				Date selectedDate1 = (Date) datePicker1.getModel().getValue();
-//				DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-YYYY");
-//				String mydate1 = dateFormat1.format(selectedDate1);
-//				int nam1 = Integer.parseInt(mydate1.substring(0, 2));
-//				int thang1 = Integer.parseInt(mydate1.substring(3, 5));
-//				int ngay1 = Integer.parseInt(mydate1.substring(6, 10));
-//				LocalDateTime ngayBatDau = LocalDateTime.of(nam1, thang1, ngay1, 0, 0);
-//				
-//				Calendar defaultDate2 = Calendar.getInstance();
-//		        defaultDate2.set(2023, Calendar.JANUARY, 1); // Ngày mặc định là 1/1/2023
-//		        model_date2.setValue(defaultDate2.getTime());
-//		        Properties properties2 = new Properties();
-//		        JDatePanelImpl datePanel2 = new JDatePanelImpl(model_date2, properties2);
-//		        datePicker2 = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
-//				
-//				Date selectedDate2 = (Date) datePicker2.getModel().getValue();
-//				DateFormat dateFormat2 = new SimpleDateFormat("dd-MM-YYYY");
-//				String mydate2 = dateFormat2.format(selectedDate2);
-//				int nam2 = Integer.parseInt(mydate2.substring(0,2));
-//				int thang2 = Integer.parseInt(mydate2.substring(3, 5));
-//				int ngay2 = Integer.parseInt(mydate2.substring(6,10));
-//				LocalDateTime ngayKetThuc = LocalDateTime.of(nam2, thang2, ngay2, 0, 0);
-				
-				
-				
+				Date ngayBD = dc_ngayBatDau.getDate();
+				LocalDate lcNgayBD = ngayBD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				Date ngayKT = dc_ngayKetThuc.getDate();
+				LocalDate lcNgayKT = ngayKT.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				
 				String trangThai =(String) cmb_trangThai.getSelectedItem();
-				dsKM = khuyenMai_dao.timKiem(maKM + "%",phanTram,"2023-01-01%","2023-01-01%",trangThai.equalsIgnoreCase("Chưa diễn ra")?"Chưa kích hoạt":trangThai+"%");
+				dsKM = khuyenMai_dao.timKiem(maKM+"%",phanTram,lcNgayBD+"",lcNgayKT+"",trangThai.equalsIgnoreCase("Chưa diễn ra")?"Chưa kích hoạt":trangThai);
 				updateTable(dsKM);
 				
 			}
@@ -482,8 +431,11 @@ public class ManHinhTimKiemChuongTrinhKhuyenMai extends JPanel {
 		txt_maKM.setText("Nhập mã..");
 		txt_phanTramKhuyenMai.setText("Nhập % khuyến mãi..");
 		cmb_trangThai.setSelectedIndex(0);
-		datePicker1.getJFormattedTextField().setText("01-01-2000");
-		datePicker2.getJFormattedTextField().setText("01-01-2000");
+		Calendar defaultDate = Calendar.getInstance();
+        defaultDate.set(2023, Calendar.JANUARY, 1);
+		dc_ngayBatDau.setDate(defaultDate.getTime());
+        defaultDate.set(2023, Calendar.DECEMBER, 1);
+		dc_ngayKetThuc.setDate(defaultDate.getTime());
 		dsKM = khuyenMai_dao.getDsCTKM();
 		updateTable(dsKM);
 	}
@@ -491,9 +443,12 @@ public class ManHinhTimKiemChuongTrinhKhuyenMai extends JPanel {
 	private void hienThiThongTinKetQua(ChuongTrinhKhuyenMai ctkm) {
 		txt_maKM.setText(ctkm.getMaKM());
 		txt_phanTramKhuyenMai.setText(ctkm.getPhanTramKhuyenMai()+"");
-		cmb_trangThai.setSelectedItem(ctkm.isTrangThai());
-		datePicker1.getJFormattedTextField().setText(dtf.format(ctkm.getNgayBatDau()));
-		datePicker2.getJFormattedTextField().setText(dtf.format(ctkm.getNgayKetThuc()));
+		cmb_trangThai.setSelectedItem(ctkm.getTrangThai());
+		Calendar defaultDate = Calendar.getInstance();
+        defaultDate.set(ctkm.getNgayBatDau().getYear(), ctkm.getNgayBatDau().getMonthValue()-1,ctkm.getNgayBatDau().getDayOfMonth());
+		dc_ngayBatDau.setDate(defaultDate.getTime());
+        defaultDate.set(ctkm.getNgayKetThuc().getYear(), ctkm.getNgayKetThuc().getMonthValue()-1,ctkm.getNgayKetThuc().getDayOfMonth());
+		dc_ngayKetThuc.setDate(defaultDate.getTime());
 	}
 	
 	private void xoaTable() {
@@ -503,7 +458,7 @@ public class ManHinhTimKiemChuongTrinhKhuyenMai extends JPanel {
 	private void updateTable(List<ChuongTrinhKhuyenMai> ds) {
 		xoaTable();
 		for (ChuongTrinhKhuyenMai km : ds) {
-			Object data[] = {km.getMaKM(),km.getPhanTramKhuyenMai(),dtf.format( km.getNgayBatDau()),dtf.format( km.getNgayKetThuc()),km.isTrangThai()};
+			Object data[] = {km.getMaKM(),km.getPhanTramKhuyenMai(),dtf.format( km.getNgayBatDau()),dtf.format( km.getNgayKetThuc()),km.getTrangThai()};
 			model_ds.addRow(data);	
 		}
 	}

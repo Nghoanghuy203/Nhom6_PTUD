@@ -88,12 +88,8 @@ public class ChuongTrinhKhuyenMai_DAO implements I_ChuongTrinhKhuyenMai{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
-		System.out.println(ma);
-		System.out.println(trangThai);
-		System.out.println(ngayBatDau);
-		System.out.println(ngayKetThuc);
 		String sql = "declare @km int,@ma nvarchar(50),@trangThai nvarchar(50),@ngaybd nvarchar(50),@ngaykt nvarchar(50)\n"
-				+ "select @ma = ?,@km = ?,@trangThai = ?,@ngaybd = ?,@ngaykt = ?\n"
+				+ "select @ma= ?,@km = ?,@ngaybd = ?,@ngaykt = ?,@trangThai = ?\n"
 				+ "if @km != 0\n"
 				+ "begin\n"
 				+ "select * from ChuongTrinhKhuyenMai\n"
@@ -109,23 +105,23 @@ public class ChuongTrinhKhuyenMai_DAO implements I_ChuongTrinhKhuyenMai{
 				+ "select * from ChuongTrinhKhuyenMai\n"
 				+ "where CONVERT(nvarchar(50),ngayBatDau,120) like @ngaybd\n"
 				+ "end\n"
-				+ "else if @ngaykt != '2023-01-01%'\n"
+				+ "else if @ngaykt != '2023-12-01%'\n"
 				+ "begin\n"
 				+ "select * from ChuongTrinhKhuyenMai\n"
 				+ "where CONVERT(nvarchar(50),ngayKetThuc,120) like @ngaykt\n"
 				+ "end\n"
-				+ "else if @trangThai != ''\n"
+				+ "else\n"
 				+ "begin\n"
 				+ "select * from ChuongTrinhKhuyenMai\n"
-				+ "where trangThai like @trangThai\n"
+				+ "where trangThai = @trangThai and maKM != 'MACDINH'\n"
 				+ "end";
 		try {
 			statement = con.prepareStatement(sql);
 			statement.setNString(1, ma);
 			statement.setDouble(2, phanTram);
-			statement.setNString(4,ngayBatDau);
-			statement.setNString(5,ngayKetThuc);
-			statement.setNString(3,	trangThai);
+			statement.setNString(3,ngayBatDau+"%");
+			statement.setNString(4,ngayKetThuc+"%");
+			statement.setNString(5,	trangThai);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				

@@ -8,7 +8,7 @@ public class SendSMS extends Thread{
     // Find your Account SID and Auth Token at twilio.com/console
     // and set the environment variables. See http://twil.io/secure
     public static final String ACCOUNT_SID = "AC0d1d237f5af9c0d9799d9627632a111e";
-    public static final String AUTH_TOKEN = "502cb1cd200f6ce17e96e77c3c100e24";
+    public static final String AUTH_TOKEN = "43b7f782b0afe3fe9cd5785ed03d0001";
     private String mess;
     
     
