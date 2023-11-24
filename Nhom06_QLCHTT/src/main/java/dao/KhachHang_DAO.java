@@ -22,7 +22,7 @@ public class KhachHang_DAO implements I_KhachHang{
 			ConnectDB.getInstance();
 			Connection con=ConnectDB.getInstance().getConnection();
 			
-			String sql="Select * from KhachHang where maKH != 'KHACHLE'";
+			String sql="Select * from KhachHang";
 			Statement statement=con.createStatement();
 			
 			ResultSet rs=statement.executeQuery(sql);
@@ -33,7 +33,8 @@ public class KhachHang_DAO implements I_KhachHang{
 				boolean gioiTinh = rs.getBoolean(3);
 				String diaChi = rs.getNString(4);
 				String sdtKH = rs.getNString(5);
-				KhachHang kh = new KhachHang(maKH, tenKH, sdtKH, gioiTinh, diaChi);
+				String email = rs.getNString(6);
+				KhachHang kh = new KhachHang(maKH, tenKH, sdtKH, gioiTinh, diaChi,email);
 
 				dskh.add(kh);
 			}
@@ -61,7 +62,8 @@ public class KhachHang_DAO implements I_KhachHang{
 				boolean gioiTinh = rs.getBoolean("gioiTinh");
 				String diaChi = rs.getNString("diaChi");
 				String sdtKH = rs.getNString("sdtKH");
-				kh = new KhachHang(maKH, tenKH, sdtKH, gioiTinh, diaChi);
+				String email = rs.getNString("email");
+				kh = new KhachHang(maKH, tenKH, sdtKH, gioiTinh, diaChi,email);
 			}
 			statement.close();
 		} catch (Exception e) {
@@ -78,7 +80,7 @@ public class KhachHang_DAO implements I_KhachHang{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
-		String sql = "INSERT INTO KhachHang ([maKH], [tenKH],[sdtKH],[gioiTinh], [diaChi]) VALUES	(?, ?,?,?,?)";
+		String sql = "INSERT INTO KhachHang ([maKH], [tenKH],[sdtKH],[gioiTinh], [diaChi], [email]) VALUES	(?, ?,?,?,?,?)";
 		try {
 			statement = con.prepareStatement(sql);
 			statement.setNString(1, kh.getMaKH());
@@ -86,7 +88,9 @@ public class KhachHang_DAO implements I_KhachHang{
 			statement.setNString(3, kh.getSdtKH());
 			int gt = kh.isGioiTinh()?1:0;  
 			statement.setInt(4, gt);
+			
 			statement.setNString(5, kh.getDiaChi());
+			statement.setNString(6, kh.getEmail());
 			n=statement.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -101,14 +105,15 @@ public class KhachHang_DAO implements I_KhachHang{
 	    PreparedStatement sttm = null;
 	    int n = 0;
 	    try {
-	        sttm = con.prepareStatement ("UPDATE KhachHang SET tenKH = ?, sdtKH = ?, gioiTinh = ?, diaChi = ? WHERE maKH = ?");
+	        sttm = con.prepareStatement ("UPDATE KhachHang SET tenKH = ?, sdtKH = ?, gioiTinh = ?, diaChi = ?, email=? WHERE maKH = ?");
 	        sttm.setString(1, kh.getTenKH());
 	        sttm.setString(2, kh.getSdtKH());
 	        int gt = kh.isGioiTinh() ? 1 : 0;  
 	        sttm.setInt(3, gt);
 	        sttm.setString(4, kh.getDiaChi());
-	        sttm.setString(5, kh.getMaKH());
-
+	        sttm.setString(5, kh.getEmail());
+	        sttm.setString(6, kh.getMaKH());
+	        
 	        n = sttm.executeUpdate();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -134,7 +139,8 @@ public class KhachHang_DAO implements I_KhachHang{
 				boolean gioiTinh = rs.getBoolean("gioiTinh");
 				String diaChi = rs.getNString("diaChi");
 				String sdtKH = rs.getNString("sdtKH");
-				kh = new KhachHang(maKH, tenKH, sdtKH, gioiTinh, diaChi);
+				String email = rs.getNString("email");
+				kh = new KhachHang(maKH, tenKH, sdtKH, gioiTinh, diaChi,email);
 			}
 			statement.close();
 		} catch (Exception e) {

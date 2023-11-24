@@ -62,6 +62,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 	private ArrayList<KhachHang> danhSachKhachHang = new ArrayList<KhachHang>();
 	private KhachHang_DAO khachHang_DAO = new KhachHang_DAO(); 
 	private JTextField txtTim_SoDienThoaiKhachHang;
+	private JTextField txtEmailKhachHang;
 	/**
 	 * Launch the application.
 	 */
@@ -159,13 +160,13 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		JLabel lblTenKhachHang = new JLabel("Họ tên:");
 		lblTenKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTenKhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblTenKhachHang.setBounds(230, 15, 40, 20);
+		lblTenKhachHang.setBounds(238, 15, 65, 20);
 		pnlThaoTac.add(lblTenKhachHang);
 
 		JLabel lblGioiTinhKhachHang = new JLabel("Giới tính:");
 		lblGioiTinhKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGioiTinhKhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblGioiTinhKhachHang.setBounds(460, 58, 50, 20);
+		lblGioiTinhKhachHang.setBounds(679, 15, 50, 20);
 		pnlThaoTac.add(lblGioiTinhKhachHang);
 
 
@@ -174,7 +175,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		txtHoTenKhachHang.setBackground(new Color(255, 250, 240));
 		txtHoTenKhachHang.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txtHoTenKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
-		txtHoTenKhachHang.setBounds(270, 15, 160, 20);
+		txtHoTenKhachHang.setBounds(308, 16, 160, 20);
 		pnlThaoTac.add(txtHoTenKhachHang);
 		txtHoTenKhachHang.setColumns(10);
 
@@ -182,13 +183,13 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		cmbGioiTinhKhachHang = new JComboBox(item_gt);
 		cmbGioiTinhKhachHang.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
 		cmbGioiTinhKhachHang.setBackground(new Color(245, 222, 179));
-		cmbGioiTinhKhachHang.setBounds(533, 56, 90, 25);
+		cmbGioiTinhKhachHang.setBounds(742, 13, 90, 25);
 		pnlThaoTac.add(cmbGioiTinhKhachHang);
 
 		JLabel lblSoDienThoaiKhachHang = new JLabel("Số điện thoại:");
 		lblSoDienThoaiKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSoDienThoaiKhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblSoDienThoaiKhachHang.setBounds(460, 15, 73, 20);
+		lblSoDienThoaiKhachHang.setBounds(496, 15, 73, 20);
 		pnlThaoTac.add(lblSoDienThoaiKhachHang);
 
 		txtSoDienThoaiKhachHang = new JTextField();
@@ -196,7 +197,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		txtSoDienThoaiKhachHang.setColumns(10);
 		txtSoDienThoaiKhachHang.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txtSoDienThoaiKhachHang.setBackground(new Color(255, 250, 240));
-		txtSoDienThoaiKhachHang.setBounds(533, 15, 100, 20);
+		txtSoDienThoaiKhachHang.setBounds(569, 15, 100, 20);
 		pnlThaoTac.add(txtSoDienThoaiKhachHang);
 
 		JLabel lblDiaChiKhachHang = new JLabel("Địa chỉ:");
@@ -214,13 +215,13 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		pnlThaoTac.add(txtDiaChiKhachHang);
 
 		btnThemKhachHang = new JButton("Thêm");
-		btnThemKhachHang.setBounds(665, 25, 110, 30);
+		btnThemKhachHang.setBounds(885, 11, 100, 20);
 		pnlThaoTac.add(btnThemKhachHang);
 		btnThemKhachHang.setFont(new Font("Arial", Font.BOLD, 14));
 		btnThemKhachHang.setBackground(new Color(0, 128, 0));
 
 		btnSuaKhachHang = new JButton("Sửa");
-		btnSuaKhachHang.setBounds(792, 25, 110, 30);
+		btnSuaKhachHang.setBounds(885, 42, 100, 20);
 		pnlThaoTac.add(btnSuaKhachHang);
 		btnSuaKhachHang.setFont(new Font("Arial", Font.BOLD, 14));
 		btnSuaKhachHang.setBackground(new Color(244, 164, 96));
@@ -228,7 +229,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		btnXoaTrangKhachHang = new JButton("Xóa trắng");
 		btnXoaTrangKhachHang.setFont(new Font("Arial", Font.BOLD, 14));
 		btnXoaTrangKhachHang.setBackground(new Color(255, 0, 0));
-		btnXoaTrangKhachHang.setBounds(912, 25, 110, 30);
+		btnXoaTrangKhachHang.setBounds(885, 72, 100, 20);
 		pnlThaoTac.add(btnXoaTrangKhachHang);
 
 
@@ -240,6 +241,20 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		txtMaKhachHang.setBackground(new Color(255, 250, 240));
 		txtMaKhachHang.setBounds(90, 15, 127, 20);
 		pnlThaoTac.add(txtMaKhachHang);
+		
+		JLabel lblEmailKhachHang = new JLabel("Email:");
+		lblEmailKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEmailKhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblEmailKhachHang.setBounds(461, 58, 50, 20);
+		pnlThaoTac.add(lblEmailKhachHang);
+		
+		txtEmailKhachHang = new JTextField();
+		txtEmailKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
+		txtEmailKhachHang.setColumns(10);
+		txtEmailKhachHang.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txtEmailKhachHang.setBackground(new Color(255, 250, 240));
+		txtEmailKhachHang.setBounds(496, 58, 340, 20);
+		pnlThaoTac.add(txtEmailKhachHang);
 
 		btnTim_KhachHang = new JButton("Tìm");
 		btnTim_KhachHang.setBounds(709, 32, 88, 24);
@@ -316,7 +331,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 
 		model_DanhSachKhachHang = new DefaultTableModel(new Object[][] {
 
-		}, new String[] { "Mã khách hàng", "Họ tên", "Số điện thoại", "Giới tính", "Địa chỉ"}) {
+		}, new String[] { "Mã khách hàng", "Họ tên", "Số điện thoại", "Giới tính", "Địa chỉ","Email"}) {
 			boolean[] canEdit = new boolean[] { false, false, false, false, false, false, false, false };
 
 			@Override
@@ -377,6 +392,27 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		btnXoaTrangKhachHang.addActionListener(this);
 		btnSuaKhachHang.addActionListener(this);
 		tbl_DanhSachKhachHang.addMouseListener(this);
+		JButton btnEN = new JButton("EN");
+		btnEN.setBounds(20, 20, 80, 30);
+		add(btnEN);
+
+		JButton btnVI = new JButton("VI");
+		btnVI.setBounds(120, 20, 80, 30);
+		add(btnVI);
+
+		btnEN.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        lblMaKhachHang.setText("Customer ID:");
+		        lblTenKhachHang.setText("Full Name:");
+		    }
+		});
+
+		btnVI.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        lblMaKhachHang.setText("Mã khách hàng:");
+		        lblTenKhachHang.setText("Họ tên:");
+		    }
+		});
 	}
 
 	@Override
@@ -389,14 +425,16 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 				String soDienThoaiKhachHang = txtSoDienThoaiKhachHang.getText();
 				boolean gioiTinhKhachHang = cmbGioiTinhKhachHang.getSelectedItem().toString().equalsIgnoreCase("Nam")?true:false;
 				String diaChiKhachHang = txtDiaChiKhachHang.getText();
+				String email = txtEmailKhachHang.getText();
 				String maKhachHang = GeneratorID.generateIDKhachHang();
-				KhachHang khachHang = new KhachHang(maKhachHang,tenKhachHang,soDienThoaiKhachHang,gioiTinhKhachHang,diaChiKhachHang);
+				KhachHang khachHang = new KhachHang(maKhachHang,tenKhachHang,soDienThoaiKhachHang,gioiTinhKhachHang,diaChiKhachHang,email);
 				if(khachHang_DAO.themKH(khachHang)) {
-					JOptionPane.showMessageDialog(null, "Thêm thành công!");
 					model_DanhSachKhachHang.setRowCount(0);
 					docDuLieu();
 					xoaRong();
 					ManHinhTimKiemKhachHang.resetData();
+					JOptionPane.showMessageDialog(null, "Thêm khách hàng mới thành công");				
+
 				}
 				else {
 					JOptionPane.showMessageDialog(this, "Lỗi thêm!");
@@ -411,12 +449,14 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 					boolean gt = cmbGioiTinhKhachHang.getSelectedItem().toString().equalsIgnoreCase("Nam")?true:false;
 					String diaChi = txtDiaChiKhachHang.getText();
 					String maKh = txtMaKhachHang.getText();
-					KhachHang hk = new KhachHang(maKh,tenKh,sdt,gt,diaChi);
+					String email = txtEmailKhachHang.getText();
+					KhachHang hk = new KhachHang(maKh,tenKh,sdt,gt,diaChi,email);
 					if(khachHang_DAO.capNhatKhachHang(hk)) {
-						JOptionPane.showMessageDialog(null, "Sửa thành công!");
 						model_DanhSachKhachHang.setRowCount(0);
 						danhSachKhachHang.add(hk);
 						docDuLieu();
+						//xoaRong();
+						JOptionPane.showMessageDialog(null, "Sửa thành công");
 					}	
 					ManHinhTimKiemKhachHang.resetData();
 				}
@@ -447,7 +487,8 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 					,kh.getTenKH()
 					,kh.getSdtKH()
 					,kh.isGioiTinh()?"Nam":"Nữ"
-						,kh.getDiaChi()};
+					,kh.getDiaChi()
+					,kh.getEmail()};
 			model_DanhSachKhachHang.addRow(rowData);
 		}
 		tbl_DanhSachKhachHang.setModel (model_DanhSachKhachHang);
@@ -457,6 +498,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		txtHoTenKhachHang.setText("");
 		txtMaKhachHang.setText(""); 
 		txtSoDienThoaiKhachHang.setText(""); 
+		txtEmailKhachHang.setText("");
 		txtTim_TenKhachHang.setText(""); 
 		txtTim_SoDienThoaiKhachHang.setForeground(Color.gray);
 		txtTim_SoDienThoaiKhachHang.setText("");
@@ -473,6 +515,12 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		txtSoDienThoaiKhachHang.setText(tbl_DanhSachKhachHang.getValueAt(row, 2).toString()); 
 		cmbGioiTinhKhachHang.setSelectedItem(tbl_DanhSachKhachHang.getValueAt(row, 3).toString());
 		txtDiaChiKhachHang.setText(tbl_DanhSachKhachHang.getValueAt(row, 4).toString()); 
+		if(tbl_DanhSachKhachHang.getValueAt(row, 5)!=null) {
+			txtEmailKhachHang.setText(tbl_DanhSachKhachHang.getValueAt(row, 5).toString()); 
+		}
+		else {
+			txtEmailKhachHang.setText(""); 
+		}
 	}
 
 	@Override
@@ -504,12 +552,14 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 					,kh.getTenKH()
 					,kh.getSdtKH()
 					,kh.isGioiTinh()?"Nam":"Nữ"
-						,kh.getDiaChi()};
+					,kh.getDiaChi(),
+					kh.getEmail()};
 			model_DanhSachKhachHang.addRow(rowData);
 		}
 	}
 
 	public static void resetData() {
+		model_DanhSachKhachHang.setRowCount(0);
 		KhachHang_DAO khachHang_DAO = new KhachHang_DAO();
 		List<KhachHang> danhSach = khachHang_DAO.getDsKhachHang();
 		ManHinhCapNhatKhachHang.updateData(danhSach);
@@ -518,7 +568,7 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		String hoTen = txtHoTenKhachHang.getText().trim();
 		String soDienThoai = txtSoDienThoaiKhachHang.getText().trim();
 		String diaChi = txtDiaChiKhachHang.getText();
-		if (!(hoTen.length() > 0 && hoTen.matches("^("+GeneratorID.tiengVietLow().toUpperCase()+GeneratorID.tiengVietLow()+"*((\\s)))+"+GeneratorID.tiengVietLow().toUpperCase()+GeneratorID.tiengVietLow()+"*$"))) {
+		if(!(hoTen.length() > 0 && hoTen.matches("^("+GeneratorID.tiengVietLow().toUpperCase()+GeneratorID.tiengVietLow()+"*((\\s)))+"+GeneratorID.tiengVietLow().toUpperCase()+GeneratorID.tiengVietLow()+"*$"))) {
 			JOptionPane.showMessageDialog(null, "Họ Tên không chứa ký tự số. VD: Nguyễn Văn A");
 			return false;
 		}
@@ -533,6 +583,4 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 
 		return true;
 	}
-	
-	
 }

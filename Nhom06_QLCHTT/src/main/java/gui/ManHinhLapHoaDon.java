@@ -254,7 +254,8 @@ public class ManHinhLapHoaDon extends JPanel {
 					String diaChi = FormNhapThongTinKhachHangMoi.txt_kqDiaChiKHMoi.getText();
 					boolean gt = (String)FormNhapThongTinKhachHangMoi.cmb_gioiTinhKHMoi.getSelectedItem()=="Nam"?true:false;
 					String maKH = KhachHang_DAO.taoMaKhachHang();
-					khachHang = new KhachHang(maKH, tenKH, sdt, gt, diaChi);
+					String email = FormNhapThongTinKhachHangMoi.txt_kqEmailKHMoi.getText();
+					khachHang = new KhachHang(maKH, tenKH, sdt, gt, diaChi,email);
 					if (khachHang_dao.themKH(ManHinhLapHoaDon.khachHang)) {
 						lbl_kqTenKH.setText(khachHang.getTenKH());
 						FormNhapThongTinKhachHangMoi.txt_kqHotenKHMoi.setText("");

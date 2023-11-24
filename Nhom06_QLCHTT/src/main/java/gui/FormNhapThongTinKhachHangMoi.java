@@ -36,6 +36,7 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 	static JComboBox<String> cmb_gioiTinhKHMoi;
 	private KhachHang_DAO khachHang_DAO;
 	public static JButton btnThemKHMoi;
+	static JTextField txt_kqEmailKHMoi;
 	
 
 	/**
@@ -88,48 +89,56 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 		
 		btnThemKHMoi = new JButton("Thêm");
 		btnThemKHMoi.setBackground(new Color(0, 128, 0));
-		btnThemKHMoi.setBounds(310, 250, 90, 30);
+		btnThemKHMoi.setBounds(308, 259, 90, 30);
 		main.add(btnThemKHMoi);
 		
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Họ tên:");
-		lblNewLabel_1_1.setBounds(40, 60, 100, 30);
+		lblNewLabel_1_1.setBounds(40, 39, 100, 30);
 		main.add(lblNewLabel_1_1);
 		
 		txt_kqHotenKHMoi = new JTextField();
 		txt_kqHotenKHMoi.setColumns(10);
-		txt_kqHotenKHMoi.setBounds(140, 60, 260, 30);
+		txt_kqHotenKHMoi.setBounds(140, 39, 260, 30);
 		main.add(txt_kqHotenKHMoi);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Số điện thoại:");
-		lblNewLabel_1_1_1.setBounds(40, 100, 100, 30);
+		lblNewLabel_1_1_1.setBounds(40, 79, 100, 30);
 		main.add(lblNewLabel_1_1_1);
 		
 		txt_kqSdtKHMoi = new JTextField();
 		txt_kqSdtKHMoi.setColumns(10);
-		txt_kqSdtKHMoi.setBounds(140, 100, 260, 30);
+		txt_kqSdtKHMoi.setBounds(140, 79, 260, 30);
 		main.add(txt_kqSdtKHMoi);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Địa chỉ:");
-		lblNewLabel_1_1_1_1.setBounds(40, 140, 100, 30);
+		lblNewLabel_1_1_1_1.setBounds(40, 119, 100, 30);
 		main.add(lblNewLabel_1_1_1_1);
 		
 		JLabel lblNewLabel_1_1_2 = new JLabel("Giới tính:");
-		lblNewLabel_1_1_2.setBounds(40, 200, 100, 30);
+		lblNewLabel_1_1_2.setBounds(40, 179, 100, 30);
 		main.add(lblNewLabel_1_1_2);
 		
 		
 		cmb_gioiTinhKHMoi = new JComboBox(new Object[]{"Nam","Nữ"});
-		cmb_gioiTinhKHMoi.setBounds(140, 200, 90, 30);
+		cmb_gioiTinhKHMoi.setBounds(140, 179, 90, 30);
 		main.add(cmb_gioiTinhKHMoi);
 		
 		txt_kqDiaChiKHMoi = new JTextArea();
 		
 		JScrollPane scr_nhapDiaChiKH = new JScrollPane(txt_kqDiaChiKHMoi, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scr_nhapDiaChiKH.setBounds(140, 140, 260, 50);
+		scr_nhapDiaChiKH.setBounds(140, 119, 260, 50);
 		main.add(scr_nhapDiaChiKH);
 		
-		//khi nhấn vào dấu X ở góc trên cùng bên phải thì kích hoạt sự kiện
+		JLabel lblNewLabel_1_1_1_2 = new JLabel("Email:");
+		lblNewLabel_1_1_1_2.setBounds(40, 218, 100, 30);
+		main.add(lblNewLabel_1_1_1_2);
+		
+		txt_kqEmailKHMoi = new JTextField();
+		txt_kqEmailKHMoi.setColumns(10);
+		txt_kqEmailKHMoi.setBounds(140, 218, 260, 30);
+		main.add(txt_kqEmailKHMoi);
+		
 		btnExit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -137,10 +146,6 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 			}
 		});
 	}
-	/**
-	 * hàm kiểm tra nhập thông tin khách hàng
-	 * @return true khi nhập đúng, nếu sai thì hiển thị thông báo và trả về false
-	 */
 	public static boolean validDataKHNew() {
 		String hoTen = txt_kqHotenKHMoi.getText().trim();
 		String soDienThoai = txt_kqSdtKHMoi.getText().trim();
@@ -163,6 +168,7 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 			txt_kqDiaChiKHMoi.selectAll();
 			return false;
 		}
+		
 		return true;
 	}
 }

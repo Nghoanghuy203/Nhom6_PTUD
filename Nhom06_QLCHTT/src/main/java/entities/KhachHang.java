@@ -6,6 +6,7 @@ public class KhachHang {
 	private String sdtKH;
 	private boolean gioiTinh;
 	private String diaChi;
+	private String email;
 	public void setMaKH(String maKH) {
 		this.maKH = maKH;
 	}
@@ -39,19 +40,28 @@ public class KhachHang {
 	public void setDiaChi(String diaChi) {
 		this.diaChi = diaChi;
 	}
-	public KhachHang(String maKH, String tenKH, String sdtKH, boolean gioiTinh, String diaChi) {
+	
+	public KhachHang(String maKH, String tenKH) {
+		super();
+		this.maKH = maKH;
+		this.tenKH = tenKH;
+	}
+	public KhachHang(String maKH, String tenKH, String sdtKH, boolean gioiTinh, String diaChi, String email) {
 		super();
 		this.maKH = maKH;
 		this.tenKH = tenKH;
 		this.sdtKH = sdtKH;
 		this.gioiTinh = gioiTinh;
 		this.diaChi = diaChi;
+		this.email = email;
 	}
-	public KhachHang(String maKH, String tenKH) {
-		super();
-		this.maKH = maKH;
-		this.tenKH = tenKH;
+	public String getEmail() {
+		return email;
 	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	
 	
 	

@@ -43,7 +43,7 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 	private JButton btnXoaTrangKhachHang;
 	private JScrollPane scr_DanhSachKhachHang;
 	private JTable tbl_DanhSachKhachHang;
-	private static DefaultTableModel model_ds;
+	private static DefaultTableModel model_danhSachKhachHanh;
 
 	private JTextField txtHoTenKhachHang;
 	private JTextField txt_ngaySinh;
@@ -52,6 +52,7 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 	private JComboBox cmbGioiTinhKhachHang;
 
 	private JTextField txtMaKhachHang;
+	private JTextField txtEmailKhachHang;
 	/**
 	 * Launch the application.
 	 */
@@ -108,23 +109,23 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 		lblMaKhachHang.setBounds(10, 15, 80, 20);
 		pnlThaoTac.add(lblMaKhachHang);
 
-		JLabel lblTenKhachHang = new JLabel("Họ tên:");
+		JLabel lblTenKhachHang = new JLabel("       Họ tên:");
 		lblTenKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTenKhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblTenKhachHang.setBounds(230, 15, 40, 20);
+		lblTenKhachHang.setBounds(228, 15, 70, 20);
 		pnlThaoTac.add(lblTenKhachHang);
 
 		JLabel lblGioiTinhKhachHang = new JLabel("Giới tính:");
 		lblGioiTinhKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGioiTinhKhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblGioiTinhKhachHang.setBounds(460, 58, 50, 20);
+		lblGioiTinhKhachHang.setBounds(690, 16, 50, 20);
 		pnlThaoTac.add(lblGioiTinhKhachHang);
 
 		txtHoTenKhachHang = new JTextField();
 		txtHoTenKhachHang.setBackground(new Color(255, 250, 240));
 		txtHoTenKhachHang.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txtHoTenKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
-		txtHoTenKhachHang.setBounds(270, 15, 160, 20);
+		txtHoTenKhachHang.setBounds(308, 16, 160, 20);
 		pnlThaoTac.add(txtHoTenKhachHang);
 		txtHoTenKhachHang.setColumns(10);
 
@@ -141,13 +142,13 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 		cmbGioiTinhKhachHang = new JComboBox(itemGioiTinh);
 		//combo_gioiTinh.setModel(new DefaultComboBoxModel(new String[] {"Tất cả","Nam", "Nữ"}));
 		cmbGioiTinhKhachHang.setBackground(new Color(245, 222, 179));
-		cmbGioiTinhKhachHang.setBounds(533, 56, 90, 25);
+		cmbGioiTinhKhachHang.setBounds(763, 14, 90, 25);
 		pnlThaoTac.add(cmbGioiTinhKhachHang);
 
 		JLabel lblSoDienThoaiKhachHang = new JLabel("Số điện thoại:");
 		lblSoDienThoaiKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSoDienThoaiKhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
-		lblSoDienThoaiKhachHang.setBounds(460, 15, 80, 20);
+		lblSoDienThoaiKhachHang.setBounds(497, 14, 80, 20);
 		pnlThaoTac.add(lblSoDienThoaiKhachHang);
 
 		txtSoDienThoaiKhachHang = new JTextField();
@@ -155,7 +156,7 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 		txtSoDienThoaiKhachHang.setColumns(10);
 		txtSoDienThoaiKhachHang.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txtSoDienThoaiKhachHang.setBackground(new Color(255, 250, 240));
-		txtSoDienThoaiKhachHang.setBounds(533, 15, 100, 20);
+		txtSoDienThoaiKhachHang.setBounds(570, 14, 100, 20);
 		pnlThaoTac.add(txtSoDienThoaiKhachHang);
 
 		JLabel lblDiaChiKhachHang = new JLabel("Địa chỉ:");
@@ -176,12 +177,12 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 		btnXoaTrangKhachHang = new JButton("Xóa trắng");
 		btnXoaTrangKhachHang.setFont(new Font("Arial", Font.BOLD, 14));
 		btnXoaTrangKhachHang.setBackground(new Color(255, 0, 0));
-		btnXoaTrangKhachHang.setBounds(838, 28, 110, 30);
+		btnXoaTrangKhachHang.setBounds(888, 54, 110, 30);
 		pnlThaoTac.add(btnXoaTrangKhachHang);
 
 		btnTim_KhachHang = new JButton("Tìm");
 		btnTim_KhachHang.setFont(new Font("Arial", Font.BOLD, 14));
-		btnTim_KhachHang.setBounds(726, 29, 90, 30);
+		btnTim_KhachHang.setBounds(888, 9, 90, 30);
 		pnlThaoTac.add(btnTim_KhachHang);
 		btnTim_KhachHang.setBackground(new Color(255, 255, 255));
 		btnTim_KhachHang.setIcon(new ImageIcon(ManHinhChinh.class.getResource("/images/search.png")));
@@ -193,6 +194,20 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 		txtMaKhachHang.setBackground(new Color(255, 250, 240));
 		txtMaKhachHang.setBounds(88, 15, 130, 20);
 		pnlThaoTac.add(txtMaKhachHang);
+		
+		txtEmailKhachHang = new JTextField();
+		txtEmailKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
+		txtEmailKhachHang.setColumns(10);
+		txtEmailKhachHang.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txtEmailKhachHang.setBackground(new Color(255, 250, 240));
+		txtEmailKhachHang.setBounds(513, 58, 340, 20);
+		pnlThaoTac.add(txtEmailKhachHang);
+		
+		JLabel lblEmailKhachHang = new JLabel("Email:");
+		lblEmailKhachHang.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEmailKhachHang.setFont(new Font("Arial", Font.PLAIN, 11));
+		lblEmailKhachHang.setBounds(458, 58, 55, 20);
+		pnlThaoTac.add(lblEmailKhachHang);
 
 		JPanel pnlDanhSachKhachHang = new JPanel();
 		pnlDanhSachKhachHang.setBackground(new Color(255, 255, 255));
@@ -201,9 +216,9 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 		add(pnlDanhSachKhachHang);
 		pnlDanhSachKhachHang.setLayout(null);
 
-		model_ds = new DefaultTableModel(new Object[][] {
+		model_danhSachKhachHanh = new DefaultTableModel(new Object[][] {
 
-		}, new String[] { "Mã khách hàng", "Họ tên", "Số điện thoại", "Giới tính", "Địa chỉ"}
+		}, new String[] { "Mã khách hàng", "Họ tên", "Số điện thoại", "Giới tính", "Địa chỉ","Email"}
 
 				) {
 			boolean[] canEdit = new boolean[] { false, false, false, false, false, false, false, false };
@@ -215,7 +230,7 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 			}
 		};
 
-		tbl_DanhSachKhachHang = new JTable(model_ds);
+		tbl_DanhSachKhachHang = new JTable(model_danhSachKhachHanh);
 		tbl_DanhSachKhachHang.setSelectionBackground(new Color(65, 105, 225));
 		tbl_DanhSachKhachHang.setRowHeight(40);
 		tbl_DanhSachKhachHang.setGridColor(new Color(0, 0, 0));
@@ -264,6 +279,7 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 		txtMaKhachHang.setText(""); 
 		txtSoDienThoaiKhachHang.setText(""); 
 		btnTim_KhachHang.setText(""); 
+		txtEmailKhachHang.setText("");
 		txtMaKhachHang.requestFocus();
 	}
 	private void docDuLieuLenBang() {
@@ -275,10 +291,11 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 					,kh.getTenKH()
 					,kh.getSdtKH()
 					,kh.isGioiTinh()?"Nam":"Nữ"
-						,kh.getDiaChi()};
-			model_ds.addRow(rowData);
+					,kh.getDiaChi()
+					,kh.getEmail()};
+			model_danhSachKhachHanh.addRow(rowData);
 		}
-		tbl_DanhSachKhachHang.setModel (model_ds);
+		tbl_DanhSachKhachHang.setModel (model_danhSachKhachHanh);
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -289,6 +306,12 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 		txtSoDienThoaiKhachHang.setText(tbl_DanhSachKhachHang.getValueAt(row, 2).toString()); 
 		cmbGioiTinhKhachHang.setSelectedIndex(tbl_DanhSachKhachHang.getValueAt(row, 3).toString().equals("Nam")?0:1);
 		txtDiaChiKhachHang.setText(tbl_DanhSachKhachHang.getValueAt(row, 4).toString()); 
+		if(tbl_DanhSachKhachHang.getValueAt(row, 5)!=null) {
+			txtEmailKhachHang.setText(tbl_DanhSachKhachHang.getValueAt(row, 5).toString()); 
+		}
+		else {
+			txtEmailKhachHang.setText(""); 
+		}
 	}
 
 	@Override
@@ -325,6 +348,7 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 			String gt = cmbGioiTinhKhachHang.getSelectedItem().toString();
 			gt = gt.equals("Tất cả")?"":gt;
 			String diaChi = txtDiaChiKhachHang.getText();
+			String email = txtEmailKhachHang.getText();
 			String maKh = txtMaKhachHang.getText();
 
 			DefaultTableModel model = (DefaultTableModel) tbl_DanhSachKhachHang.getModel();
@@ -336,6 +360,7 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(sdt), 2));
 			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(gt), 3));
 			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(diaChi), 4));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(email), 5));
 			RowFilter<Object, Object> af = RowFilter.andFilter(filters);
 			sorter.setRowFilter(af);
 		}
@@ -350,11 +375,13 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 					,kh.getTenKH()
 					,kh.getSdtKH()
 					,kh.isGioiTinh()?"Nam":"Nữ"
-						,kh.getDiaChi()};
-			model_ds.addRow(rowData);
+					,kh.getDiaChi()
+					,kh.getEmail()};
+			model_danhSachKhachHanh.addRow(rowData);
 		}
 	}
 	public static void resetData() {
+		model_danhSachKhachHanh.setRowCount(0);
 		KhachHang_DAO kh_DAO = new KhachHang_DAO();
 		List<KhachHang> ds = kh_DAO.getDsKhachHang();
 		ManHinhTimKiemKhachHang.updateData(ds);
