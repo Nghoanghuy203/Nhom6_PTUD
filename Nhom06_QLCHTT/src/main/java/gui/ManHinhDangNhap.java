@@ -26,10 +26,12 @@ import connectDB.ConnectDB;
 import custom.ScaledImg;
 import dao.NhanVien_DAO;
 import entities.NhanVien;
+import scanQRCode.CamQR;
 
 @SuppressWarnings("serial")
 public class ManHinhDangNhap extends JFrame{
-
+	
+	private JButton btnQR;
 	private JPanel contentPane;
 	private JTextField txtMa;
 	private JPasswordField pFDangNhap;
@@ -37,6 +39,9 @@ public class ManHinhDangNhap extends JFrame{
 	private JButton btnDangNhap;
 	private NhanVien_DAO nhanVien_DAO;
 	public static NhanVien actNV;
+	
+	public static CamQR camQR;
+	public static String codeQR;
 	/**
 	 * Launch the application.
 	 */
@@ -94,6 +99,8 @@ public class ManHinhDangNhap extends JFrame{
 		}
 		nhanVien_DAO = new NhanVien_DAO();
 		
+		
+		
 		JPanel pnLogin = new JPanel();
 		pnLogin.setBackground(Color.white);
 		pnLogin.setBounds(400, 200, 560, 330);
@@ -104,7 +111,7 @@ public class ManHinhDangNhap extends JFrame{
 		txtMa.setToolTipText("");
 		txtMa.setBounds(130, 140, 300, 30);
 		txtMa.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		txtMa.setBackground(new Color(255,255,255,0));
+		txtMa.setBackground(new Color(255,255,255,0));	
 		txtMa.setOpaque(false);
 		pnLogin.add(txtMa);
 		txtMa.setColumns(10);
@@ -186,8 +193,28 @@ public class ManHinhDangNhap extends JFrame{
 		btnDangNhap = new JButton("Đăng nhập");
 		btnDangNhap.setBackground(new Color(0, 0, 255, 160));
 		btnDangNhap.setForeground(new Color(245, 255, 250));
-		btnDangNhap.setBounds(200, 270, 160, 40);
+		btnDangNhap.setBounds(290, 270, 140, 40);
 		pnLogin.add(btnDangNhap);
+		
+		btnQR = new JButton("Quẹt QR");
+		
+
+		btnQR.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				camQR = new CamQR(codeQR);
+				//camQR.webcam.close();
+				camQR.setVisible(true);
+				//camQR.webcam.open();
+				System.out.println(codeQR);
+				
+			}
+		});
+		
+		btnQR.setForeground(new Color(245, 255, 250));
+		btnQR.setBackground(new Color(0, 0, 255, 160));
+		btnQR.setBounds(130, 270, 140, 40);
+		pnLogin.add(btnQR);
 		
 		btnDangNhap.addMouseListener(new MouseAdapter() {
 			@Override
@@ -208,5 +235,4 @@ public class ManHinhDangNhap extends JFrame{
 			}
 		});
 	}
-
 }

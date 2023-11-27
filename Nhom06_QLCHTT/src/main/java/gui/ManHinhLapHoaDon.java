@@ -63,6 +63,7 @@ import entities.NhaCungCap;
 import entities.NhanVien;
 import entities.SanPham;
 import report.Report;
+import sendEmail.SendEmailWithThread;
 import sendSMS.SendSMS;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
@@ -849,6 +850,19 @@ public class ManHinhLapHoaDon extends JPanel {
 							String t = lbl_kqtongthanhtoan.getText();
 							ManHinhChinh.thread = new SendSMS("Nhân viên "+nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
 							ManHinhChinh.thread.start();
+							if (khachHang.getEmail()!=null) {
+								String mess = "Cảm ơn quý khách đã sử dụng dịch vụ của AM STORE \n"
+										+ "Trạng thái đơn hàng\n"
+										+ "-----------------------------------------------------------\n"
+										+ "Thành công\n"
+										+ "-----------------------------------------------------------\n"
+										+ "Mã hoá đơn                  "+hd.getMaHD()+"\n"
+										+ "Số tiền                           "+hd.getTongTienHD()+"\n"
+										+ "Tên khách hàng              "+ khachHang.getTenKH()+"\n"
+										+ "------------------------------------------------------------";
+								SendEmailWithThread emailThread = new SendEmailWithThread(khachHang.getEmail(), mess);
+								emailThread.start();
+							}
 							xoaDuLieuCuaBang(tbl_gioHang);
 							txt_tienKhachTra.setText("");
 							lbl_thienthua.setText("");
@@ -891,8 +905,23 @@ public class ManHinhLapHoaDon extends JPanel {
 							}
 							
 							String t = lbl_kqtongthanhtoan.getText();
-							ManHinhChinh.thread = new SendSMS("Nhân viên "+nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
-							ManHinhChinh.thread.start();
+							//ManHinhChinh.thread = new SendSMS("Nhân viên "+nhanVien.getTenNV()+" vừa lập hóa đơn có trị giá "+t);
+							//ManHinhChinh.thread.start();
+							
+							if (khachHang.getEmail()!=null) {
+								String mess = "Cảm ơn quý khách đã sử dụng dịch vụ của AM STORE \n"
+										+ "Trạng thái đơn hàng\n"
+										+ "-----------------------------------------------------------\n"
+										+ "Thành công\n"
+										+ "-----------------------------------------------------------\n"
+										+ "Mã hoá đơn                  "+hd.getMaHD()+"\n"
+										+ "Số tiền                           "+hd.getTongTienHD()+"\n"
+										+ "Tên khách hàng              "+ khachHang.getTenKH()+"\n"
+										+ "------------------------------------------------------------";
+								SendEmailWithThread emailThread = new SendEmailWithThread(khachHang.getEmail(), mess);
+								emailThread.start();
+							}
+							
 							xoaDuLieuCuaBang(tbl_gioHang);
 							lbl_kqTongtien.setText("0 VND");
 							txt_tienKhachTra.setText("");

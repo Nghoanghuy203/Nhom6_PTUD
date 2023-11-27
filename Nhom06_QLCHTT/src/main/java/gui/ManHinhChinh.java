@@ -15,6 +15,7 @@ import connectDB.ConnectDB;
 import custom.ScaledImg;
 import dao.NhanVien_DAO;
 import entities.NhanVien;
+import scanQRCode.CamQR;
 import sendSMS.SendSMS;
 import custom.CustomScrollBarUI;
 import custom.MenuItem;
@@ -46,6 +47,7 @@ public class ManHinhChinh extends JFrame{
 	public static JPanel pn_body; //biến chứa các màn hình chức năng
 	public static NhanVien nvAct; //biến chứa thông tin nhân viên đăng nhập
 	public static FormNhapThongTinKhachHangMoi form; //form nhập thông tin khách hàng mới, vì sử đụng dialog nên phải khởi tạo ở frame chính
+
 	
 	//biến khởi tạo panel màn hình
 	public static ManHinhLapHoaDon mh_lapHoaDon;
@@ -127,6 +129,8 @@ public class ManHinhChinh extends JFrame{
 		
 		form = new FormNhapThongTinKhachHangMoi();
 		form.setVisible(false);
+		
+
 		
 		JPanel pn_menu = new JPanel();
 		pn_menu.setBackground(new Color(70, 130, 180));
