@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -272,6 +273,46 @@ public class ManHinhTimKiemKhachHang extends JPanel implements ActionListener,Mo
 		btnXoaTrangKhachHang.addActionListener(this);
 		tbl_DanhSachKhachHang.addMouseListener(this);
 		docDuLieuLenBang();
+		
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("TÌM KIẾM KHÁCH HÀNG");
+				((TitledBorder) pnlManHinhThaoTac.getBorder()).setTitle("Tìm kiếm khách hàng");
+				pnlManHinhThaoTac.repaint();
+				((TitledBorder) pnlDanhSachKhachHang.getBorder()).setTitle("Danh sách khách hàng");
+				pnlDanhSachKhachHang.repaint();
+				btnTim_KhachHang.setText("Tìm");
+				lblMaKhachHang.setText("Mã khách hàng:");
+				lblTenKhachHang.setText("Họ tên:");
+				lblSoDienThoaiKhachHang.setText("Số điện thoại:");
+				lblGioiTinhKhachHang.setText("Giới tính:");
+				lblDiaChiKhachHang.setText("Địa chỉ:");
+				btnXoaTrangKhachHang.setText("Xoá trắng");
+				String[] newColumns_ds = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Giới tính", "Địa chỉ","Email"};
+				model_danhSachKhachHanh.setColumnIdentifiers(newColumns_ds);
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("SEARCH FOR CUSTOMERS");
+				((TitledBorder) pnlManHinhThaoTac.getBorder()).setTitle("Search for customers");
+				pnlManHinhThaoTac.repaint();
+				((TitledBorder) pnlDanhSachKhachHang.getBorder()).setTitle("List of customers");
+				pnlDanhSachKhachHang.repaint();
+				btnTim_KhachHang.setText("Find");
+				lblMaKhachHang.setText("Customer Id:");
+				lblTenKhachHang.setText("Customer name:");
+				lblSoDienThoaiKhachHang.setText("Phone number:");
+				lblGioiTinhKhachHang.setText("Gender:");
+				lblDiaChiKhachHang.setText("Address:");
+				btnXoaTrangKhachHang.setText("Clear");
+				String[] newColumns_ds = { "Customer Id", "Full name", "Phone number", "Gender", "Address","Email"};
+				model_danhSachKhachHanh.setColumnIdentifiers(newColumns_ds);
+			}
+		});
 	}
 	private void xoaRong() {
 		txtDiaChiKhachHang.setText("");

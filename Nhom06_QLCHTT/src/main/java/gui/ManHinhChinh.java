@@ -15,7 +15,6 @@ import connectDB.ConnectDB;
 import custom.ScaledImg;
 import dao.NhanVien_DAO;
 import entities.NhanVien;
-import scanQRCode.CamQR;
 import sendSMS.SendSMS;
 import custom.CustomScrollBarUI;
 import custom.MenuItem;
@@ -43,33 +42,18 @@ public class ManHinhChinh extends JFrame{
 
 	private JPanel contentPane;
 	private JPanel pn_listMenu;
+	public static JPanel pn_body;
+	public static NhanVien nvAct;
+	public static FormNhapThongTinKhachHangMoi form;
 	
-	public static JPanel pn_body; //biến chứa các màn hình chức năng
-	public static NhanVien nvAct; //biến chứa thông tin nhân viên đăng nhập
-	public static FormNhapThongTinKhachHangMoi form; //form nhập thông tin khách hàng mới, vì sử đụng dialog nên phải khởi tạo ở frame chính
-
-	
-	//biến khởi tạo panel màn hình
-	public static ManHinhLapHoaDon mh_lapHoaDon;
+	public static ManHinhLapHoaDon manHinhLapHoaDon;
 	public static ManHinhDatHang mh_dathang;
-	private ManHinhCapNhatNhanVien mh_capNhatNhanVien;
-	private ManHinhTimKiemNhanVien mh_timKiemNhanVien;
-	private ManHinhThongKeDoanhThu mh_thongKeDoanhThu;
-	private ManHinhThongKeBanChay mh_thongKeBanChay;
-	private ManHinhThongKeTonKho mh_thongKeTonKho;
-	private ManHinhCapNhatKhachHang mh_capNhatKhachHang;
-	private ManHinhTimKiemKhachHang mh_timKiemKhachHang;
-	private ManHinhCapNhatSanPham mh_capNhatSanPham;
-	private ManHinhTimKiemSanPham mh_timKiemSanPham;
-	private ManHinhCapNhatNhaCungCap mh_capNhatNCC;
-	private ManHinhTimKiemNhaCungCap mh_timKiemNCC;
-	private ManHinhTimKiemHoaDon mh_timKiemHoaDon;
-	private ManHinhCapNhatChuongTrinhKhuyenMai mh_capNhatCTKM;
-	private ManHinhTimKiemChuongTrinhKhuyenMai mh_timKiemCTKM;
-	//tạo biến để xử lí đa luồng trong lúc gửi SMS
+	
 	public static SendSMS sms;
 	public static Thread thread;
-	
+	public static Thread thread1;
+	public static JButton btnEN ;
+	public static JButton btnVN;
 	
 	/**
 	 * Launch the application.
@@ -127,10 +111,9 @@ public class ManHinhChinh extends JFrame{
 			e.printStackTrace();
 		}
 		
+		//manHinhLapHoaDon = new ManHinhLapHoaDon(true, "");
 		form = new FormNhapThongTinKhachHangMoi();
 		form.setVisible(false);
-		
-
 		
 		JPanel pn_menu = new JPanel();
 		pn_menu.setBackground(new Color(70, 130, 180));
@@ -160,14 +143,14 @@ public class ManHinhChinh extends JFrame{
 		pn_info.setLayout(null);
 		
 		JLabel btnLogout = new JLabel("");
-		btnLogout.setBounds(210, 0, 30, 80);
+		btnLogout.setBounds(210, 62, 30, 18);
 		btnLogout.setIcon(new ImageIcon(ManHinhChinh.class.getResource("/images/logOut.png")));
 		pn_info.add(btnLogout);
 		
 		JLabel lblChucvu = new JLabel("Quản lý");
 		lblChucvu.setFont(new Font("Arial", Font.BOLD, 14));
 		lblChucvu.setForeground(new Color(255, 255, 255));
-		lblChucvu.setBounds(60, 10, 120, 30);
+		lblChucvu.setBounds(61, 10, 120, 30);
 		pn_info.add(lblChucvu);
 		if (isQL) lblChucvu.setText("Quản lý");
 		else lblChucvu.setText("NV Bán hàng");
@@ -175,8 +158,9 @@ public class ManHinhChinh extends JFrame{
 		NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
 		nvAct = nhanVien_DAO.getNhanVien("a");
 		JLabel lblHoTen = new JLabel("");
-		lblHoTen.setText(nvAct.getTenNV());
+		//lblHoTen.setText(nvAct.getTenNV());
 		lblHoTen.setForeground(new Color(255, 255, 255));
+		//lblHoTen.setText(ManHinhChinh.nvAct.getTenNV());
 		lblHoTen.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblHoTen.setBounds(60, 40, 140, 30);
 		pn_info.add(lblHoTen);
@@ -185,6 +169,8 @@ public class ManHinhChinh extends JFrame{
 		lblIconNV.setIcon(new ImageIcon(ManHinhChinh.class.getResource("/images/userInfo.png")));
 		lblIconNV.setBounds(0, 10, 60, 60);
 		pn_info.add(lblIconNV);
+		
+		
 		
 		pn_listMenu = new JPanel();
 		pn_listMenu.setBackground(new Color(70, 130, 180));
@@ -217,6 +203,7 @@ public class ManHinhChinh extends JFrame{
 			e1.printStackTrace();
 		}
 		hinhNen.setIcon(new ImageIcon(ScaledImg.scaledImage(imgHinhNen, hinhNen.getWidth(), hinhNen.getHeight())));
+		//pn_body.add(hinhNen);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -256,63 +243,47 @@ public class ManHinhChinh extends JFrame{
 		    		frame.setVisible(true);
 		    		ManHinhChinh.this.dispose();
 		    		ManHinhDangNhap.actNV=null;
-		    		//sms.sendSMS("Bạn đã đăng xuất");
+		    		sms.sendSMS("Bạn đã đăng xuất");
 				}
 			}
 		});
 		
-		mh_lapHoaDon = new ManHinhLapHoaDon(false,"");
+		//menuVertical(,, );
+		
+		btnVN = new JButton("VN");
+		btnVN.setBounds(193, 5, 45, 24);
+		pn_info.add(btnVN);
+		btnEN = new JButton("EN");
+		btnEN.setBounds(193, 30, 45, 24);
+		pn_info.add(btnEN);
+		
+		
+		//-----------------------------------------------------------------------------------------------------------------------
+		
+		//boolean isQL  = true;
+		ManHinhLapHoaDon mh_lapHoaDon = new ManHinhLapHoaDon(false,"");
 		mh_dathang = new ManHinhDatHang();
-		mh_capNhatNhanVien = new ManHinhCapNhatNhanVien();
-		mh_timKiemNhanVien = new ManHinhTimKiemNhanVien();
-		mh_thongKeBanChay = new ManHinhThongKeBanChay();
-		mh_thongKeDoanhThu = new ManHinhThongKeDoanhThu();
-		mh_thongKeTonKho = new ManHinhThongKeTonKho();
+		ManHinhTraHang mh_traHang = new ManHinhTraHang();
+		ManHinhCapNhatNhanVien mh_capNhatNhanVien = new ManHinhCapNhatNhanVien();
+		ManHinhTimKiemNhanVien mh_timKiemNhanVien = new ManHinhTimKiemNhanVien();
+		ManHinhThongKeDoanhThu mh_thongKeDoanhThu = new ManHinhThongKeDoanhThu();
+		ManHinhThongKeTonKho mh_thongKeTonKho = new ManHinhThongKeTonKho();
+		ManHinhThongKeBanChay mh_thongKeBanChay = new ManHinhThongKeBanChay();
+		ManHinhCapNhatKhachHang mh_capNhatKhachHang = new ManHinhCapNhatKhachHang();
+		ManHinhTimKiemKhachHang mh_timKiemKhachHang = new ManHinhTimKiemKhachHang();
+		ManHinhCapNhatSanPham mh_capNhatSanPham = new ManHinhCapNhatSanPham();
+		ManHinhTimKiemSanPham mh_timKiemSanPham = new ManHinhTimKiemSanPham();
+		ManHinhCapNhatNhaCungCap mh_capNhatNCC = new ManHinhCapNhatNhaCungCap();
+		ManHinhTimKiemNhaCungCap mh_timKiemNCC = new ManHinhTimKiemNhaCungCap();
+		ManHinhTimKiemHoaDon mh_timKiemHoaDon = new ManHinhTimKiemHoaDon();
+		ManHinhCapNhatChuongTrinhKhuyenMai mh_capNhatCTKM = new ManHinhCapNhatChuongTrinhKhuyenMai();
+		ManHinhTimKiemChuongTrinhKhuyenMai mh_timKiemCTKM = new ManHinhTimKiemChuongTrinhKhuyenMai();
 		
-		mh_capNhatSanPham = new ManHinhCapNhatSanPham();
-		mh_timKiemSanPham = new ManHinhTimKiemSanPham();
+		ImageIcon icon_submenu = new ImageIcon(ManHinhChinh.class.getResource("/images/point.png"));
 		
-		mh_capNhatKhachHang = new ManHinhCapNhatKhachHang();
-		mh_timKiemKhachHang = new ManHinhTimKiemKhachHang();
+		Color color1  = new Color(70, 130, 180);
+		Color color2 =  new Color(55, 60, 255);
 		
-		mh_capNhatCTKM = new ManHinhCapNhatChuongTrinhKhuyenMai();
-		mh_timKiemCTKM = new ManHinhTimKiemChuongTrinhKhuyenMai();
-		
-		mh_capNhatNCC = new ManHinhCapNhatNhaCungCap();
-		mh_timKiemNCC = new ManHinhTimKiemNhaCungCap();
-		
-		mh_timKiemHoaDon = new ManHinhTimKiemHoaDon();
-		
-		menuVertical(new Color(70, 130, 180), new Color(55, 60, 255), isQL);
-		
-		
-	}
-	
-	/**
-	 * thay đổi panel trong pn_body
-	 * @param panel
-	 * @return
-	 */
-	public static ActionListener swithPanel(JPanel panel) {
-		ActionListener action = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pn_body.removeAll();
-				pn_body.add(panel);
-				pn_body.validate();
-				pn_body.repaint();
-			}
-		};
-		return action;
-	}
-	
-	/**
-	 * khởi tạo menu
-	 * @param color1
-	 * @param color2
-	 * @param isQL
-	 */
-	public void menuVertical(Color color1, Color color2, boolean isQL) {		
-		//submenu khách hàng
 		MenuItem mn_capnhatKH = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_capnhat.png")), "Cập nhật", swithPanel(mh_capNhatKhachHang), true, color1, color2);
 		MenuItem mn_timkiemKH = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_timkiem.png")), "Tìm kiếm", swithPanel(mh_timKiemKhachHang), true, color1, color2);
 		
@@ -323,6 +294,7 @@ public class ManHinhChinh extends JFrame{
 		//submenu nhân viên
 		MenuItem mn_laphoadon = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_banhang.png")), "Lập hóa đơn", swithPanel(mh_lapHoaDon), true, color1, color2);
 		MenuItem mn_datHang = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_dathang.png")), "Đặt hàng", swithPanel(mh_dathang), true, color1, color2);
+		MenuItem mn_traHang = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_dathang.png")), "Trả hàng", swithPanel(mh_traHang), true, color1, color2);
 		MenuItem mn_capnhatNV = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_capnhat.png")), "Cập nhật", swithPanel(mh_capNhatNhanVien), true, color1, color2);
 		MenuItem mn_timkiemNV = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_timkiem.png")), "Tìm kiếm", swithPanel(mh_timKiemNhanVien), true, color1, color2);
 		MenuItem mn_thongkeSPbanchay = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_tkbanchay.png")), "Thống kê hàng bán chạy", swithPanel(mh_thongKeBanChay), true, color1, color2);
@@ -350,7 +322,7 @@ public class ManHinhChinh extends JFrame{
 		
 		//menu của quản lý
 		if (isQL) {
-			mn_nhanvien = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_nhanvien.png")), "Nhân viên", null, false, color1, color2, mn_laphoadon, mn_datHang, mn_capnhatNV, mn_timkiemNV, mn_thongkeSPbanchay, mn_thongkehangtonkho, mn_thongkedoanhthu);
+			mn_nhanvien = new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_nhanvien.png")), "Nhân viên", null, false, color1, color2, mn_laphoadon, mn_datHang,mn_traHang ,mn_capnhatNV, mn_timkiemNV, mn_thongkeSPbanchay, mn_thongkehangtonkho, mn_thongkedoanhthu);
 			mn_sanpham= new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_sanpham.png")), "Sản phẩm", null, false, color1, color2, mn_capnhatSP, mn_timkiemSP);
 			addMenu(mn_nhanvien, mn_khachhang, mn_hoadon, mn_sanpham,mn_nhacungcap, mn_CTKM);
 		}
@@ -360,12 +332,45 @@ public class ManHinhChinh extends JFrame{
 			mn_sanpham= new MenuItem(new ImageIcon(ManHinhChinh.class.getResource("/images/icon_sanpham.png")), "Sản phẩm", null, false, color1, color2, mn_timkiemSP);
 			addMenu(mn_nhanvien, mn_khachhang, mn_hoadon, mn_sanpham);
 		}
+	
+		
+		btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblNewLabel.setText("HỆ THỐNG QUẢN LÝ BÁN HÀNG CỬA HÀNG THỜI TRANG");
+				if (isQL) lblChucvu.setText("Quản lý");
+				else lblChucvu.setText("NV Bán hàng");
+			}
+		});
+		
+		btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblNewLabel.setText("FASHION STORE SALES MANAGEMENT SYSTEM");
+				if (lblChucvu.getText()== "Quản lý") lblChucvu.setText("Manager");
+				else lblChucvu.setText("Staff");
+			}
+		});
 	}
 	
-	/**
-	 * thêm các menu cha vào danh sách menu
-	 * @param menu
-	 */
+	public static ActionListener swithPanel(JPanel panel) {
+		ActionListener action = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pn_body.removeAll();
+				pn_body.add(panel);
+				pn_body.validate();
+				pn_body.repaint();
+			}
+		};
+		return action;
+	}
+	
+	public void menuVertical() {
+		//
+		
+	}
+	
+	
 	private void addMenu(MenuItem... menu) {
         for (int i = 0; i < menu.length; i++) {
             pn_listMenu.add(menu[i]);

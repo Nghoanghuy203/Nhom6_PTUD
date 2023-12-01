@@ -413,6 +413,55 @@ public class ManHinhCapNhatKhachHang extends JPanel implements ActionListener, M
 		        lblTenKhachHang.setText("Họ tên:");
 		    }
 		});
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("CẬP NHẬT THÔNG TIN KHÁCH HÀNG");
+				((TitledBorder) pnlManHinhThaoTac.getBorder()).setTitle("Cập nhật thông tin khách hàng");
+				pnlManHinhThaoTac.repaint();
+				((TitledBorder) pnlDanhSachKhachHang.getBorder()).setTitle("Danh sách khách hàng");
+				pnlDanhSachKhachHang.repaint();
+				
+				lblTim_TenKhachHang.setText("Tên khách hàng");
+				lblTim_SoDienThoaiKhachHang.setText("Số điện thoại:");
+				btnTim_KhachHang.setText("Tìm");
+				lblMaKhachHang.setText("Mã khách hàng:");
+				lblTenKhachHang.setText("Họ tên:");
+				lblSoDienThoaiKhachHang.setText("Số điện thoại:");
+				lblGioiTinhKhachHang.setText("Giới tính:");
+				lblDiaChiKhachHang.setText("Địa chỉ:");
+				btnThemKhachHang.setText("Thêm");
+				btnSuaKhachHang.setText("Sửa");
+				btnXoaTrangKhachHang.setText("Xoá trắng");
+				String[] newColumns_ds = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Giới tính", "Địa chỉ","Email"};
+				model_DanhSachKhachHang.setColumnIdentifiers(newColumns_ds);
+				cmbGioiTinhKhachHang.setModel(new DefaultComboBoxModel<>(new String[]{"Nam", "Nữ"}));
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				((TitledBorder) pnlManHinhThaoTac.getBorder()).setTitle("Update customer information");
+				pnlManHinhThaoTac.repaint();
+				((TitledBorder) pnlDanhSachKhachHang.getBorder()).setTitle("List of customers");
+				pnlDanhSachKhachHang.repaint();
+				lblTim_TenKhachHang.setText("Customer name:");
+				lblTim_SoDienThoaiKhachHang.setText("Phone number:");
+				btnTim_KhachHang.setText("Find");
+				lblMaKhachHang.setText("Customer Id:");
+				lblTenKhachHang.setText("Customer name:");
+				lblSoDienThoaiKhachHang.setText("Phone number:");
+				lblGioiTinhKhachHang.setText("Gender:");
+				lblDiaChiKhachHang.setText("Address:");
+				btnThemKhachHang.setText("Add");
+				btnSuaKhachHang.setText("Edit");
+				btnXoaTrangKhachHang.setText("Clear");
+				String[] newColumns_ds = { "Customer Id", "Full name", "Phone number", "Gender", "Address","Email"};
+				model_DanhSachKhachHang.setColumnIdentifiers(newColumns_ds);
+				cmbGioiTinhKhachHang.setModel(new DefaultComboBoxModel<>(new String[]{"Male", "Female"}));
+			}
+		});
 	}
 
 	@Override

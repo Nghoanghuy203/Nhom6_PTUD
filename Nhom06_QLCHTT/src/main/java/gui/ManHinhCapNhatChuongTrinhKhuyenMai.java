@@ -478,6 +478,53 @@ public class ManHinhCapNhatChuongTrinhKhuyenMai extends JPanel {
 			}
 
 		});
+		
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("CẬP NHẬT CHƯƠNG TRÌNH KHUYẾN MÃI");
+				btnSearch.setText("Tìm");
+				lblKqTimKiem.setText("Kết quả:");
+				lblMaKM.setText("Mã Khuyến Mãi:");
+				lblPhanTramKhuyenMai.setText("Phần trăm khuyến mãi:");
+				lblTrangThai.setText("Trạng thái:");
+				lblNgayBatDau.setText("Ngày bắt đầu:");
+				lblNgayKetThuc.setText("Ngày kết thúc:");
+				btnXoaTrang.setText("Xóa trắng");
+				btnSua.setText("Sửa");
+				btnThemNV.setText("Thêm");
+				txtSearch.setText("Nhập mã phiếu khuyến mãi...");
+				String[] newColumns_ds = { "Mã chương trình khuyến mãi", "Phần trăm khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc",
+				"Trạng thái"};
+				model_ds.setColumnIdentifiers(newColumns_ds);
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Cập nhật thông tin chương trình khuyến mãi");
+				pn_thaotac.repaint();
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("UPDATE PROMOTION PROGRAM");
+				btnSearch.setText("Find");
+				lblKqTimKiem.setText("Result:");
+				lblMaKM.setText("Promotion Code:");
+				lblPhanTramKhuyenMai.setText("Promotion percentage:");
+				lblTrangThai.setText("Status:");
+				lblNgayBatDau.setText("Start date:");
+				lblNgayKetThuc.setText("End date:");
+				btnXoaTrang.setText("Clear");
+				btnSua.setText("Edit");
+				btnThemNV.setText("Add");
+				txtSearch.setText("Enter promotion code...");
+				String[] newColumns_ds = { "Promotion code", "Promotion percentage", "Start date", "End date",
+							"Status"};
+				model_ds.setColumnIdentifiers(newColumns_ds);
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Update promotion program information");
+				pn_thaotac.repaint();
+				
+			}
+		});
 	}
 
 	private void xoaTrang() {

@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,14 +25,14 @@ import com.google.zxing.common.HybridBinarizer;
 import gui.ManHinhChinh;
 import gui.ManHinhDangNhap;
 
-public class CamQR extends JDialog {
+public class CamQR extends JDialog{
 	public static Webcam webcam;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			CamQR dialog = new CamQR(ManHinhDangNhap.codeQR);
+			CamQR dialog = new CamQR();
 			System.out.println(ManHinhDangNhap.codeQR);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -41,7 +42,7 @@ public class CamQR extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public CamQR(String c) {
+	public CamQR() {
 		setBounds(100, 100, 320, 260);
 		setBackground(Color.white);
 		getContentPane().setLayout(new BorderLayout());
@@ -57,8 +58,6 @@ public class CamQR extends JDialog {
 		getContentPane().add(pn_cam);
 		pn_cam.setLayout(null);
 		pn_cam.add(webcamPanel);
-		pn_cam.revalidate();
-		pn_cam.repaint();
 		pn_cam.setVisible(true);
 		setVisible(true);
 		
@@ -81,6 +80,7 @@ public class CamQR extends JDialog {
 		pn_cam.setBounds(0, 20, 320, 240);
 		do {
 			try {
+			
 				BufferedImage image = webcam.getImage();
 				LuminanceSource source = new BufferedImageLuminanceSource(image);
 				BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));

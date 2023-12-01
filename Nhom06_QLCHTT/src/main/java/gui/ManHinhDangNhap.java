@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -22,16 +23,24 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.Result;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.HybridBinarizer;
+
 import connectDB.ConnectDB;
 import custom.ScaledImg;
 import dao.NhanVien_DAO;
 import entities.NhanVien;
 import scanQRCode.CamQR;
+import scanQRCode.ReadCodeQr;
 
 @SuppressWarnings("serial")
 public class ManHinhDangNhap extends JFrame{
-	
-	private JButton btnQR;
 	private JPanel contentPane;
 	private JTextField txtMa;
 	private JPasswordField pFDangNhap;
@@ -40,7 +49,8 @@ public class ManHinhDangNhap extends JFrame{
 	private NhanVien_DAO nhanVien_DAO;
 	public static NhanVien actNV;
 	
-	public static CamQR camQR;
+	private static Webcam webcam;
+	//public CamQR camQR;
 	public static String codeQR;
 	/**
 	 * Launch the application.
@@ -99,35 +109,33 @@ public class ManHinhDangNhap extends JFrame{
 		}
 		nhanVien_DAO = new NhanVien_DAO();
 		
-		
-		
 		JPanel pnLogin = new JPanel();
 		pnLogin.setBackground(Color.white);
-		pnLogin.setBounds(400, 200, 560, 330);
+		pnLogin.setBounds(380, 200, 600, 330);
 		pnLogin.setLayout(null);
 		contentPane.add(pnLogin);
 		
 		txtMa = new JTextField();
 		txtMa.setToolTipText("");
-		txtMa.setBounds(130, 140, 300, 30);
+		txtMa.setBounds(220, 140, 300, 30);
 		txtMa.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txtMa.setBackground(new Color(255,255,255,0));	
 		txtMa.setOpaque(false);
 		pnLogin.add(txtMa);
 		txtMa.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Mã nhân viên:");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 12));
-		lblNewLabel.setBounds(130, 120, 90, 30);
-		pnLogin.add(lblNewLabel);
+		JLabel lblMa = new JLabel("Mã nhân viên:");
+		lblMa.setFont(new Font("Arial", Font.BOLD, 12));
+		lblMa.setBounds(220, 120, 90, 30);
+		pnLogin.add(lblMa);
 		
-		JLabel lblNewLabel_1 = new JLabel("Mật Khẩu:");
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 12));
-		lblNewLabel_1.setBounds(130, 180, 90, 30);
-		pnLogin.add(lblNewLabel_1);
+		JLabel lblMatKhau = new JLabel("Mật Khẩu:");
+		lblMatKhau.setFont(new Font("Arial", Font.BOLD, 12));
+		lblMatKhau.setBounds(220, 180, 90, 30);
+		pnLogin.add(lblMatKhau);
 		
 		pFDangNhap = new JPasswordField();
-		pFDangNhap.setBounds(130, 200, 300, 30);
+		pFDangNhap.setBounds(220, 200, 300, 30);
 		pFDangNhap.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		pFDangNhap.setBackground(new Color(255,255,255,0));
 		pFDangNhap.setOpaque(false);
@@ -138,29 +146,31 @@ public class ManHinhDangNhap extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Nhấn OK để thoát khỏi chương trình.", "Thoat", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION) == 0) {
+					webcam.close();
+					ManHinhDangNhap.this.dispose();
 					System.exit(0);
 				}
 			}
 		});
 		btnTroVe.setIcon(new ImageIcon(ManHinhDangNhap.class.getResource("/images/close.png")));
-		btnTroVe.setBounds(495, 10, 55, 20);
+		btnTroVe.setBounds(535, 10, 55, 20);
 		pnLogin.add(btnTroVe);
 		
 		JLabel btnShowPass = new JLabel("");
 		btnShowPass.setIcon(new ImageIcon(ManHinhDangNhap.class.getResource("/images/show.png")));
-		btnShowPass.setBounds(430, 200, 40, 40);
+		btnShowPass.setBounds(520, 200, 40, 40);
 		pnLogin.add(btnShowPass);
 		
 		char dot = pFDangNhap.getEchoChar();
 		
 		JLabel btnHidePass = new JLabel("");
 		btnHidePass.setIcon(new ImageIcon(ManHinhDangNhap.class.getResource("/images/eye-off.png")));
-		btnHidePass.setBounds(430, 200, 40, 40);
+		btnHidePass.setBounds(520, 200, 40, 40);
 		btnHidePass.setVisible(false);
 		pnLogin.add(btnHidePass);
 		
 		logo = new JLabel();
-		logo.setBounds(220, 20, 120, 80);
+		logo.setBounds(240, 20, 120, 80);
 		File f = new File(ManHinhDangNhap.class.getResource("/images/logoAM.jpg").getFile());
 		BufferedImage img = null;
 		try {
@@ -193,28 +203,18 @@ public class ManHinhDangNhap extends JFrame{
 		btnDangNhap = new JButton("Đăng nhập");
 		btnDangNhap.setBackground(new Color(0, 0, 255, 160));
 		btnDangNhap.setForeground(new Color(245, 255, 250));
-		btnDangNhap.setBounds(290, 270, 140, 40);
+		btnDangNhap.setBounds(230, 270, 140, 40);
 		pnLogin.add(btnDangNhap);
 		
-		btnQR = new JButton("Quẹt QR");
+		webcam = Webcam.getDefault();
+		webcam.setViewSize(new Dimension(176,144));
+		webcam.close();
+		WebcamPanel webcamPanel = new WebcamPanel(webcam);
+		webcamPanel.setBounds(20, 100, 176, 144);
+		webcamPanel.setMirrored(false);
+		pnLogin.add(webcamPanel);
 		
-
-		btnQR.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				camQR = new CamQR(codeQR);
-				//camQR.webcam.close();
-				camQR.setVisible(true);
-				//camQR.webcam.open();
-				System.out.println(codeQR);
-				
-			}
-		});
 		
-		btnQR.setForeground(new Color(245, 255, 250));
-		btnQR.setBackground(new Color(0, 0, 255, 160));
-		btnQR.setBounds(130, 270, 140, 40);
-		pnLogin.add(btnQR);
 		
 		btnDangNhap.addMouseListener(new MouseAdapter() {
 			@Override
@@ -224,6 +224,7 @@ public class ManHinhDangNhap extends JFrame{
 				actNV = nhanVien_DAO.getNhanVien(maNV);
 				if (actNV!=null) {
 					if (maNV.equalsIgnoreCase(actNV.getMaNV()) && matKhau.equalsIgnoreCase(actNV.getTaiKhoan().getMatKhau())) {
+						webcam.close();
 						ManHinhChinh mhc = new ManHinhChinh(actNV.getChucVu().equalsIgnoreCase("Nhân viên")?false:true);
 						mhc.setVisible(true);
 						ManHinhDangNhap.this.dispose();
@@ -234,5 +235,11 @@ public class ManHinhDangNhap extends JFrame{
 				}
 			}
 		});
+		
+		Thread thread = new ReadCodeQr(webcam, txtMa, pFDangNhap);
+		thread.start();
+		
+		
+		
 	}
 }

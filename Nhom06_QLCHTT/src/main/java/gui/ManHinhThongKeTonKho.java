@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -268,6 +269,38 @@ public class ManHinhThongKeTonKho extends JPanel{
 		    	tieuChi = tieuChi.equalsIgnoreCase("")?"Tất cả":tieuChi;
 				xuatBaoCaoExcelTheoTieuChi(tieuChi);
 		    }
+		});
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("THỐNG KÊ TỒN KHO");
+				pnlThaoTacChinh.setBorder(BorderFactory.createTitledBorder("Tiêu chí thống kê"));
+
+				lblBieuDoTonKho.setText("Biểu đồ số lượng tồn kho");
+				lblDanhSachSanPham.setText("Danh sách sản phẩm");
+				
+				lblTieuChi.setText("Tiêu chí");
+				btnXuatBaoCao.setText("Xuất file *.xlxs");
+				String[] newColumn = {"Mã Sản Phẩm","Tên Sản Phẩm","Số Lượng" };
+				model_danhSachSanPham.setColumnIdentifiers(newColumn);
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("INVENTORY STATISTICS");
+				pnlThaoTacChinh.setBorder(BorderFactory.createTitledBorder("Statistical criteria"));
+
+				lblBieuDoTonKho.setText("Inventory quantity chart");
+				lblDanhSachSanPham.setText("List of products");
+
+				lblTieuChi.setText("Criteria");
+				btnXuatBaoCao.setText("Export file *.xlxs");
+				String[] newColumn = {"Product Id","Product Name","Quantity" };
+				model_danhSachSanPham.setColumnIdentifiers(newColumn);
+
+			}
 		});
 	}
 

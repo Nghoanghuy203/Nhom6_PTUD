@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -417,7 +418,44 @@ public class ManHinhThongKeDoanhThu extends JPanel {
 				updateTable(dsHD);
 			}
 		});
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTmKimNhn.setText("THỐNG KÊ DOANH THU");
+				pn_timKiem.setBorder(BorderFactory.createTitledBorder("Tiêu chí thống kê"));
+			
+				lblBiuDoanh.setText("Biểu đồ doanh thu");
+				lblNewLabel.setText("Danh sách hóa đơn");
+				
+				lblTieuChi.setText("Tiêu chí");
+				lblThang.setText("Tháng");
+				lblNgayBatDau.setText("Ngày bắt đầu");
+				lblNgayKetThuc.setText("Ngày kết thúc");
+				btnXuatFile.setText("Xuất file *.xlxs");
+				String[] newColumn = {"Mã đơn", "Nhân viên", "Khách hàng", "Ngày lặp", "Khuyến mãi (%)", "Thành tiền"};
+				model_ds.setColumnIdentifiers(newColumn);
+			}
+		});
 		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTmKimNhn.setText("REVENUE STATISTICS");
+				pn_timKiem.setBorder(BorderFactory.createTitledBorder("Statistical criteria"));
+
+				lblBiuDoanh.setText("Revenue chart");
+				lblNewLabel.setText("List of invoices");
+
+				lblTieuChi.setText("Criteria");
+				lblThang.setText("Month");
+				lblNgayBatDau.setText("Start date");
+				lblNgayKetThuc.setText("End date");
+				btnXuatFile.setText("Export file *.xlxs");
+				String[] newColumn = {"Order Id", "Employee", "Customer", "Repeat date", "Promotion (%)", "Amount"};
+				model_ds.setColumnIdentifiers(newColumn);
+
+			}
+		});
 		
 	}
 	/**

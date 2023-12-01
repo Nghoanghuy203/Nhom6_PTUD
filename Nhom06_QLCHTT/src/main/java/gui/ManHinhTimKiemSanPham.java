@@ -73,7 +73,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 	private JButton btnXoaTrangSanPham;
 	private JScrollPane scrDanhSachSanPham;
 	private JTable tbl_DanhSachSanPham;
-	private static DefaultTableModel model_danhSachKhachHang;
+	private static DefaultTableModel model_danhSachSanPham;
 
 	private static DecimalFormat df;
 	private static DateTimeFormatter dtf;
@@ -354,7 +354,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		add(pnlDanhSachSanPham);
 		pnlDanhSachSanPham.setLayout(null);
 
-		model_danhSachKhachHang = new DefaultTableModel(new Object[][] {
+		model_danhSachSanPham = new DefaultTableModel(new Object[][] {
 
 		}, new String[] { "Mã sản phẩm", "Tên", "Giá nhập", "Giá bán", "Ngày nhập", "Loại", "Màu sắc", "Chất liệu",
 				"Kích cỡ", "Nhà cung cấp","Tồn kho","Tình trạng"}
@@ -369,7 +369,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 			}
 		};
 
-		tbl_DanhSachSanPham = new JTable(model_danhSachKhachHang);
+		tbl_DanhSachSanPham = new JTable(model_danhSachSanPham);
 		tbl_DanhSachSanPham.setSelectionBackground(new Color(65, 105, 225));
 		tbl_DanhSachSanPham.setRowHeight(40);
 		tbl_DanhSachSanPham.setGridColor(new Color(0, 0, 0));
@@ -414,6 +414,65 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 		docDuLieuLenBang();
 		
 		tbl_DanhSachSanPham.addMouseListener(this);
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+//				String[] newColumns_ds = { "Mã nhà cung cấp", "Họ tên", "Số điện thoại", "Địa chỉ" };
+//				model_ds.setColumnIdentifiers(newColumns_ds);
+				lblTenManHinh.setText("TÌM THÔNG TIN SẢN PHẨM");
+				((TitledBorder) pnlManHinhThaoTac.getBorder()).setTitle("Tìm thông tin sản phẩm");
+				pnlManHinhThaoTac.repaint();
+				((TitledBorder) pnlDanhSachSanPham.getBorder()).setTitle("Danh sách sản phẩm");
+				pnlDanhSachSanPham.repaint();
+				lblMaSanPham.setText("Mã sản phẩm:");
+				lblTenSanPham.setText("Tên sản phẩm");
+				lblSoLuongSanPham.setText("Số lượng:");
+				lblNhaCungCap.setText("Nhà cung cấp");
+				lblGiaBanSanPham.setText("Giá bán:");
+				lblGiaNhapSanPham.setText("Giá nhập");
+				lblTinhTrangSanPham.setText("Tình trạng:");
+				lblChatLieuSanPham.setText("Chất liệu:");
+				lblKichCoSanPham.setText("Kích cỡ:");
+				lblMauSacSanPham.setText("Màu sắc:");
+				lblLoaiSanPham.setText("Loại sản phẩm");
+				lblNgayNhapSanPham.setText("Ngày nhập");
+				btnXoaTrangSanPham.setText("Xoá trắng");
+				String[] newColumns_ds = {"Mã sản phẩm", "Tên", "Giá nhập", "Giá bán", "Ngày nhập", "Loại", "Màu sắc", "Chất liệu",
+						"Kích cỡ", "Nhà cung cấp", "Tồn kho", "Tình trạng"};
+				model_danhSachSanPham.setColumnIdentifiers(newColumns_ds);
+				
+			
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("UPDATE PRODUCT INFORMATION");
+				((TitledBorder) pnlManHinhThaoTac.getBorder()).setTitle("Update product information");
+				pnlManHinhThaoTac.repaint();
+				((TitledBorder) pnlDanhSachSanPham.getBorder()).setTitle("Product List");
+				pnlDanhSachSanPham.repaint();
+			
+				lblMaSanPham.setText("Product Id:");
+				lblTenSanPham.setText("Product name");
+				lblSoLuongSanPham.setText("Quantity:");
+				lblNhaCungCap.setText("Supplier");
+				lblGiaBanSanPham.setText("Selling price:");
+				lblGiaNhapSanPham.setText("Entry price");
+				lblTinhTrangSanPham.setText("Status:");
+				lblChatLieuSanPham.setText("Material:");
+				lblKichCoSanPham.setText("Size:");
+				lblMauSacSanPham.setText("Color:");
+				lblLoaiSanPham.setText("Product type");
+				lblNgayNhapSanPham.setText("Input date");
+				btnXoaTrangSanPham.setText("Clear");
+				String[] newColumns_ds = { "Product Id", "Name", "Import price", "Sales price", "Import date", "Type", "Color", "Material",
+				"Size", "Vendor", "Inventory", "Condition" };
+				model_danhSachSanPham.setColumnIdentifiers(newColumns_ds);
+				
+			}
+		});
 	}
 
 	@Override
@@ -536,9 +595,9 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 					Integer.toString(sanPham.getSoLuongTon()),
 					sanPham.getTrangThai()
 			};
-			model_danhSachKhachHang.addRow(rowData);
+			model_danhSachSanPham.addRow(rowData);
 		}
-		tbl_DanhSachSanPham.setModel (model_danhSachKhachHang);
+		tbl_DanhSachSanPham.setModel (model_danhSachSanPham);
 	}
 	private void xoaRong() {
 		txtMaSanPham.setText("");
@@ -649,7 +708,7 @@ public class ManHinhTimKiemSanPham extends JPanel implements ActionListener, Mou
 					sanPham.getLoaiSP().getTenLoai(), sanPham.getMauSac().getTenMauSac(), sanPham.getChatLieu().getTenChatLieu(),
 					sanPham.getKichCo().getTenKichCo(), sanPham.getNhaCungCap().getTenNCC(), Integer.toString(sanPham.getSoLuongTon()),
 					sanPham.getTrangThai() };
-			model_danhSachKhachHang.addRow(rowData);
+			model_danhSachSanPham.addRow(rowData);
 		}
 	}
 	public static void resetData() {

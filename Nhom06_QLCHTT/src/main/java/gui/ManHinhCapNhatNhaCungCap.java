@@ -376,6 +376,52 @@ public class ManHinhCapNhatNhaCungCap extends JPanel {
 				else JOptionPane.showMessageDialog(null, "that bai!");
 			}
 		});
+		
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("CẬP NHẬT NHÀ CUNG CẤP");
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Cập nhật thông tin nhà cung cấp");
+				pn_thaotac.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("Danh sách nhà cung cấp");
+				pn_dsnv.repaint();
+				lblKqTimKiem.setText("Kết quả:");
+				txtSearch.setText("Nhập mã nhân viên...");
+				btnSearch.setText("Tìm");
+				lblMaNCC.setText("Mã nhà cung cấp:");
+				lblTenNCC.setText("Họ tên:");
+				lblsdtNCC.setText("Số điện thoại:");
+				lbldiaChi.setText("Địa chỉ:");
+				btnXoaTrang.setText("Xoá trắng");
+				btnSua.setText("Sửa");
+				btnThemNV.setText("Thêm");
+				String[] newColumns_ds = { "Mã nhà cung cấp", "Họ tên", "Số điện thoại", "Địa chỉ" };
+				model_ds.setColumnIdentifiers(newColumns_ds);
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("UPDATE SUPPLIER");
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Update supplier information");
+				pn_thaotac.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("Supplier List");
+				pn_dsnv.repaint();
+				lblKqTimKiem.setText("Result:");
+				txtSearch.setText("Enter employee code...");
+				btnSearch.setText("Search");
+				lblMaNCC.setText("Vendor Id:");
+				lblTenNCC.setText("Full name:");
+				lblsdtNCC.setText("Phone number:");
+				lbldiaChi.setText("Address:");
+				btnXoaTrang.setText("Clear");
+				btnSua.setText("Edit");
+				btnThemNV.setText("Add");
+				String[] newColumns_ds = { "Supplier Id", "Full name", "Phone number", "Address" };
+				model_ds.setColumnIdentifiers(newColumns_ds);
+			}
+		});
 	}
 	
 	private void xoaTrang() {

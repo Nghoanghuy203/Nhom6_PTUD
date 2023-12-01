@@ -19,6 +19,36 @@ public class ChiTietHoaDon_DAO implements I_ChiTietHoaDon{
 	private SanPham_DAO sanPham_DAO;
 
 	@Override
+	public ChiTietHoaDon get1ChiTietHD(String maHD,String masP) {
+		// TODO Auto-generated method stub
+		sanPham_DAO = new SanPham_DAO();
+		ChiTietHoaDon ct = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "select * from ChiTietHoaDon where maHD = ? and maSP = ?";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, maHD);
+			statement.setNString(2, masP);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String maSP = rs.getNString("maSP");
+				SanPham sp = sanPham_DAO.getSanPham(maSP);
+				double giaBan = rs.getDouble("giaBan");
+				int soLuong = rs.getInt("soLuong");
+				ct = new ChiTietHoaDon(maHD, sp, soLuong, giaBan);
+				return ct;
+			}
+			statement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ct;
+	}
+	
+	@Override
 	public List<ChiTietHoaDon> getChiTietHD(String maHD) {
 		// TODO Auto-generated method stub
 		sanPham_DAO = new SanPham_DAO();
@@ -237,11 +267,11 @@ public class ChiTietHoaDon_DAO implements I_ChiTietHoaDon{
 		Connection con = ConnectDB.getConnection();
 		String sql = "declare @start nvarchar(20), @end nvarchar(20)\n"
 				+ "select @start = ?,@end = ?\n"
-				+ "select top 5 SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \n"
+				+ "select SanPham.maSP,SanPham.tenSP, soLuong = sum(ChiTietHoaDon.soLuong) from ChiTietHoaDon \n"
 				+ "join HoaDon on HoaDon.maHD = ChiTietHoaDon.maHD \n"
 				+ "join SanPham on SanPham.maSP = ChiTietHoaDon.maSP \n"
 				+ "where CONVERT(nvarchar(20),HoaDon.ngayLap,120) >= @start and CONVERT(nvarchar(20),HoaDon.ngayLap,120) <= @end\n"
-				+ "group by SanPham.maSP,SanPham.tenSP order by soLuong desc";
+				+ "group by SanPham.maSP,SanPham.tenSP";
 		PreparedStatement statement = null;
 		try {
 			statement = con.prepareStatement(sql);
@@ -261,5 +291,23 @@ public class ChiTietHoaDon_DAO implements I_ChiTietHoaDon{
 			e.printStackTrace();
 		}
 		return dsbc;
+	}
+	
+	public void capNhatCTHD(ChiTietHoaDon cthd) {
+		int n=0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		String sql = "update ChiTietHoaDon set soLuong = ? where maHD=? and maSP = ?";
+		try {
+			statement = con.prepareStatement(sql);
+			statement.setInt(1, cthd.getSoLuong());
+			statement.setNString(2, cthd.getMaHD());
+			statement.setNString(3, cthd.getSanPham().getMaSP());
+			n= statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 }

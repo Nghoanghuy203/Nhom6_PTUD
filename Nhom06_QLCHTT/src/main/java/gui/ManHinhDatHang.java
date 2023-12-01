@@ -503,6 +503,72 @@ public class ManHinhDatHang extends JPanel {
 				}
 			}
 		});
+		
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTitleHeader.setText("ĐẶT HÀNG");
+				((TitledBorder) pn_timKiem.getBorder()).setTitle("Tìm kiếm đơn đặt hàng");
+				pn_timKiem.repaint();
+					
+				((TitledBorder) pn_dsddh.getBorder()).setTitle("Danh sách đơn đặt hàng");
+				pn_dsddh.repaint();
+				lbl_maDon.setText("Mã đơn:");
+				lbl_sdtKH.setText("Sđt khách hàng:");
+				lbl_ngayDat.setText("Ngày đặt:");
+				lbl_tenNV.setText("Tên nhân viên:");
+				lbl_tenKH.setText("Tên khách hàng:");
+				txtMaDon.setText("Nhập mã đơn...");
+				txtSdt.setText("Nhập sđt khách hàng...");
+				txtTenNV.setText("Nhập tên nhân viên...");
+				txtTenKH.setText("Nhập tên khách hàng...");
+				
+				lblMa.setText("Mã đơn:");
+				lblTenNV.setText("Nhân viên:");
+				lblTenKH.setText("Khách hàng:");
+				lblNgayDat.setText("Ngày đặt:");
+				lblThanhTien.setText("Thành tiền:");
+				
+				btnTim.setText("Tìm");
+				btnXoaTrang.setText("Xoá trắng");
+				btnTiepTucThanhToan.setText("Tiếp tục thanh toán");
+				String[] newColumns_ds = {"Mã đơn","Nhân viên","Khách hàng","Ngày đặt", "Thành tiền", "Tình trạng thanh toán"	};
+				model_ds.setColumnIdentifiers(newColumns_ds);
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTitleHeader.setText("ORDER");
+				((TitledBorder) pn_timKiem.getBorder()).setTitle("Search for orders");
+				pn_timKiem.repaint();
+
+				((TitledBorder) pn_dsddh.getBorder()).setTitle("List of orders");
+				pn_dsddh.repaint();
+				lbl_maDon.setText("Order Id:");
+				lbl_sdtKH.setText("Customer phone number:");
+				lbl_ngayDat.setText("Set date:");
+				lbl_tenNV.setText("Employee name:");
+				lbl_tenKH.setText("Customer name:");
+				txtMaDon.setText("Enter Order id...");
+				txtSdt.setText("Enter customer phone number...");
+				txtTenNV.setText("Enter employee name...");
+				txtTenKH.setText("Enter customer name...");
+
+				lblMa.setText("Order Id:");
+				lblTenNV.setText("Employee:");
+				lblTenKH.setText("Customer:");
+				lblNgayDat.setText("Set date:");
+				lblThanhTien.setText("Amount:");
+
+				btnTim.setText("Find");
+				btnXoaTrang.setText("Clear");
+				btnTiepTucThanhToan.setText("Continue payment");
+				String[] newColumns_ds = {"Order Id","Employee","Customer","Order date", "Amount", "Payment status" };
+				model_ds.setColumnIdentifiers(newColumns_ds);
+			}
+		});
 	}
 	/**
 	 * xóa dữ liệu của bảng

@@ -37,8 +37,12 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 	private KhachHang_DAO khachHang_DAO;
 	public static JButton btnThemKHMoi;
 	static JTextField txt_kqEmailKHMoi;
-	
-
+	public static JLabel lblNewLabel;
+	public static JLabel lblNewLabel_1_1;
+	public static JLabel lblNewLabel_1_1_1;
+	public static JLabel lblNewLabel_1_1_1_1;
+	public static JLabel lblNewLabel_1_1_2;
+	public static JLabel lblNewLabel_1_1_1_2;
 	/**
 	 * Launch the application.
 	 */
@@ -80,7 +84,7 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 		btnExit.setBounds(430, 0, 20, 20);
 		main.add(btnExit);
 		
-		JLabel lblNewLabel = new JLabel("NHẬP THÔNG TIN KHÁCH HÀNG");
+		lblNewLabel = new JLabel("NHẬP THÔNG TIN KHÁCH HÀNG");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(new Color(65, 105, 225));
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -93,7 +97,7 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 		main.add(btnThemKHMoi);
 		
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Họ tên:");
+		lblNewLabel_1_1 = new JLabel("Họ tên:");
 		lblNewLabel_1_1.setBounds(40, 39, 100, 30);
 		main.add(lblNewLabel_1_1);
 		
@@ -102,7 +106,7 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 		txt_kqHotenKHMoi.setBounds(140, 39, 260, 30);
 		main.add(txt_kqHotenKHMoi);
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Số điện thoại:");
+		lblNewLabel_1_1_1 = new JLabel("Số điện thoại:");
 		lblNewLabel_1_1_1.setBounds(40, 79, 100, 30);
 		main.add(lblNewLabel_1_1_1);
 		
@@ -111,11 +115,11 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 		txt_kqSdtKHMoi.setBounds(140, 79, 260, 30);
 		main.add(txt_kqSdtKHMoi);
 		
-		JLabel lblNewLabel_1_1_1_1 = new JLabel("Địa chỉ:");
+		lblNewLabel_1_1_1_1 = new JLabel("Địa chỉ:");
 		lblNewLabel_1_1_1_1.setBounds(40, 119, 100, 30);
 		main.add(lblNewLabel_1_1_1_1);
 		
-		JLabel lblNewLabel_1_1_2 = new JLabel("Giới tính:");
+		 lblNewLabel_1_1_2 = new JLabel("Giới tính:");
 		lblNewLabel_1_1_2.setBounds(40, 179, 100, 30);
 		main.add(lblNewLabel_1_1_2);
 		
@@ -130,7 +134,7 @@ public class FormNhapThongTinKhachHangMoi extends JDialog {
 		scr_nhapDiaChiKH.setBounds(140, 119, 260, 50);
 		main.add(scr_nhapDiaChiKH);
 		
-		JLabel lblNewLabel_1_1_1_2 = new JLabel("Email:");
+		lblNewLabel_1_1_1_2 = new JLabel("Email:");
 		lblNewLabel_1_1_1_2.setBounds(40, 218, 100, 30);
 		main.add(lblNewLabel_1_1_1_2);
 		

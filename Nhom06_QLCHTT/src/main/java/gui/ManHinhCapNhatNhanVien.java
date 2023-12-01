@@ -729,6 +729,93 @@ public class ManHinhCapNhatNhanVien extends JPanel {
 				}
 			}
 		});
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("CẬP NHẬT THÔNG TIN NHÂN VIÊN");
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Cập nhật thông tinh nhân viên");
+				pn_thaotac.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("Danh sách nhân viên");
+				pn_dsnv.repaint();
+				lbl_tMa.setText("Mã:");
+				lbl_tTen.setText("Tên:");
+				lbl_tChucVu.setText("Chức vụ:");
+				lbl_tCaLam.setText("Ca làm:");
+				lbl_tGioiTinh.setText("Giới tính:");
+				
+				txt_tMa.setText("Nhập mã nhân viên...");
+				txt_tTen.setText("Nhập tên nhân viên...");
+				
+				lblMaNV.setText("Mã nhân viên:");
+				lblTenNV.setText("Họ tên:");
+				lblNgaySinh.setText("Ngày sinh:");
+				lblGioiTinh.setText("Giới tính:");
+				lblCaLam.setText("Ca làm:");
+				lblSoDienThoai.setText("Số điện thoại:");
+				lblCCCD.setText("CCCD:");
+				lblPhuCap.setText("Phụ cấp:");
+				lblChucVu.setText("Chức vụ:");
+				lblTGBD.setText("Thời gian bắt đầu:");
+				lblTGKT.setText("Thời gian kết thúc:");
+				lblDiaChi.setText("Địa chỉ:");
+				lblLuongCoBan.setText("Lương cơ bản:");
+				lblHeSoLuong.setText("Hệ số lương:");
+				lblMatKhau.setText("*Mật khẩu:");
+				
+				btnTimNV.setText("Tìm");
+				btnXoaTrang.setText("Xoá trắng");
+				btnSua.setText("Sửa");
+				btnThemNV.setText("Thêm");
+				String[] newColumn = {"Mã nhân viên", "Họ tên", "Ngày sinh", "Giới tính", "Số điện thoại", "Địa chỉ", "Chức vụ",
+						"Ca làm", "Lương" };
+				model_ds.setColumnIdentifiers(newColumn);
+			
+				
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("UPDATE EMPLOYEE INFORMATION");
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Update employee information");
+				pn_thaotac.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("List of employees");
+				pn_dsnv.repaint();
+				lbl_tMa.setText("Id:");
+				lbl_tTen.setText("Name:");
+				lbl_tChucVu.setText("Position:");
+				lbl_tCaLam.setText("Shift:");
+				lbl_tGioiTinh.setText("Gender:");
+
+				txt_tMa.setText("Enter employee code...");
+				txt_tTen.setText("Enter employee name...");
+
+				lblMaNV.setText("Employee code:");
+				lblTenNV.setText("Full name:");
+				lblNgaySinh.setText("Birthday:");
+				lblGioiTinh.setText("Gender:");
+				lblCaLam.setText("Shift:");
+				lblSoDienThoai.setText("Phone number:");
+				lblCCCD.setText("CCCD:");
+				lblPhuCap.setText("Allowance:");
+				lblChucVu.setText("Position:");
+				lblTGBD.setText("Start time:");
+				lblTGKT.setText("End time:");
+				lblDiaChi.setText("Address:");
+				lblLuongCoBan.setText("Basic salary:");
+				lblHeSoLuong.setText("Salary coefficient:");
+				lblMatKhau.setText("*Password:");
+
+				btnTimNV.setText("Find");
+				btnXoaTrang.setText("Clear blank");
+				btnSua.setText("Edit");
+				btnThemNV.setText("Add");
+				String[] newColumn = {"Employee Id", "Full name", "Date of birth", "Gender", "Phone number", "Address", "Position",
+				"Shift", "Salary" };
+				model_ds.setColumnIdentifiers(newColumn);
+			}
+		});
 	}
 	
 	/**

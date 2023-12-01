@@ -438,6 +438,70 @@ public class ManHinhTimKiemNhanVien extends JPanel {
 				cmb_gioiTinh.setSelectedIndex(0);
 			}
 		});
+		
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblHeader.setText("TÌM KIẾM NHÂN VIÊN");
+				((TitledBorder) pn_timKiem.getBorder()).setTitle("Nhập thông tinh nhân viên");
+				pn_timKiem.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("Danh sách nhân viên");
+				pn_dsnv.repaint();
+				lblMa.setText("Mã nhân viên:");
+				lblTen.setText("Tên nhân viên:");
+				lblSdt.setText("Số điện thoại:");
+				lblNgaySinh.setText("CCCD:");
+				lblaCh.setText("Địa chỉ:");
+				lblChucVu.setText("Chức vụ:");
+				lblCaLam.setText("Ca làm:");
+				lblGioiTinh.setText("Giới tính:");
+				
+				txtMa.setText("Nhập mã...");
+				txtHoTen.setText("Nhập họ tên...");
+				txtSdt.setText("Nhập số điện thoại...");
+				txtCCCD.setText("Nhập cccd...");
+				txtDiaChi.setText("Nhập địa chỉ...");
+				btnXoaTrang.setText("Xoá trắng");
+				btnTimNV.setText("Tìm");
+				
+				String[] newColumn = {"Mã nhân viên", "Họ tên", "Ngày sinh", "Giới tính", "Số điện thoại", "Địa chỉ", "Chức vụ",
+						"Ca làm","Lương" };
+				model_ds.setColumnIdentifiers(newColumn);
+			
+				
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblHeader.setText("SEARCH EMPLOYEE");
+				((TitledBorder) pn_timKiem.getBorder()).setTitle("Enter employee information");
+				pn_timKiem.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("List of employees");
+				pn_dsnv.repaint();
+				lblMa.setText("Employee Id:");
+				lblTen.setText("Employee name:");
+				lblSdt.setText("Phone number:");
+				lblNgaySinh.setText("CCCD:");
+				lblaCh.setText("Address:");
+				lblChucVu.setText("Position:");
+				lblCaLam.setText("Shift:");
+				lblGioiTinh.setText("Gender:");
+
+				txtMa.setText("Enter id...");
+				txtHoTen.setText("Enter full name...");
+				txtSdt.setText("Enter phone number...");
+				txtCCCD.setText("Enter cccd...");
+				txtDiaChi.setText("Enter address...");
+				btnXoaTrang.setText("Clear");
+				btnTimNV.setText("Find");
+
+				String[] newColumn = {"Employee id", "Full name", "Birthday", "Gender", "Phone number", "Address", "Position",
+				"Shift","Salary" };
+				model_ds.setColumnIdentifiers(newColumn);
+			}
+		});
 	}
 	/**
 	 * hàm xóa dữ liệu trên bảng

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -406,6 +407,49 @@ public class ManHinhThongKeBanChay extends JPanel {
 				dsbc = cthd_DAO.getDSCTHD1Thang(thang);					
 				chart.ThongKe1Thang(thang,dsbc);
 				updateTable(dsbc);
+			}
+		});
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTmKimNhn.setText("THỐNG KÊ BÁN CHẠY");
+				pn_timKiem.setBorder(BorderFactory.createTitledBorder("Tiêu chí thống kê"));
+
+				pn_timKiem.repaint();
+			
+				lblBiuDoanh.setText("Biểu đồ top 5 sản phẩm bán chạy");
+				lblNewLabel.setText("Danh sách top 5 san phẩm bán chạy");
+				
+				lblTieuChi.setText("Tiêu chí");
+				lblThang.setText("Tháng");
+				lblNgayBatDau.setText("Ngày bắt đầu");
+				lblNgayKetThuc.setText("Ngày kết thúc");
+				btnThucThi.setText("Thực thi");
+				btnXuatBaoCao.setText("Xuất file *.xlxs");
+				String[] newColumn = {"Mã Sản Phẩm","Tên Sản Phẩm","Số Lượng"};
+				model_ds.setColumnIdentifiers(newColumn);
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTmKimNhn.setText("BESTSELLING STATISTICS");
+				pn_timKiem.setBorder(BorderFactory.createTitledBorder("Statistical criteria"));
+
+				
+				lblBiuDoanh.setText("Chart of top 5 best-selling products");
+				lblNewLabel.setText("List of top 5 best-selling products");
+
+				lblTieuChi.setText("Criteria");
+				lblThang.setText("Month");
+				lblNgayBatDau.setText("Start date");
+				lblNgayKetThuc.setText("End date");
+				btnThucThi.setText("Execution");
+				btnXuatBaoCao.setText("Export file *.xlxs");
+				String[] newColumn = {"Product Code","Product Name","Quantity"};
+				model_ds.setColumnIdentifiers(newColumn);
+
 			}
 		});
 	}

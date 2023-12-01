@@ -615,6 +615,85 @@ public class ManHinhCapNhatSanPham extends JPanel implements ActionListener, Mou
 		btnThemAnhSanPham.addActionListener(this);
 		btnTim_SanPham.addActionListener(this);
 		tbl_DanhSachSanPham.addMouseListener(this);
+		
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				lblTenManHinh.setText("CẬP NHẬT THÔNG TIN SẢN PHẨM");
+				((TitledBorder) pnlManHinhThaoTac.getBorder()).setTitle("Cập nhật thông tin sản phẩm");
+				pnlManHinhThaoTac.repaint();
+				((TitledBorder) pnlDanhSachSanPham.getBorder()).setTitle("Danh sách sản phẩm");
+				pnlDanhSachSanPham.repaint();
+				lblTim_MaSanPham.setText("Mã :");
+				lblTim_TenSanPham.setText("Tên :");
+				lblTim_LoaiSanPham.setText("Loại");
+				lblTim_MauSacSanPham.setText("Màu sắc");
+				lblTim_KichCoSanPham.setText("Kích cỡ");
+				lblTim_ChatLieuSanPham.setText("Chất liệu");
+				btnTim_SanPham.setText("Tìm");
+				lblMaSanPham.setText("Mã sản phẩm:");
+				lblTenSanPham.setText("Tên sản phẩm");
+				lblSoLuongSanPham.setText("Số lượng:");
+				lblNhaCungCap.setText("Nhà cung cấp");
+				lblGiaBanSanPham.setText("Giá bán:");
+				lblGiaNhapSanPham.setText("Giá nhập");
+				lblTinhTrangSanPham.setText("Tình trạng:");
+				lblChatLieuSanPham.setText("Chất liệu:");
+				lblKichCoSanPham.setText("Kích cỡ:");
+				lblMauSacSanPham.setText("Màu sắc:");
+				lblLoaiSanPham.setText("Loại sản phẩm");
+				lblNgayNhapSanPham.setText("Ngày nhập");
+				btnThemAnhSanPham.setText("Thêm ảnh");
+				btnThemSanPham.setText("Thêm");
+				btnSuaSanPham.setText("Sửa");
+				btnXoaTrangSanPham.setText("Xoá trắng");
+				String[] newColumns_ds = {"Mã sản phẩm", "Tên", "Giá nhập", "Giá bán", "Ngày nhập", "Loại", "Màu sắc", "Chất liệu",
+						"Kích cỡ", "Nhà cung cấp", "Tồn kho", "Tình trạng"};
+				model_DanhSachSanPham.setColumnIdentifiers(newColumns_ds);
+				
+				cmbTinhTrangSanPham.setModel(new DefaultComboBoxModel<>(new String[]{"Đang kinh doanh","Hết hàng","Ngừng kinh doanh"}));
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("UPDATE PRODUCT INFORMATION");
+				((TitledBorder) pnlManHinhThaoTac.getBorder()).setTitle("Update product information");
+				pnlManHinhThaoTac.repaint();
+				((TitledBorder) pnlDanhSachSanPham.getBorder()).setTitle("Product List");
+				pnlDanhSachSanPham.repaint();
+				
+				lblTim_MaSanPham.setText("Id :");
+				lblTim_TenSanPham.setText("Name :");
+				lblTim_LoaiSanPham.setText("Type");
+				lblTim_MauSacSanPham.setText("Color");
+				lblTim_KichCoSanPham.setText("Size");
+				lblTim_ChatLieuSanPham.setText("Material");
+				btnTim_SanPham.setText("Find");
+				lblMaSanPham.setText("Product Id:");
+				lblTenSanPham.setText("Product name");
+				lblSoLuongSanPham.setText("Quantity:");
+				lblNhaCungCap.setText("Supplier");
+				lblGiaBanSanPham.setText("Selling price:");
+				lblGiaNhapSanPham.setText("Entry price");
+				lblTinhTrangSanPham.setText("Status:");
+				lblChatLieuSanPham.setText("Material:");
+				lblKichCoSanPham.setText("Size:");
+				lblMauSacSanPham.setText("Color:");
+				lblLoaiSanPham.setText("Product type");
+				lblNgayNhapSanPham.setText("Input date");
+				btnThemAnhSanPham.setText("Add photo");
+				btnThemSanPham.setText("Add");
+				btnSuaSanPham.setText("Edit");
+				btnXoaTrangSanPham.setText("Clear");
+				String[] newColumns_ds = { "Product Id", "Name", "Import price", "Sales price", "Import date", "Type", "Color", "Material",
+				"Size", "Vendor", "Inventory", "Condition" };
+				model_DanhSachSanPham.setColumnIdentifiers(newColumns_ds);
+				cmbTinhTrangSanPham.setModel(new DefaultComboBoxModel<>(new String[]{"In business","Out of stock","Stop business"}));
+			}
+		});
 	}
 
 	private void xoaTrangTable(JTable t) {

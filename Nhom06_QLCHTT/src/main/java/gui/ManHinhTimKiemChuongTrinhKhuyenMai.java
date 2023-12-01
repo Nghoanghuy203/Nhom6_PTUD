@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -423,6 +424,53 @@ public class ManHinhTimKiemChuongTrinhKhuyenMai extends JPanel {
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
+			}
+		});
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("Tìm Kiếm Chương Trình Khuyến Mãi");
+				btnSearch.setText("Tìm");
+				lblMaKM.setText("Mã Khuyến Mãi:");
+				lblPhanTramKhuyenMai.setText("Phần trăm khuyến mãi:");
+				lblTrangThai.setText("Trạng thái:");
+				lblNgayBatDau.setText("Ngày bắt đầu:");
+				lblNgayKetThuc.setText("Ngày kết thúc:");
+				btnXoaTrang.setText("Xóa trắng");
+				String[] newColumns_ds = { "Mã chương trình khuyến mãi", "Phần trăm khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc",
+				"Trạng thái"};
+				model_ds.setColumnIdentifiers(newColumns_ds);
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Tìm kiếm chương trình khuyến mãi");
+				pn_thaotac.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("Danh sách kết quả");
+				pn_dsnv.repaint();
+				txt_maKM.setText("Nhập mã..");
+				txt_phanTramKhuyenMai.setText("Nhập % khuyến mãi..");
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("Search Promotions");
+				btnSearch.setText("Search");
+				lblMaKM.setText("Promotion Code:");
+				lblPhanTramKhuyenMai.setText("Promotion percentage:");
+				lblTrangThai.setText("Status:");
+				lblNgayBatDau.setText("Start date:");
+				lblNgayKetThuc.setText("End date:");
+				btnXoaTrang.setText("Clear");
+				String[] newColumns_ds = { "Promotion code", "Promotion percentage", "Start date", "End date",
+				"Status"};
+				model_ds.setColumnIdentifiers(newColumns_ds);
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Search for promotions");
+				pn_thaotac.repaint();
+				txt_maKM.setText("Enter code..");
+				txt_phanTramKhuyenMai.setText("Enter promotion %..");
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("List of results");
+				pn_dsnv.repaint();
+				txt_maKM.setText("Enter code..");
+				txt_phanTramKhuyenMai.setText("Enter promotion %..");
 			}
 		});
 	}

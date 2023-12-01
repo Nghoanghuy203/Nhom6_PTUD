@@ -479,6 +479,56 @@ public class ManHinhTimKiemNhaCungCap extends JPanel {
 				xoaTrang();
 			}
 		});
+		
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("Tìm Kiếm Nhà Cung Cấp");
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Tìm kiếm Nhà Cung Cấp");
+				pn_thaotac.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("Danh sách nhà cung cấp");
+				pn_dsnv.repaint();
+				lblKqTimKiem.setText("Kết quả:");
+				
+				lblmaHD.setText("Mã nhà cung cấp:");
+				lblnhanVien.setText("Họ tên:");
+				lblngayLap.setText("Số điện thoại:");
+				lbldiaChi.setText("Địa chỉ:");
+				btnSearch.setText("Tìm");
+				btnXoaTrang.setText("Xoá trắng");
+				String[] newColumns_ds = { "Mã nhà cung cấp", "Họ tên", "Số điện thoại", "Địa chỉ" };
+				model_ds.setColumnIdentifiers(newColumns_ds);
+				
+				txt_maNCC.setText("Nhập mã...");
+				txt_tenNCC.setText("Nhập tên NCC..");
+				txt_SDT.setText("Nhập số ĐT..");
+				txt_diaChi.setText("Nhập địa chỉ..");
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("Search Supplier");
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Search Supplier");
+				pn_thaotac.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("Supplier List");
+				pn_dsnv.repaint();
+				lblKqTimKiem.setText("Result:");
+				lblmaHD.setText("Vendor Id:");
+				lblnhanVien.setText("Full name:");
+				lblngayLap.setText("Phone number:");
+				lbldiaChi.setText("Address:");
+				btnSearch.setText("Search");
+				btnXoaTrang.setText("Clear");
+				String[] newColumns_ds = { "Supplier Id", "Full name", "Phone number", "Address" };
+				model_ds.setColumnIdentifiers(newColumns_ds);
+				txt_maNCC.setText("Id...");
+				txt_tenNCC.setText("Supplier name..");
+				txt_SDT.setText("Phone number..");
+				txt_diaChi.setText("Address..");
+			}
+		});
 	}
 	
 	private void xoaTrang() {

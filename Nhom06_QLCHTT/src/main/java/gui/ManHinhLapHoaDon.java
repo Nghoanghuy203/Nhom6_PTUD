@@ -1152,7 +1152,102 @@ public class ManHinhLapHoaDon extends JPanel {
 				thayDoiGiaTriTienThua();
 			}
         }
-        
+   
+        ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTitleHeader.setText("LẬP HÓA ĐƠN");
+				((TitledBorder) pn_timKiem.getBorder()).setTitle("Tìm kiếm sản phẩm");
+				pn_timKiem.repaint();
+				((TitledBorder) pn_DSGioHang.getBorder()).setTitle("Vỏ hàng");
+				pn_DSGioHang.repaint();
+				lblMa.setText("Mã sp:");
+				lblTen.setText("Tên sp:");
+				lbl_tenKH.setText("Khách hàng:");
+				lbl_Tongtien.setText("Tổng tiền:");
+				lbl_khuyenmai.setText("Mã khuyến mãi:");
+				lbl_tongthanhtoan.setText("Tổng thanh toán:");
+				lbl_tienkhachtra.setText("Tiền khách trả:");
+				lbl_thienthua.setText("Tiền thừa trả khách:");
+				ckb_inHoaDon.setText("Xuất hoá đơn");
+				btn_dathang.setText("Đặt hàng");
+				btn_thanhtoan.setText("Thanh toán");
+				btnThem.setText("Thêm");
+				lblSoluong.setText("Số lượng:");
+				lblLoai.setText("Loại:");
+				lblKichCo.setText("Kích cỡ:");
+				lblMauSac.setText("Màu:");
+				lblChatLieu.setText("Chất liệu:");
+				btnSearch.setText("Tìm");
+				String[] newColumns_dssp = {"Hình ảnh", "Mã", "Tên", "Loại", "Đơn giá", "Số lượng", "Chất liệu", "Màu sắc", "Kích cỡ"};
+				model_dssp.setColumnIdentifiers(newColumns_dssp);
+			
+				String[] newColumn_gioHang = {"Hình ảnh", "Mã", "Tên", "Số lượng", "Giá bán", "Thành tiền", ""};
+				model_giohang.setColumnIdentifiers(newColumn_gioHang);
+				xuLyAnh();
+				FormNhapThongTinKhachHangMoi.lblNewLabel.setText("NHẬP THÔNG TIN KHÁCH HÀNG");
+				FormNhapThongTinKhachHangMoi.lblNewLabel_1_1.setText("Họ tên:");
+				FormNhapThongTinKhachHangMoi.lblNewLabel_1_1_1.setText("Số điện thoại:");
+				FormNhapThongTinKhachHangMoi.lblNewLabel_1_1_1_1.setText("Địa chỉ:");
+				FormNhapThongTinKhachHangMoi.lblNewLabel_1_1_2.setText("Giới tính:");
+				FormNhapThongTinKhachHangMoi.btnThemKHMoi.setText("Thêm");
+				txt_tkMaSp.setText("Nhập mã sản phẩm...");
+				txt_tkTenSp.setText("Nhập tên sản phẩm...");
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTitleHeader.setText("INVOICE");
+				((TitledBorder) pn_timKiem.getBorder()).setTitle("Search for products");
+				pn_timKiem.repaint();
+				((TitledBorder) pn_DSGioHang.getBorder()).setTitle("Cart");
+				pn_DSGioHang.repaint();
+				lblMa.setText("Id:");
+				lblTen.setText("Name:");
+				lbl_tenKH.setText("Customer:");
+				lbl_Tongtien.setText("Total amount:");
+				lbl_khuyenmai.setText("Coupon:");
+				lbl_tongthanhtoan.setText("Total payment:");
+				lbl_tienkhachtra.setText("Guest pay:");
+				lbl_thienthua.setText("Money returned to customers:");
+				ckb_inHoaDon.setText("Invoice");
+				btn_dathang.setText("Order");
+				btn_thanhtoan.setText("Purchase");
+				btnThem.setText("Add");
+				lblSoluong.setText("Quantity:");
+				lblLoai.setText("Type:");
+				lblKichCo.setText("Size:");
+				lblMauSac.setText("Color:");
+				lblChatLieu.setText("Material:");
+				btnSearch.setText("Find");
+				
+				String[] newColumns_dssp = {"Image", "Id", "Name", "Type", "Unit price", "Quantity", "Material", "Color", "Size"};
+				model_dssp.setColumnIdentifiers(newColumns_dssp);
+				
+				String[] newColumn_gioHang = {"Image", "Id", "Name", "Quantity", "Unit price", "Money", ""};
+				model_giohang.setColumnIdentifiers(newColumn_gioHang);
+				xuLyAnh();
+				if (ctkm==null) {
+					lbl_ptkm.setText("Promotion 0%");
+					lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
+				} 
+				else {
+					lbl_ptkm.setText("Promotion "+ctkm.getPhanTramKhuyenMai()+"%");
+					lbl_kqtongthanhtoan.setText(df.format(tinhTongThanhToan()));
+				}
+				FormNhapThongTinKhachHangMoi.lblNewLabel.setText("ENTER CUSTOMER INFORMATION");
+				FormNhapThongTinKhachHangMoi.lblNewLabel_1_1.setText("Full name:");
+				FormNhapThongTinKhachHangMoi.lblNewLabel_1_1_1.setText("Phone number:");
+				FormNhapThongTinKhachHangMoi.lblNewLabel_1_1_1_1.setText("Address:");
+				FormNhapThongTinKhachHangMoi.lblNewLabel_1_1_2.setText("Gender:");
+				FormNhapThongTinKhachHangMoi.btnThemKHMoi.setText("Add");
+				txt_tkMaSp.setText("Enter product code...");
+				txt_tkTenSp.setText("Enter product name...");
+				
+			}
+		});
 	}
 	
 	/**
@@ -1352,5 +1447,97 @@ public class ManHinhLapHoaDon extends JPanel {
 			return false;
 		}
 		return true;
+	}
+	private void xuLyAnh() {
+		tbl_dssp.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
+                setHorizontalAlignment(SwingConstants.CENTER);          
+                
+                Component com = super.getTableCellRendererComponent(tbl_gioHang, o, bln, bln1, i, i1);
+                
+                if (o == null) {
+                	Icon image = new ImageIcon(ManHinhLapHoaDon.class.getResource("/images/null.jpg"));
+            		Image ima = ((ImageIcon) image).getImage();
+            		Image newimg = ima.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+            		image = new ImageIcon(newimg);
+            		JLabel label = new JLabel(image);
+                	label.setHorizontalAlignment(JLabel.CENTER);
+            		label.setOpaque(true);
+                	label.setBackground(com.getBackground());
+                	return label;
+                } 
+                else {
+                	if (o instanceof Icon) {
+                		Icon image = (ImageIcon)o;
+                		Image ima = ((ImageIcon) image).getImage(); 
+                		Image newimg = ima.getScaledInstance(70, 70,Image.SCALE_SMOOTH); 
+                		image = new ImageIcon(newimg); 
+                		JLabel label = new JLabel(image);
+                		label.setHorizontalAlignment(JLabel.CENTER);
+                		label.setOpaque(true);
+                		label.setBackground(com.getBackground());
+                		return label;
+                	} 
+                	else {
+                		Icon image = new ImageIcon(ManHinhLapHoaDon.class.getResource("/images/null.jpg"));
+                		Image ima = ((ImageIcon) image).getImage();
+                		Image newimg = ima.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+                		image = new ImageIcon(newimg);
+                		JLabel label = new JLabel(image);
+                    	label.setHorizontalAlignment(JLabel.CENTER);
+                		label.setOpaque(true);
+                    	label.setBackground(com.getBackground());
+                    	return label;
+                	}
+                }
+                
+            }
+        });
+		 tbl_gioHang.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+	            @Override
+	            public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
+	                setHorizontalAlignment(SwingConstants.CENTER);          
+	                
+	                Component com = super.getTableCellRendererComponent(tbl_gioHang, o, bln, bln1, i, i1);
+	                
+	                if (o == null) {
+	                	Icon image = new ImageIcon(ManHinhLapHoaDon.class.getResource("/images/null.jpg"));
+	            		Image ima = ((ImageIcon) image).getImage();
+	            		Image newimg = ima.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+	            		image = new ImageIcon(newimg);
+	            		JLabel label = new JLabel(image);
+	                	label.setHorizontalAlignment(JLabel.CENTER);
+	            		label.setOpaque(true);
+	                	label.setBackground(com.getBackground());
+	                	return label;
+	                } 
+	                else {
+	                	if (o instanceof Icon) {
+	                		Icon image = (ImageIcon)o;
+	                		Image ima = ((ImageIcon) image).getImage(); 
+	                		Image newimg = ima.getScaledInstance(70, 70,Image.SCALE_SMOOTH); 
+	                		image = new ImageIcon(newimg); 
+	                		JLabel label = new JLabel(image);
+	                		label.setHorizontalAlignment(JLabel.CENTER);
+	                		label.setOpaque(true);
+	                		label.setBackground(com.getBackground());
+	                		return label;
+	                	} 
+	                	else {
+	                		Icon image = new ImageIcon(ManHinhLapHoaDon.class.getResource("/images/null.jpg"));
+	                		Image ima = ((ImageIcon) image).getImage();
+	                		Image newimg = ima.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+	                		image = new ImageIcon(newimg);
+	                		JLabel label = new JLabel(image);
+	                    	label.setHorizontalAlignment(JLabel.CENTER);
+	                		label.setOpaque(true);
+	                    	label.setBackground(com.getBackground());
+	                    	return label;
+	                	}
+	                }
+	                
+	            }
+	        });
 	}
 }

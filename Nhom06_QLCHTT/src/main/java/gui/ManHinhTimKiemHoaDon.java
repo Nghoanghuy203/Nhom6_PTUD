@@ -579,6 +579,58 @@ public class ManHinhTimKiemHoaDon extends JPanel {
 				xoaTrang();
 			}
 		});
+		
+		ManHinhChinh.btnVN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("Tìm Kiếm Hóa Đơn");
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Tìm Kiếm Hóa Đơn");
+				pn_thaotac.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("Danh sách hoá đơn");
+				pn_dsnv.repaint();
+				lblmaHD.setText("Mã Hóa Đơn:");
+				lblsdt.setText("SĐT khách hàng:");
+				lblnhanVien.setText("Tên nhân viên:");
+				lblngayLap.setText("Ngày lập:");
+				lblkhachHang.setText("Tên khách hàng:");
+				btnXemChiTiet.setText("Xem chi tiết");
+				btnXoaTrang.setText("Xoá trắng");
+				btnSearch.setText("Tìm");
+				String[] newColumns_ds = { "Mã hóa đơn", "Ngày lập", "Nhân viên", "Khách hàng", "Khuyến mãi (%)", "Tổng tiền",
+				"Tiền trả" };
+				model_ds.setColumnIdentifiers(newColumns_ds);
+				txt_maHD.setText("Nhập mã...");
+				txt_sdtKH.setText("Nhập sdt KH..");
+				txt_tenNV.setText("Nhập tên NV..");
+				txt_tenKH.setText("Nhập tên KH..");
+			}
+		});
+		
+		ManHinhChinh.btnEN.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTenManHinh.setText("Search Invoice");
+				((TitledBorder) pn_thaotac.getBorder()).setTitle("Search Invoice");
+				pn_thaotac.repaint();
+				((TitledBorder) pn_dsnv.getBorder()).setTitle("List of invoices");
+				pn_dsnv.repaint();
+				lblmaHD.setText("Invoice Code:");
+				lblsdt.setText("Customer phone:");
+				lblnhanVien.setText("Employee name:");
+				lblngayLap.setText("Date created:");
+				lblkhachHang.setText("Customer name:");
+				btnXemChiTiet.setText("View details");
+				btnXoaTrang.setText("Clear");
+				btnSearch.setText("Search");
+				String[] newColumns_ds = { "Invoice Id", "Date", "Employee", "Customer", "Promotion (%)", "Total amount",
+				"Payment" };
+				model_ds.setColumnIdentifiers(newColumns_ds);
+				txt_maHD.setText("Enter Id...");
+				txt_sdtKH.setText("Enter customer number..");
+				txt_tenNV.setText("Enter name of employee..");
+				txt_tenKH.setText("Enter customer name..");
+			}
+		});
 	}
 
 	private void xoaTrang() {
